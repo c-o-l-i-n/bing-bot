@@ -35,7 +35,9 @@ def get():
 def send_message(msg):
     url  = 'https://api.groupme.com/v3/bots/post'
 
-    os.system(f'''curl -d '{{"text" : "{msg}", "bot_id" : "{GROUPME_BOT_ID}' {url}''')
+    print(f'''curl -d '{{"text" : "{msg}", "bot_id" : "{GROUPME_BOT_ID}"' {url}''')
+
+    os.system(f'''curl -d '{{"text" : "{msg}", "bot_id" : "{GROUPME_BOT_ID}"' {url}''')
 
 
 # run app
