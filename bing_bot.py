@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 
 
-@app.route('/', methods=['POST'])
+@app.route('/bing', methods=['POST'])
 def webhook():
     data = request.get_json()
 
