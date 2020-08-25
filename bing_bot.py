@@ -25,6 +25,11 @@ def webhook():
     return "ok", 200
 
 
+@app.route('/get', methods=['GET'])
+def get():
+    return 'Hello from buddy-server!'
+
+
 def send_message(msg):
   url  = 'https://api.groupme.com/v3/bots/post'
 
