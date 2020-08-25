@@ -15,6 +15,8 @@ app.config['DEBUG'] = True
 def webhook():
     data = request.get_json()
 
+    print(data)
+
     # We don't want to reply to ourselves!
     if data['name'].lower() != 'bing':
         msg = '{}, you sent "{}".'.format(data['name'], data['text'])
