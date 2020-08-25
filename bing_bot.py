@@ -6,6 +6,8 @@ from urllib.request import Request, urlopen
 
 from flask import Flask, request
 
+from groupme_bot_id import GROUPME_BOT_ID
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
@@ -25,20 +27,15 @@ def webhook():
     return "ok", 200
 
 
-@app.route('/get', methods=['GET'])
+@app.route('/', methods=['GET'])
 def get():
     return 'Hello from buddy-server!'
 
 
 def send_message(msg):
-  url  = 'https://api.groupme.com/v3/bots/post'
+    url  = 'https://api.groupme.com/v3/bots/post'
 
-  data = {
-          'bot_id' : os.getenv('GROUPME_BOT_ID'),
-          'text'   : msg,
-         }
-  request = Request(url, urlencode(data).encode())
-  json = urlopen(request).read().decode()
+    os.system(f'''curl -d '{{"text" : "{msg}", "bot_id" : "{GROUPME_BOT_ID}' {url}''')
 
 
 # run app
