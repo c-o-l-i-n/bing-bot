@@ -17,11 +17,9 @@ app.config['DEBUG'] = True
 def webhook():
     data = request.get_json()
 
-    print(data)
-
     # We don't want to reply to ourselves!
-    if data['name'].lower() != 'bing':
-        msg = '{}, you sent "{}".'.format(data['name'], data['text'])
+    if data['sender_id'].lower() != '841754':
+        msg = '{}, you sent {}.'.format(data['name'], data['text'])
         send_message(msg)
 
     return "ok", 200
@@ -34,10 +32,13 @@ def get():
 
 def send_message(msg):
     url  = 'https://api.groupme.com/v3/bots/post'
+    data = {
+        'bot_id' : GROUPME_BOT_ID,
+        'text'   : msg,
+    }
 
-    print(f'''curl -d '{{"text" : "{msg}", "bot_id" : "{GROUPME_BOT_ID}"' {url}''')
-
-    os.system(f'''curl -d '{{"text" : "{msg}", "bot_id" : "{GROUPME_BOT_ID}"' {url}''')
+    request = Request(url, urlencode(data).encode())
+    json = urlopen(request).read().decode()
 
 
 # run app
