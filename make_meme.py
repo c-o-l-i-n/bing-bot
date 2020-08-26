@@ -1,7 +1,8 @@
 import bing_bot as bb
 import random
-from urllib.parse import urlencode
+import json
 from urllib.request import Request, urlopen
+import requests
 
 MEME_IDS = [
     112126428,
@@ -31,7 +32,7 @@ MEME_IDS = [
     97984,
     217743513,
     21735,
-    1007776,31
+    100777631,
     124055727,
     114585149,
     61527,
@@ -106,17 +107,17 @@ MEME_IDS = [
     10628640,
 ]
 
-url  = 'https://api.imgflip.com/caption_image'
-data = {
-    'template_id': random.choice(MEME_IDS),
-    'username': 'bing_bot',
-    'password': '2Uhsgv^FJQeyu*3K*gdUCq0Q0no$K7S$qQBqi3eO&StyV*UMu@',
-    'text1': 'H',
-}
+meme_text = 'H'
 
-request = Request(url, urlencode(data).encode())
-json = urlopen(request).read().decode()
+text_option = random.randrange(3)
+# 0: only text0 (top text)
+# 1: only text1 (bottom text)
+# 2: both text0 and text1
 
-if json['success']:
-    bb.send_message('guys i made a meme')
-    bb.send_message(json['data']['page_url'])
+url = f'http://api.imgflip.com/caption_image?template_id={str(random.choice(MEME_IDS))}&username=bing_bot&password=vzhOzeCWmmZjhhvOpPOZOezgbDIkHyKJATWWvujmpetJrBSdpS{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
+
+response = requests.post(url, headers={'User-Agent': 'Mozilla/5.0'}).json()
+
+if response['success']:
+    image_url = response['data']['url']
+    bb.send_message(None, image_url)
