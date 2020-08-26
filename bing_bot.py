@@ -35,9 +35,11 @@ app.config['DEBUG'] = True
 def webhook():
     data = request.get_json()
 
-    # says 'hi' to sender if they're in H-Row
-    if data['sender_id'] in SENDER_ID_TO_NAME.keys():
-        send_message(f'hi {SENDER_ID_TO_NAME[data["sender_id"]]}')
+    # says 'hi' back to sender, and includes name if they're in H-Row
+    if 'hi bing' in data['text'].lower() or 'hi, bing' in data['text'].lower():
+        message = 'hi'
+        if data['sender_id'] in SENDER_ID_TO_NAME.keys():
+            message += f' {SENDER_ID_TO_NAME[data["sender_id"]]}'
 
     # has something for the good of the order
     if 'good of the order' in data['text'].lower():
