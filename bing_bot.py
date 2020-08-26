@@ -36,7 +36,7 @@ def webhook():
     data = request.get_json()
 
     if data['sender_id'] in SENDER_ID_TO_NAME.keys():
-        send_message(f'hi {SENDER_ID_TO_NAME["sender_id"]}')
+        send_message(f'hi {SENDER_ID_TO_NAME[data["sender_id"]]}')
 
     # # We don't want to reply to ourselves!
     # if data['sender_id'].lower() != '841754':
