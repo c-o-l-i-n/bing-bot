@@ -40,6 +40,7 @@ def webhook():
         message = 'hi'
         if data['sender_id'] in SENDER_ID_TO_NAME.keys():
             message += f' {SENDER_ID_TO_NAME[data["sender_id"]]}'
+        send_message(message)
 
     # has something for the good of the order
     if 'good of the order' in data['text'].lower():
