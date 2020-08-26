@@ -1,11 +1,7 @@
 import os
 import json
-
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
-
+import requests
 from flask import Flask, request
-
 from groupme_bot_id import GROUPME_BOT_ID
 
 
@@ -32,15 +28,15 @@ app.config['DEBUG'] = True
 
 
 @app.route('/bing', methods=['POST'])
-def webhook():
+def receive_message():
     data = request.get_json()
 
     # says 'hi' back to sender, and includes name if they're in H-Row
     if 'hi bing' in data['text'].lower() or 'hi, bing' in data['text'].lower():
-        message = 'hi'
+        new_message = 'hi'
         if data['sender_id'] in SENDER_ID_TO_NAME.keys():
-            message += f' {SENDER_ID_TO_NAME[data["sender_id"]]}'
-        send_message(message)
+            new_message += f' {SENDER_ID_TO_NAME[data["sender_id"]]}'
+        send_message(new_message)
 
     # has something for the good of the order
     if 'good of the order' in data['text'].lower():
@@ -54,15 +50,16 @@ def get():
     return 'Hello from buddy-server!'
 
 
-def send_message(msg):
-    url  = 'https://api.groupme.com/v3/bots/post'
+def send_message(text, image_url=None):
+    url = 'https://api.groupme.com/v3/bots/post'
+
     data = {
-        'bot_id' : GROUPME_BOT_ID,
-        'text'   : msg,
+        'bot_id'      : GROUPME_BOT_ID,
+        'text'        : text if text else '',
+        'picture_url' : image_url if image_url else '',
     }
 
-    request = Request(url, urlencode(data).encode())
-    json = urlopen(request).read().decode()
+    requests.post(url, data)
 
 
 # run app
