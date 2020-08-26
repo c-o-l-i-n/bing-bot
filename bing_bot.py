@@ -35,16 +35,13 @@ app.config['DEBUG'] = True
 def webhook():
     data = request.get_json()
 
+    # says 'hi' to sender if they're in H-Row
     if data['sender_id'] in SENDER_ID_TO_NAME.keys():
         send_message(f'hi {SENDER_ID_TO_NAME[data["sender_id"]]}')
 
+    # has something for the good of the order
     if 'good of the order' in data['text'].lower():
         send_message('tits')
-
-    # # We don't want to reply to ourselves!
-    # if data['sender_id'].lower() != '841754':
-    #     msg = '{}, you sent {}.'.format(data['name'], data['text'])
-    #     send_message(msg)
 
     return "ok", 200
 
