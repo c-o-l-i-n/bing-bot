@@ -38,6 +38,9 @@ def webhook():
     if data['sender_id'] in SENDER_ID_TO_NAME.keys():
         send_message(f'hi {SENDER_ID_TO_NAME[data["sender_id"]]}')
 
+    if 'good of the order' in data['text'].lower():
+        send_message('tits')
+
     # # We don't want to reply to ourselves!
     # if data['sender_id'].lower() != '841754':
     #     msg = '{}, you sent {}.'.format(data['name'], data['text'])
