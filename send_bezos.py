@@ -1,6 +1,7 @@
 import yfinance as yf
 import math
 from send_message import send_message
+import fix_path
 
 
 def millify(n):

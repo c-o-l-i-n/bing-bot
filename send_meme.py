@@ -3,6 +3,7 @@ import random
 import json
 from urllib.request import Request, urlopen
 import requests
+import fix_path
 
 def send_meme(message_text=None):
     MEME_IDS = [

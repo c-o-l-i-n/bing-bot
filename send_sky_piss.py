@@ -1,5 +1,6 @@
 from send_message import send_message
 from weather import get_weather
+import fix_path
 
 def sky_piss():
     weather = get_weather()
