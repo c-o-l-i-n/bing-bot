@@ -27,7 +27,7 @@ SENDER_ID_TO_NAME = {
 
 # create flask instance
 app = Flask(__name__)
-app.config['DEBUG'] = True
+# app.config['DEBUG'] = True
 
 
 @app.route('/bing', methods=['POST'])
@@ -83,5 +83,5 @@ def get():
 
 
 # run app
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6969)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=6969)
