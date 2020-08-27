@@ -1,4 +1,4 @@
-import bing_bot as bb
+import __init__ as bb
 import random
 import json
 from urllib.request import Request, urlopen

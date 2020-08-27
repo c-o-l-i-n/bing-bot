@@ -1,4 +1,4 @@
-import bing_bot as bb
+import __init__ as bb
 from weather import get_weather
 
 def sky_piss():

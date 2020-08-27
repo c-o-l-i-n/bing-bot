@@ -1,6 +1,6 @@
 import yfinance as yf
 import math
-import bing_bot as bb
+import __init__ as bb
 
 
 def millify(n):
