@@ -56,7 +56,7 @@ def receive_message():
 
     # tells a joke on demand
     if messaage_contains('joke', message) and messaage_contains('bing', message):
-        send_message(requests.post('https://icanhazdadjoke.com/'))
+        send_message(requests.get('https://icanhazdadjoke.com/', headers={'Accept': 'text/plain'}).text)
 
     # gets weather on demand
     if messaage_contains('weather', message) and messaage_contains('bing', message):
