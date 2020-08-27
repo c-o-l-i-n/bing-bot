@@ -33,49 +33,48 @@ app.config['DEBUG'] = True
 @app.route('/bing', methods=['POST'])
 def receive_message():
     data = request.get_json()
-    message = data['text'].lower()
+    message = data['text']
     sender_id = data['sender_id']
 
     # says 'hi' back to sender, and includes name if they're in H-Row
-    if 'hi bing' in message or 'hi, bing' in message:
+    if messaage_contains('hi bing', message) or messaage_contains('hi, bing', message):
         new_message = 'hi'
         if sender_id in SENDER_ID_TO_NAME.keys():
             new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
         send_message(new_message)
 
     # says 'i love you' back to sender, and includes name if they're in H-Row
-    if 'i love you' in message and 'bing' in message:
+    if messaage_contains('i love you', message) and messaage_contains('bing', message):
         new_message = 'i love you too'
         if sender_id in SENDER_ID_TO_NAME.keys():
             new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
         send_message(new_message)
 
     # has something for the good of the order
-    if 'good of the order' in message:
+    if messaage_contains('good of the order', message):
         send_message('tits')
 
     # tells a joke on demand
-    if 'joke' in message and 'bing' in message:
+    if messaage_contains('joke', message) and messaage_contains('bing', message):
         send_message(requests.post('https://icanhazdadjoke.com/'))
 
     # gets weather on demand
-    if 'weather' in message and 'bing' in message:
+    if messaage_contains('weather', message) and messaage_contains('bing', message):
         send_message(get_weather())
 
     # gets temperature on demand
-    if 'weather' in message and 'bing' in message:
+    if messaage_contains('temperature', message) and messaage_contains('bing', message):
         send_message(get_temperature())
 
     # make a new meme on demand
-    if 'make' in message and 'meme' in message and 'bing' in message:
+    if messaage_contains('make', message) and messaage_contains('meme', message) and messaage_contains('bing', message):
         send_meme(f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme''')
 
     return "ok", 200
 
 
-@app.route('/', methods=['GET'])
-def get():
-    return 'Hello from buddy-server!'
+def messaage_contains(substring, message_text):
+    return substring.lower() in message_text.lower()
 
 
 def send_message(text, image_url=None):
@@ -88,6 +87,11 @@ def send_message(text, image_url=None):
     }
 
     requests.post(url, data)
+
+
+@app.route('/', methods=['GET'])
+def get():
+    return 'Hello from buddy-server!'
 
 
 # run app
