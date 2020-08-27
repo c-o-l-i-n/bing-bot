@@ -4,7 +4,6 @@ import requests
 from flask import Flask, request
 
 from send_message import send_message
-from secrets import *
 from send_meme import *
 from weather import *
 

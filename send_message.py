@@ -1,4 +1,5 @@
 import requests
+from secrets import GROUPME_BOT_ID
 
 def send_message(text, image_url=None):
     url = 'https://api.groupme.com/v3/bots/post'
