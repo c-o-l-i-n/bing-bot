@@ -2,7 +2,10 @@ import os
 import json
 import requests
 from flask import Flask, request
-from groupme_bot_id import GROUPME_BOT_ID
+
+from secrets import *
+from send_meme import *
+from weather import *
 
 
 SENDER_ID_TO_NAME = {
@@ -30,17 +33,42 @@ app.config['DEBUG'] = True
 @app.route('/bing', methods=['POST'])
 def receive_message():
     data = request.get_json()
+    message = data['text'].lower()
+    sender_id = data['sender_id']
 
     # says 'hi' back to sender, and includes name if they're in H-Row
-    if 'hi bing' in data['text'].lower() or 'hi, bing' in data['text'].lower():
+    if 'hi bing' in message or 'hi, bing' in message:
         new_message = 'hi'
-        if data['sender_id'] in SENDER_ID_TO_NAME.keys():
-            new_message += f' {SENDER_ID_TO_NAME[data["sender_id"]]}'
+        if sender_id in SENDER_ID_TO_NAME.keys():
+            new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
+        send_message(new_message)
+
+    # says 'i love you' back to sender, and includes name if they're in H-Row
+    if 'i love you' in message and 'bing' in message:
+        new_message = 'i love you too'
+        if sender_id in SENDER_ID_TO_NAME.keys():
+            new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
         send_message(new_message)
 
     # has something for the good of the order
-    if 'good of the order' in data['text'].lower():
+    if 'good of the order' in message:
         send_message('tits')
+
+    # tells a joke on demand
+    if 'joke' in message and 'bing' in message:
+        send_message(requests.post('https://icanhazdadjoke.com/'))
+
+    # gets weather on demand
+    if 'weather' in message and 'bing' in message:
+        send_message(get_weather())
+
+    # gets temperature on demand
+    if 'weather' in message and 'bing' in message:
+        send_message(get_temperature())
+
+    # make a new meme on demand
+    if 'make' in message and 'meme' in message and 'bing' in message:
+        send_meme(f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme''')
 
     return "ok", 200
 
