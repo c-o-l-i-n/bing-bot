@@ -1,3 +1,3 @@
-import __init__ as bb
+from send_message import send_message
 
-bb.send_message('H')
+send_message('H')

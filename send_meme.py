@@ -1,4 +1,4 @@
-import __init__ as bb
+from send_message import send_message
 import random
 import json
 from urllib.request import Request, urlopen
@@ -121,7 +121,7 @@ def send_meme(message_text=None):
 
     if response['success']:
         image_url = response['data']['url']
-        bb.send_message(message_text, image_url)
+        send_message(message_text, image_url)
 
 if __name__ == '__main__':
     send_meme()

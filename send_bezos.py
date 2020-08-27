@@ -1,6 +1,6 @@
 import yfinance as yf
 import math
-import __init__ as bb
+from send_message import send_message
 
 
 def millify(n):
@@ -18,7 +18,7 @@ def bezos():
 
     net_worth_difference = (last_2_days_prices[1] - last_2_days_prices[0]) * 54_000_000
 
-    bb.send_message(f'jeff bezos is ${millify(abs(net_worth_difference))} {"richer" if net_worth_difference >= 0 else "poorer"} today than he was yesterday')
+    send_message(f'jeff bezos is ${millify(abs(net_worth_difference))} {"richer" if net_worth_difference >= 0 else "poorer"} today than he was yesterday')
 
 
 if __name__ == '__main__':
