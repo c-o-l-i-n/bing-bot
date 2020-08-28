@@ -75,7 +75,7 @@ def receive_message():
         # gives a random recipe
         if message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message):
             recipe = requests.get('https://www.themealdb.com/api/json/v1/1/random.php').json()
-            send_message(f'you should have {recipe["meals"][0]["strMeal"]}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"][0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
+            send_message(f'you should have {recipe["meals"][0]["strMeal"].lower()}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"][0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
 
     return "ok", 200
 
