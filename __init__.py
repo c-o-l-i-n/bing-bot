@@ -78,12 +78,15 @@ def receive_message():
     if message_contains('good of the order', message):
         send_message('tits')
 
+    # sings "One Pizza Pie"
     if 'one pizza pie' == message[-13:].lower() or 'one pizza pie' == message[-14:-1].lower() or '1 pizza pie' == message[-11:].lower() or '1 for me' == message[-12:-1].lower():
         send_message('one for me, one for when i die')
 
+    # sings "One Pizza Pie"
     if 'one for me' == message[-10:].lower() or 'one for me' == message[-11:-1].lower() or '1 for me' == message[-8:].lower() or '1 for me' == message[-9:-1].lower():
         send_message('one for when i die')
 
+    # says "nice" when someone else says 69 or 420
     if data['sender_type'] != 'bot' and (message_contains('69', message) or message_contains('420', message)):
         send_message('nice')
 
