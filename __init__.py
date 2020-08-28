@@ -62,7 +62,8 @@ def receive_message():
 
         # gets temperature on demand
         if message_contains('temperature', message):
-            send_message(get_temperature())
+            temperature = get_temperature()
+            send_message(f'{temperature}{" (nice)" if temperature == "69" else ""}')
 
         # make a new meme on demand
         if message_contains('make', message) and message_contains('meme', message):
@@ -82,6 +83,9 @@ def receive_message():
 
     if 'one for me' == message[-10:].lower() or 'one for me' == message[-11:-1].lower() or '1 for me' == message[-8:].lower() or '1 for me' == message[-9:-1].lower():
         send_message('one for when i die')
+
+    if data['sender_type'] != 'bot' and (message_contains('69', message) or message_contains('420', message)):
+        send_message('nice')
 
     return "ok", 200
 
