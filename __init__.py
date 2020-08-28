@@ -77,6 +77,12 @@ def receive_message():
             recipe = requests.get('https://www.themealdb.com/api/json/v1/1/random.php').json()
             send_message(f'you should have {recipe["meals"][0]["strMeal"].lower()}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"][0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
 
+    if 'one pizza pie' == message[-13:] or 'one pizza pie' == message[-14:-1] or '1 pizza pie' == message[-11:] or '1 for me' == message[-12:-1]:
+        send_message('one for me, one for when i die')
+
+    if 'one for me' == message[-10:] or 'one for me' == message[-11:-1] or '1 for me' == message[-8:] or '1 for me' == message[-9:-1]:
+        send_message('one for when i die')
+
     return "ok", 200
 
 
