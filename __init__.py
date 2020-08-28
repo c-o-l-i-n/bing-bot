@@ -36,39 +36,46 @@ def receive_message():
     message = data['text']
     sender_id = data['sender_id']
 
-    # says 'hi' back to sender, and includes name if they're in H-Row
-    if messaage_contains('hi bing', message) or messaage_contains('hi, bing', message):
-        new_message = 'hi'
-        if sender_id in SENDER_ID_TO_NAME.keys():
-            new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
-        send_message(new_message)
+    if messaage_contains('bing', message):
 
-    # says 'i love you' back to sender, and includes name if they're in H-Row
-    if messaage_contains('i love you', message) and messaage_contains('bing', message):
-        new_message = 'i love you too'
-        if sender_id in SENDER_ID_TO_NAME.keys():
-            new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
-        send_message(new_message)
+        # says 'hi' back to sender, and includes name if they're in H-Row
+        if messaage_contains('hi bing', message) or messaage_contains('hi, bing', message):
+            new_message = 'hi'
+            if sender_id in SENDER_ID_TO_NAME.keys():
+                new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
+            send_message(new_message)
 
-    # has something for the good of the order
-    if messaage_contains('good of the order', message):
-        send_message('tits')
+        # says 'i love you' back to sender, and includes name if they're in H-Row
+        if messaage_contains('i love you', message):
+            new_message = 'i love you too'
+            if sender_id in SENDER_ID_TO_NAME.keys():
+                new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
+            send_message(new_message)
 
-    # tells a joke on demand
-    if messaage_contains('joke', message) and messaage_contains('bing', message):
-        send_message(requests.get('https://icanhazdadjoke.com/', headers={'Accept': 'text/plain'}).text[:-1])
+        # has something for the good of the order
+        if messaage_contains('good of the order', message):
+            send_message('tits')
 
-    # gets weather on demand
-    if messaage_contains('weather', message) and messaage_contains('bing', message):
-        send_message(get_weather())
+        # tells a joke on demand
+        if messaage_contains('joke', message):
+            send_message(requests.get('https://icanhazdadjoke.com/', headers={'Accept': 'text/plain'}).text[:-1])
 
-    # gets temperature on demand
-    if messaage_contains('temperature', message) and messaage_contains('bing', message):
-        send_message(get_temperature())
+        # gets weather on demand
+        if messaage_contains('weather', message):
+            send_message(get_weather())
 
-    # make a new meme on demand
-    if messaage_contains('make', message) and messaage_contains('meme', message) and messaage_contains('bing', message):
-        send_meme(f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme''')
+        # gets temperature on demand
+        if messaage_contains('temperature', message):
+            send_message(get_temperature())
+
+        # make a new meme on demand
+        if messaage_contains('make', message) and messaage_contains('meme', message):
+            send_meme(f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme''')
+
+        # gives a random recipe
+        if message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message):
+            recipe = requests.get('https://www.themealdb.com/api/json/v1/1/random.php').json()
+            send_message(f'you should have {recipe["meals"][0]["strMeal"]}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"][0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
 
     return "ok", 200
 
