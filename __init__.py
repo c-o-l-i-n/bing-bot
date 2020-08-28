@@ -90,6 +90,22 @@ def receive_message():
     if data['sender_type'] != 'bot' and (message_contains('69', message) or message_contains('420', message)):
         send_message('nice')
 
+    # says "ass" after "h"
+    if data['sender_type'] != 'bot' and 'h' == message.lower():
+        send_message('ass')
+
+    # says "ohio" after "ass"
+    if data['sender_type'] != 'bot' and 'ass' == message.lower():
+        send_message('ohio')
+
+    # says "you suck" after "ohio"
+    if data['sender_type'] != 'bot' and 'ohio' == message.lower():
+        send_message('you suck!')
+
+    # says "ohio, you suck" after "h, ass"
+    if data['sender_type'] != 'bot' and ('h ass' == message[-5:].lower() or 'h, ass' == message[-6:].lower()):
+        send_message('ohio, you suck!')
+
     return "ok", 200
 
 
