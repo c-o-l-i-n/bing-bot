@@ -36,40 +36,40 @@ def receive_message():
     message = data['text']
     sender_id = data['sender_id']
 
-    if messaage_contains('bing', message):
+    if message_contains('bing', message):
 
         # says 'hi' back to sender, and includes name if they're in H-Row
-        if messaage_contains('hi bing', message) or messaage_contains('hi, bing', message):
+        if message_contains('hi bing', message) or message_contains('hi, bing', message):
             new_message = 'hi'
             if sender_id in SENDER_ID_TO_NAME.keys():
                 new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
             send_message(new_message)
 
         # says 'i love you' back to sender, and includes name if they're in H-Row
-        if messaage_contains('i love you', message):
+        if message_contains('i love you', message):
             new_message = 'i love you too'
             if sender_id in SENDER_ID_TO_NAME.keys():
                 new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
             send_message(new_message)
 
         # has something for the good of the order
-        if messaage_contains('good of the order', message):
+        if message_contains('good of the order', message):
             send_message('tits')
 
         # tells a joke on demand
-        if messaage_contains('joke', message):
+        if message_contains('joke', message):
             send_message(requests.get('https://icanhazdadjoke.com/', headers={'Accept': 'text/plain'}).text[:-1])
 
         # gets weather on demand
-        if messaage_contains('weather', message):
+        if message_contains('weather', message):
             send_message(get_weather())
 
         # gets temperature on demand
-        if messaage_contains('temperature', message):
+        if message_contains('temperature', message):
             send_message(get_temperature())
 
         # make a new meme on demand
-        if messaage_contains('make', message) and messaage_contains('meme', message):
+        if message_contains('make', message) and message_contains('meme', message):
             send_meme(f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme''')
 
         # gives a random recipe
@@ -80,7 +80,7 @@ def receive_message():
     return "ok", 200
 
 
-def messaage_contains(substring, message_text):
+def message_contains(substring, message_text):
     return substring.lower() in message_text.lower()
 
 
