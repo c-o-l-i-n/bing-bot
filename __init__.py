@@ -52,10 +52,6 @@ def receive_message():
                 new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
             send_message(new_message)
 
-        # has something for the good of the order
-        if message_contains('good of the order', message):
-            send_message('tits')
-
         # tells a joke on demand
         if message_contains('joke', message):
             send_message(requests.get('https://icanhazdadjoke.com/', headers={'Accept': 'text/plain'}).text[:-1])
@@ -76,6 +72,10 @@ def receive_message():
         if message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message):
             recipe = requests.get('https://www.themealdb.com/api/json/v1/1/random.php').json()
             send_message(f'you should have {recipe["meals"][0]["strMeal"].lower()}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"][0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
+
+    # has something for the good of the order
+    if message_contains('good of the order', message):
+        send_message('tits')
 
     if 'one pizza pie' == message[-13:].lower() or 'one pizza pie' == message[-14:-1].lower() or '1 pizza pie' == message[-11:].lower() or '1 for me' == message[-12:-1].lower():
         send_message('one for me, one for when i die')
