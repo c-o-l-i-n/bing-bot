@@ -4,6 +4,7 @@ import json
 from urllib.request import Request, urlopen
 import requests
 import fix_path
+import groupme_image_service
 
 def send_meme(message_text=None):
     MEME_IDS = [
@@ -116,13 +117,14 @@ def send_meme(message_text=None):
     # 1: only text1 (bottom text)
     # 2: both text0 and text1
 
-    url = f'http://api.imgflip.com/caption_image?template_id={str(random.choice(MEME_IDS))}&username=bing_bot&password=vzhOzeCWmmZjhhvOpPOZOezgbDIkHyKJATWWvujmpetJrBSdpS{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
+    api_url = f'http://api.imgflip.com/caption_image?template_id={str(random.choice(MEME_IDS))}&username=bing_bot&password=vzhOzeCWmmZjhhvOpPOZOezgbDIkHyKJATWWvujmpetJrBSdpS{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
 
-    response = requests.post(url, headers={'User-Agent': 'Mozilla/5.0'}).json()
+    response = requests.post(api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
 
     if response['success']:
-        image_url = response['data']['url']
-        send_message(message_text, image_url)
+        api_image_url = response['data']['url']
+        groupme_image_url = groupme_image_service.upload_image_url(api_image_url)
+        send_message(message_text, groupme_image_url)
 
 if __name__ == '__main__':
     send_meme()
