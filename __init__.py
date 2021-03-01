@@ -72,7 +72,7 @@ def receive_message():
                 f'{temperature}{" (nice)" if "69" in temperature else ""}')
 
         # make a new meme on demand
-        if message_contains('make', message) and message_contains('meme', message):
+        if (message_contains('make', message) or message_contains('send', message)) and message_contains('meme', message):
             message_text = f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
             if message_contains('deep fried', message):
                 send_meme(message_text=message_text, is_deep_fried=True)

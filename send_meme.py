@@ -131,7 +131,7 @@ def get_random_meme_url():
         return api_image_url
 
 
-def dankify_image(image_url):
+def deep_fry_image(image_url):
     image = Image.open(requests.get(image_url, stream=True).raw)
     laugh_image = Image.open('laugh.png', 'r')
 
@@ -161,7 +161,7 @@ def send_meme(message_text=None, is_deep_fried=False):
     api_image_url = get_random_meme_url()
     if is_deep_fried:
         image_byte_array = BytesIO()
-        dankify_image(api_image_url).save(image_byte_array, format='jpeg')
+        deep_fry_image(api_image_url).save(image_byte_array, format='png')
         image_byte_array = image_byte_array.getvalue()
         groupme_image_url = groupme_image_service.upload_image_data(
             image_byte_array)
