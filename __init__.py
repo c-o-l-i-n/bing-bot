@@ -73,8 +73,11 @@ def receive_message():
 
         # make a new meme on demand
         if message_contains('make', message) and message_contains('meme', message):
-            send_meme(
-                f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme''')
+            message_text = f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
+            if message_contains('deep fried', message):
+                send_meme(message_text=message_text, is_deep_fried=True)
+            else:
+                send_meme(message_text=message_text)
 
         # gives a random recipe
         if message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message):
