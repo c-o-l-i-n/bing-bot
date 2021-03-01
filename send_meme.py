@@ -8,6 +8,7 @@ from PIL import Image, ImageFilter, ImageEnhance
 import fix_path
 import groupme_image_service
 import random
+import secrets
 
 
 def get_random_meme_url():
@@ -133,7 +134,7 @@ def get_random_meme_url():
 
 def deep_fry_image(image_url):
     image = Image.open(requests.get(image_url, stream=True).raw)
-    laugh_image = Image.open('laugh.png', 'r')
+    laugh_image = Image.open(secrets.PATH_TO_LAUGH, 'r')
 
     laugh_size = laugh_image.size[0]
 
