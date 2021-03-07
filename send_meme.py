@@ -3,10 +3,15 @@ import random
 import json
 from urllib.request import Request, urlopen
 import requests
+from io import BytesIO
+from PIL import Image, ImageFilter, ImageEnhance
 import fix_path
 import groupme_image_service
+import random
+import secrets
 
-def send_meme(message_text=None):
+
+def get_random_meme_url():
     MEME_IDS = [
         112126428,
         181913649,
@@ -119,12 +124,53 @@ def send_meme(message_text=None):
 
     api_url = f'http://api.imgflip.com/caption_image?template_id={str(random.choice(MEME_IDS))}&username=bing_bot&password=vzhOzeCWmmZjhhvOpPOZOezgbDIkHyKJATWWvujmpetJrBSdpS{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
 
-    response = requests.post(api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
+    response = requests.post(
+        api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
 
     if response['success']:
         api_image_url = response['data']['url']
-        groupme_image_url = groupme_image_service.upload_image_url(api_image_url)
-        send_message(message_text, groupme_image_url)
+        return api_image_url
+
+
+def deep_fry_image(image_url):
+    image = Image.open(requests.get(image_url, stream=True).raw)
+    laugh_image = Image.open(secrets.PATH_TO_LAUGH, 'r')
+
+    laugh_size = laugh_image.size[0]
+
+    img_w, img_h = image.size
+
+    random_position = (random.randrange(0, img_w - laugh_size),
+                       random.randrange(0, img_h - laugh_size))
+
+    image.paste(laugh_image, random_position)
+
+    # super edge enhance
+    for _ in range(3):
+        image = image.filter(ImageFilter.EDGE_ENHANCE_MORE)
+
+    # "enhance" color
+    converter = ImageEnhance.Color(image)
+    converter2 = ImageEnhance.Contrast(image)
+    image = converter.enhance(100)
+    image = converter2.enhance(100)
+
+    return image
+
+
+def send_meme(message_text=None, is_deep_fried=False):
+    api_image_url = get_random_meme_url()
+    if is_deep_fried:
+        image_byte_array = BytesIO()
+        deep_fry_image(api_image_url).save(image_byte_array, format='png')
+        image_byte_array = image_byte_array.getvalue()
+        groupme_image_url = groupme_image_service.upload_image_data(
+            image_byte_array)
+    else:
+        groupme_image_url = groupme_image_service.upload_image_url(
+            api_image_url)
+    send_message(message_text, groupme_image_url)
+
 
 if __name__ == '__main__':
-    send_meme()
+    send_meme(is_deep_fried=True)
