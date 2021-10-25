@@ -59,7 +59,7 @@ def receive_message():
         # tells a joke on demand
         if message_contains('joke', message):
             send_message(requests.get('https://icanhazdadjoke.com/',
-                                      headers={'Accept': 'text/plain'}).text[:-1])
+                                      headers={'Accept': 'text/plain'}).text[:-1].lower())
 
         # gets weather on demand
         if message_contains('weather', message):
