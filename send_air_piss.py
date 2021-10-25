@@ -5,7 +5,7 @@ import fix_path
 def air_piss():
     humidity = get_humidity()
 
-    if humidity >= 90:
+    if humidity >= 95:
         send_message('the air is full of piss')
 
 if __name__ == '__main__':
