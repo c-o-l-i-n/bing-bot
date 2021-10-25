@@ -9,20 +9,20 @@ from weather import *
 
 
 SENDER_ID_TO_NAME = {
-    '41850231': 'tuggle',
-    '39954190': 'mark',
+    '41850231': 'taco',
+    '39954190': 'bloon hands',
     '51295820': 'buddy',
-    '36464940': 'nic',
-    '86238544': 'zach',
+    '36464940': 'gneurshk',
+    '86238544': 'flerken',
     '29486148': 'mc',
-    '40390186': 'jay',
-    '20322339': 'alayah',
+    '40390186': 'flame',
+    '20322339': 'jorgen',
     '18938463': 'toot',
-    '86415518': 'ibby',
-    '40404310': 'evan',
-    '40438487': 'jacob',
-    '60334407': 'andrew',
-    '71705703': 'meetball man'
+    '40438487': 'falco',
+    '60334407': 'jasper',
+    '71705703': 'meetball',
+    '21493055': 'moon shoes',
+    '36684822': 'brick'
 }
 
 # create flask instance
@@ -73,7 +73,10 @@ def receive_message():
 
         # make a new meme on demand
         if (message_contains('make', message) or message_contains('send', message)) and message_contains('meme', message):
-            message_text = f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
+            if sender_id in SENDER_ID_TO_NAME.keys():
+                message_text = f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
+            else:
+                message_text = f'''ok, here's a new meme'''
             if message_contains('deep fried', message):
                 send_meme(message_text=message_text, is_deep_fried=True)
             else:
