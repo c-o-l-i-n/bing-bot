@@ -1,12 +1,21 @@
 import fix_path
 import requests
 import pdf2image
+from datetime import datetime
 from io import BytesIO
 import groupme_image_service
 from send_message import send_message
 
 
 def send_daily_schedule():
+  season_start_date = (8, 22)
+  season_end_date = (12, 5)
+  todays_date = (datetime.today().month, datetime.today().day)
+
+  # if we are not in marching band season, stop the program
+  if not (season_start_date <= todays_date <= season_end_date):
+    return
+
   # get previous daily schedule url
   try:
     with open('previous_daily_schedule_url.txt') as f:
