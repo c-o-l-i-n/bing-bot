@@ -6,6 +6,7 @@ from flask import Flask, request
 from send_message import send_message
 from send_meme import *
 from weather import *
+from send_the_car_quote import send_the_car_quote
 
 
 SENDER_ID_TO_NAME = {
@@ -88,6 +89,10 @@ def receive_message():
                 'https://www.themealdb.com/api/json/v1/1/random.php').json()
             send_message(f'you should have {recipe["meals"][0]["strMeal"].lower()}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"]
                                                                                        [0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
+
+        # sends a quote from the movie "The Car"
+        if message_contains('car', message) and (message_contains('line', message) or message_contains('quote', message)):
+            send_the_car_quote()
 
     # has something for the good of the order
     if message_contains('good of the order', message):
