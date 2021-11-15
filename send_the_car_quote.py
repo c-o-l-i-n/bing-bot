@@ -13,4 +13,4 @@ def send_the_car_quote(is_quote_of_the_day=False):
   send_message(message)
 
 if __name__ == "__main__":
-  send_the_car_quote(False)
+  send_the_car_quote(True)
