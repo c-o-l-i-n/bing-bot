@@ -26,6 +26,8 @@ SENDER_ID_TO_NAME = {
     '36684822': 'brick'
 }
 
+WOMEN_SENDER_IDS = ['29486148', '20322339', '18938463']
+
 # create flask instance
 app = Flask(__name__)
 # app.config['DEBUG'] = True
@@ -125,6 +127,10 @@ def receive_message():
     # says "ohio, you suck" after "h, ass"
     if data['sender_type'] != 'bot' and ('h ass' == message[-5:].lower() or 'h, ass' == message[-6:].lower()):
         send_message('ohio, you suck!')
+
+    # says cat call if message sent by a woman in H-Row
+    if sender_id in WOMEN_SENDER_IDS:
+        send_message(None, 'https://i.groupme.com/256x274.jpeg.ffbbd45a599d4756911bd92442a39440')
 
     return "ok", 200
 
