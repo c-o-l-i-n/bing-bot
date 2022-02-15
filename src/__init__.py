@@ -30,7 +30,6 @@ WOMEN_SENDER_IDS = ['29486148', '20322339', '18938463']
 
 # create flask instance
 app = Flask(__name__)
-# app.config['DEBUG'] = True
 
 
 @app.route('/bing', methods=['POST'])
@@ -130,7 +129,7 @@ def receive_message():
 
     # says cat call if message sent by a woman in H-Row
     if sender_id in WOMEN_SENDER_IDS:
-        send_message(None, 'https://i.groupme.com/256x274.jpeg.ffbbd45a599d4756911bd92442a39440')
+        send_message(f'@{SENDER_ID_TO_NAME[sender_id]}', 'https://i.groupme.com/256x274.jpeg.ffbbd45a599d4756911bd92442a39440')
 
     return "ok", 200
 
@@ -141,9 +140,9 @@ def message_contains(substring, message_text):
 
 @app.route('/', methods=['GET'])
 def get():
-    return 'Hello from buddy-server!'
+    return "Hello from Bing's server!"
 
 
 # run app
-# if __name__ == '__main__':
-#     app.run(host='0.0.0.0', port=6969)
+if __name__ == '__main__':
+    app.run(port=6969)
