@@ -14,7 +14,7 @@ GROUPME_ACCCESS_TOKEN
 # File path to alex.jpg
 PATH_TO_ALEX
 
-# File path to laugh.jpg
+# File path to laugh.png
 PATH_TO_LAUGH
 
 # API key for Open Weather Map (https://openweathermap.org/api)
