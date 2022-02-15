@@ -1,6 +1,6 @@
+import os
 from send_message import send_message
 import random
-import json
 from urllib.request import Request, urlopen
 import requests
 from io import BytesIO
@@ -8,7 +8,8 @@ from PIL import Image, ImageFilter, ImageEnhance
 import fix_path
 import groupme_image_service
 import random
-import secrets
+
+PATH_TO_LAUGH = os.environ['PATH_TO_LAUGH']
 
 
 def get_random_meme_url():
@@ -134,7 +135,7 @@ def get_random_meme_url():
 
 def deep_fry_image(image_url):
     image = Image.open(requests.get(image_url, stream=True).raw)
-    laugh_image = Image.open(secrets.PATH_TO_LAUGH, 'r')
+    laugh_image = Image.open(PATH_TO_LAUGH, 'r')
 
     laugh_size = laugh_image.size[0]
 

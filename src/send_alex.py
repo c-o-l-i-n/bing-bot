@@ -1,11 +1,11 @@
+import os
 from send_message import send_message
-import json
-import requests
 from PIL import Image
 from io import BytesIO
 from datetime import date
-import secrets
 import groupme_image_service
+
+PATH_TO_ALEX = os.environ['PATH_TO_ALEX']
 
 
 def send_alex():
@@ -16,7 +16,7 @@ def send_alex():
 
     # rotate image
     with BytesIO() as output:
-        with Image.open(secrets.PATH_TO_ALEX) as img:
+        with Image.open(PATH_TO_ALEX) as img:
             rotate_img= img.rotate(-days_since_start)
             rotate_img.save(output, 'jpeg')
         data = output.getvalue()

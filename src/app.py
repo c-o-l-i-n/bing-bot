@@ -2,7 +2,6 @@ import os
 import json
 import requests
 from flask import Flask, request
-
 from send_message import send_message
 from send_meme import *
 from weather import *
@@ -27,6 +26,7 @@ SENDER_ID_TO_NAME = {
 }
 
 WOMEN_SENDER_IDS = ['29486148', '20322339', '18938463']
+
 
 # create flask instance
 app = Flask(__name__)
@@ -143,6 +143,5 @@ def get():
     return "Hello from Bing's server!"
 
 
-# run app
 if __name__ == '__main__':
     app.run(port=6969)
