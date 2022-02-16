@@ -1,1 +1,1 @@
-web: cd src && gunicorn app:app
+web: --chdir src gunicorn app:app
