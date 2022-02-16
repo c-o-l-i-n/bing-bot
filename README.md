@@ -12,7 +12,7 @@ Contents
 
 Bing Bot is a GroupMe chat bot for H-Row's mascot, Bing.
 
-There are 3 components that making Bing run:
+There are 3 components that make Bing run:
 - This code repository
 - The Heroku app (h-row-bing-bot)
 - A GroupMe bot on the owner's GroupMe account
