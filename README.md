@@ -9,7 +9,7 @@
 GROUPME_BOT_ID
 
 # Your GroupMe user's access token, found at dev.groupme.com
-GROUPME_ACCCESS_TOKEN
+GROUPME_ACCESS_TOKEN
 
 # File path to alex.jpg
 PATH_TO_ALEX
