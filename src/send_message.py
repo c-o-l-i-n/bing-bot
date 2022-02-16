@@ -1,6 +1,5 @@
 import os
 import requests
-import fix_path
 
 
 GROUPME_BOT_ID = os.environ['GROUPME_BOT_ID']

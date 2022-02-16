@@ -5,7 +5,6 @@ from urllib.request import Request, urlopen
 import requests
 from io import BytesIO
 from PIL import Image, ImageFilter, ImageEnhance
-import fix_path
 import groupme_image_service
 import random
 

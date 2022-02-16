@@ -1,6 +1,5 @@
 from send_message import send_message
 from weather import get_humidity
-import fix_path
 
 def air_piss():
     humidity = get_humidity()

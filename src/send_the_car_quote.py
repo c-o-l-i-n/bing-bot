@@ -1,4 +1,3 @@
-import fix_path
 import random
 from send_message import send_message
 

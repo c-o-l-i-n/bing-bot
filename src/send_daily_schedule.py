@@ -1,4 +1,3 @@
-import fix_path
 import requests
 import pdf2image
 from datetime import datetime

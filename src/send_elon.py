@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from send_message import send_message
-import fix_path
 
 
 def elon():
