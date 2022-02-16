@@ -10,7 +10,9 @@ Contents
 
 ## 🦏 About Bing Bot
 
-Bing Bot is a GroupMe chat bot for H-Row's mascot, Bing.
+Bing Bot is a GroupMe chat bot for H-Row's mascot, Bing. It responds to different "commands" and sends unprompted messages throughout the day.
+
+Bing Bot is a REST API built using the Pythons Flask framework, hosted on Heroku.
 
 There are 3 components that make Bing run:
 - This code repository
