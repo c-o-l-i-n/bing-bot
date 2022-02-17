@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Bing Bot</title>
+		<link
+			rel="stylesheet"
+			href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css"
+		/>
+	</head>
+	<body>
+		<h1>Bing Bot Settings</h1>
+		<form action="/settings" method="post">
+			{% for key, value in settings.items() %}
+			<input
+				type="checkbox"
+				name="{{ key | replace(' ', '-') }}"
+				value="{{ key | replace(' ', '-') }}"
+				{%
+				if
+				value
+				%}checked{%
+				endif
+				%}
+			/>
+			<label for="{{ key | replace(' ', '-') }}">{{ key }}</label>
+			<br />
+			{% endfor %}
+			<input style="display: none" name="submission" />
+			<input style="display: none" name="password" value="{{ password }}" />
+			<br />
+			<button type="submit">Save Settings</button>
+		</form>
+		{% if settings_saved %}
+		<blockquote>
+			Settings saved. Please wait a moment for the changes to take effect.
+		</blockquote>
+		{% endif %}
+	</body>
+</html>
