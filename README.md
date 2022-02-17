@@ -68,4 +68,7 @@ WEATHER_API_KEY
 
 # Timezone in Heroku for scheduling jobs. Set to America/New_York for US Eastern time
 TZ
+
+# Password for the /settings page. It is the serial number on H-Caliber
+BING_SETTINGS_PASSWORD
 ```
