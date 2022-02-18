@@ -13,7 +13,7 @@ def millify(n):
     return '{:.0f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
 
 
-def bezos():
+def send_bezos():
     amazon = yf.Ticker('AMZN')
     last_2_days_prices = tuple(
         dict(amazon.history(period="2d")['Close']).values())
@@ -26,4 +26,4 @@ def bezos():
 
 
 if __name__ == '__main__':
-    bezos()
+    send_bezos()

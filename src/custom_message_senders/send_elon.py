@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup as bs
 from send_message import send_message
 
 
-def elon():
+def send_elon():
     # scrape web data
     webpage = requests.get('https://www.forbes.com/profile/elon-musk/')
     webcontent = webpage.content
@@ -35,4 +35,4 @@ def elon():
 
 
 if __name__ == '__main__':
-    elon()
+    send_elon()

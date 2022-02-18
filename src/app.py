@@ -2,9 +2,9 @@ import os
 import requests
 from flask import Flask, request, render_template
 from send_message import send_message
-from send_meme import *
-from weather import *
-from send_the_car_quote import send_the_car_quote
+from weather import get_weather, get_temperature
+from custom_message_senders.send_the_car_quote import send_the_car_quote
+from custom_message_senders.send_meme import send_meme
 
 
 SENDER_ID_TO_NAME = {
@@ -28,7 +28,34 @@ WOMEN_SENDER_IDS = ['29486148', '20322339', '18938463']
 
 BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
-ALL_SETTINGS = ['are you alive', 'hi bing', 'i love you', 'joke', 'weather', 'temperature', 'make meme', 'cook meal', 'car quote', 'good of the order', 'one pizza pie', '69 420', 'h ass ohio you suck', 'cat call']
+ALL_SETTINGS = [
+    'are you alive',
+    'hi bing',
+    'i love you',
+    'joke',
+    'weather',
+    'temperature',
+    'make meme',
+    'cook meal',
+    'car quote',
+    'good of the order',
+    'one pizza pie',
+    '69 420',
+    'h ass ohio you suck',
+    'cat call',
+    'send "H" every day',
+    'send a meme every day',
+    'send a "Now You See Me" message every day',
+    'remind Hanna to drink water every day',
+    "send Jeff Bezos update every weekday",
+    "send Elon Musk update every weekday",
+    'check for rain every 30 minutes',
+    'check for high humidity every 30 minutes',
+    'ask if anyone called wawa every Saturday',
+    'rotate Alex Gonzalez every day',
+    'send a "Katie Paid" message every day',
+    'send a quote from "The Car" every day'
+]
 
 
 # create flask instance
@@ -183,4 +210,4 @@ def settings():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', debug=True)
