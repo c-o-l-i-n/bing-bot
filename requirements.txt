@@ -8,7 +8,7 @@ click==7.1.2
 coloredlogs==14.3
 docopt==0.6.2
 Flask==1.1.2
-Flask-Migrate==3.1.0
+Flask-Migrate==2.5.2
 Flask-Script==2.0.6
 Flask-SQLAlchemy==2.5.1
 fs==2.4.12
