@@ -1,6 +1,8 @@
 import os
 import requests
 from flask import Flask, request, render_template
+from flask_sqlalchemy import SQLAlchemy
+from models import db, Setting, GroupmeUser
 from send_message import send_message
 from weather import get_weather, get_temperature
 from custom_message_senders.send_the_car_quote import send_the_car_quote
@@ -25,8 +27,6 @@ SENDER_ID_TO_NAME = {
 }
 
 WOMEN_SENDER_IDS = ['29486148', '20322339', '18938463']
-
-BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
 ALL_SETTINGS = [
     'are you alive',
@@ -58,8 +58,14 @@ ALL_SETTINGS = [
 ]
 
 
-# create flask instance
+BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
+
+
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
 
 
 @app.route('/bing', methods=['POST'])
