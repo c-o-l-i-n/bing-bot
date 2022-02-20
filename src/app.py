@@ -1,7 +1,6 @@
 import os
 import requests
 from flask import Flask, request, render_template
-from flask_sqlalchemy import SQLAlchemy
 from models import db, Setting, GroupmeUser
 from send_message import send_message
 from weather import get_weather, get_temperature
@@ -9,63 +8,29 @@ from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme
 
 
-SENDER_ID_TO_NAME = {
-    '41850231': 'taco',
-    '39954190': 'bloon hands',
-    '51295820': 'buddy',
-    '36464940': 'gneurshk',
-    '86238544': 'flerken',
-    '29486148': 'mc',
-    '40390186': 'flame',
-    '20322339': 'jorgen',
-    '18938463': 'toot',
-    '40438487': 'falco',
-    '60334407': 'jasper',
-    '71705703': 'meetball',
-    '21493055': 'moon shoes',
-    '36684822': 'brick'
-}
-
-WOMEN_SENDER_IDS = ['29486148', '20322339', '18938463']
-
-ALL_SETTINGS = [
-    'are you alive',
-    'hi bing',
-    'i love you',
-    'joke',
-    'weather',
-    'temperature',
-    'make meme',
-    'cook meal',
-    'car quote',
-    'good of the order',
-    'one pizza pie',
-    '69 420',
-    'h ass ohio you suck',
-    'cat call',
-    'send "H" every day',
-    'send a meme every day',
-    'send a "Now You See Me" message every day',
-    'remind Hanna to drink water every day',
-    "send Jeff Bezos update every weekday",
-    "send Elon Musk update every weekday",
-    'check for rain every 30 minutes',
-    'check for high humidity every 30 minutes',
-    'ask if anyone called wawa every Saturday',
-    'rotate Alex Gonzalez every day',
-    'send a "Katie Paid" message every day',
-    'send a quote from "The Car" every day'
-]
-
-
-BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
-
-
+# initialize Flask app
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+
+# initialize database
+app.app_context().push()
 db.init_app(app)
+
+
+# get nicknames of groupme users
+GROUPME_USER_ID_TO_NAME = {}
+all_groupme_users = GroupmeUser.query.all()
+for groupme_user in all_groupme_users:
+    GROUPME_USER_ID_TO_NAME[groupme_user.id] = groupme_user.nickname
+
+# get women users
+WOMEN_GROUPME_USER_IDS = [x.id for x in all_groupme_users if x.is_woman]
+
+
+# get bing settings password
+BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
 
 @app.route('/bing', methods=['POST'])
@@ -84,15 +49,15 @@ def receive_message():
         # says 'hi' back to sender, and includes name if they're in H-Row
         if settings['hi bing'] and message_contains('hi bing', message) or message_contains('hi, bing', message):
             new_message = 'hi'
-            if sender_id in SENDER_ID_TO_NAME.keys():
-                new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
+            if sender_id in GROUPME_USER_ID_TO_NAME.keys():
+                new_message += f' {GROUPME_USER_ID_TO_NAME[sender_id]}'
             send_message(new_message)
 
         # says 'i love you' back to sender, and includes name if they're in H-Row
         if settings['i love you'] and message_contains('i love you', message):
             new_message = 'i love you too'
-            if sender_id in SENDER_ID_TO_NAME.keys():
-                new_message += f' {SENDER_ID_TO_NAME[sender_id]}'
+            if sender_id in GROUPME_USER_ID_TO_NAME.keys():
+                new_message += f' {GROUPME_USER_ID_TO_NAME[sender_id]}'
             send_message(new_message)
 
         # tells a joke on demand
@@ -112,8 +77,8 @@ def receive_message():
 
         # make a new meme on demand
         if settings['make meme'] and (message_contains('make', message) or message_contains('send', message)) and message_contains('meme', message):
-            if sender_id in SENDER_ID_TO_NAME.keys():
-                message_text = f'''ok {SENDER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
+            if sender_id in GROUPME_USER_ID_TO_NAME.keys():
+                message_text = f'''ok {GROUPME_USER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
             else:
                 message_text = f'''ok, here's a new meme'''
             if message_contains('deep fried', message):
@@ -165,8 +130,8 @@ def receive_message():
         send_message('ohio, you suck!')
 
     # says cat call if message sent by a woman in H-Row
-    if settings['cat call'] and sender_id in WOMEN_SENDER_IDS:
-        send_message(f'@{SENDER_ID_TO_NAME[sender_id]}', 'https://i.groupme.com/256x274.jpeg.ffbbd45a599d4756911bd92442a39440')
+    if settings['cat call'] and sender_id in WOMEN_GROUPME_USER_IDS:
+        send_message(f'@{GROUPME_USER_ID_TO_NAME[sender_id]}', 'https://i.groupme.com/256x274.jpeg.ffbbd45a599d4756911bd92442a39440')
 
     return "ok", 200
 
@@ -181,21 +146,16 @@ def get():
 
 
 def get_settings():
-    if not os.path.exists('settings.txt'):
-        set_settings(ALL_SETTINGS)
     settings = {}
-    with open('settings.txt') as settings_file:
-        for line in settings_file:
-            key = line[2:-1]
-            value = line[0] == '*'
-            settings[key] = value
+    for setting in Setting.query.all():
+        settings[setting.name] = setting.value
     return settings
 
 
 def set_settings(new_settings):
-    with open('settings.txt', 'w+') as settings_file:
-        for setting in ALL_SETTINGS:
-            settings_file.write(f'{"*" if setting in new_settings else " "} {setting}\n')
+    for setting in Setting.query.all():
+        setting.value = setting.name in new_settings
+    db.session.commit()
 
 
 @app.route('/settings', methods=['GET', 'POST'])
