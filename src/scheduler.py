@@ -1,3 +1,4 @@
+import os
 from apscheduler.schedulers.blocking import BlockingScheduler
 from app import get_settings
 from custom_message_senders.send_air_piss import send_air_piss
@@ -14,7 +15,7 @@ from custom_message_senders.send_sky_piss import send_sky_piss
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 
 
-scheduler = BlockingScheduler(timezone='America/New_York')
+scheduler = BlockingScheduler(timezone=os.environ['TZ'])
 
 
 # send "H" at a random time between 9am and 10pm
