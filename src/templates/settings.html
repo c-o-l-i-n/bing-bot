@@ -17,23 +17,42 @@
 		<h1>Bing Bot Settings</h1>
 		<form action="/settings" method="post">
 			<h2>Commands / Responses</h2>
-			{% for key, value in settings.items() %}
+			{% for setting in command_settings %}
 			<input
 				type="checkbox"
-				name="{{ key | replace(' ', '-') }}"
-				value="{{ key | replace(' ', '-') }}"
+				name="{{ setting.name | replace(' ', '-') }}"
+				value="{{ setting.name | replace(' ', '-') }}"
 				{%
 				if
-				value
+				setting.value
 				%}checked{%
 				endif
 				%}
 			/>
-			<label for="{{ key | replace(' ', '-') }}">{{ key }}</label>
+			<label for="{{ setting.name | replace(' ', '-') }}"
+				>{{ setting.name }}</label
+			>
 			<br />
-			{% if key == 'cat call' %}
+			{% endfor %}
+
 			<h2>Unsolicited Messages</h2>
-			{% endif %} {% endfor %}
+			{% for setting in scheduled_settings %}
+			<input
+				type="checkbox"
+				name="{{ setting.name | replace(' ', '-') }}"
+				value="{{ setting.name | replace(' ', '-') }}"
+				{%
+				if
+				setting.value
+				%}checked{%
+				endif
+				%}
+			/>
+			<label for="{{ setting.name | replace(' ', '-') }}"
+				>{{ setting.name }}</label
+			>
+			<br />
+			{% endfor %}
 			<input style="display: none" name="submission" />
 			<input style="display: none" name="password" value="{{ password }}" />
 			<br />
