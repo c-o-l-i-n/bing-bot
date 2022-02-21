@@ -19,17 +19,21 @@ app.app_context().push()
 db.init_app(app)
 
 
+@app.before_first_request
+def before_first_request():
 # get nicknames of groupme users
+    global GROUPME_USER_ID_TO_NAME
 GROUPME_USER_ID_TO_NAME = {}
 all_groupme_users = GroupmeUser.query.all()
 for groupme_user in all_groupme_users:
     GROUPME_USER_ID_TO_NAME[groupme_user.id] = groupme_user.nickname
 
 # get women users
+    global WOMEN_GROUPME_USER_IDS
 WOMEN_GROUPME_USER_IDS = [x.id for x in all_groupme_users if x.is_woman]
 
-
 # get bing settings password
+    global BING_SETTINGS_PASSWORD
 BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
 
