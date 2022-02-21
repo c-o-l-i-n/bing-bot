@@ -26,7 +26,7 @@ def before_first_request():
     GROUPME_USER_ID_TO_NAME = {}
     all_groupme_users = GroupmeUser.query.all()
     for groupme_user in all_groupme_users:
-        GROUPME_USER_ID_TO_NAME[groupme_user.id] = groupme_user.nickname
+        GROUPME_USER_ID_TO_NAME[str(groupme_user.id)] = groupme_user.nickname
 
     # get women users
     global WOMEN_GROUPME_USER_IDS
