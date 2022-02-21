@@ -21,20 +21,20 @@ db.init_app(app)
 
 @app.before_first_request
 def before_first_request():
-# get nicknames of groupme users
+    # get nicknames of groupme users
     global GROUPME_USER_ID_TO_NAME
-GROUPME_USER_ID_TO_NAME = {}
-all_groupme_users = GroupmeUser.query.all()
-for groupme_user in all_groupme_users:
-    GROUPME_USER_ID_TO_NAME[groupme_user.id] = groupme_user.nickname
+    GROUPME_USER_ID_TO_NAME = {}
+    all_groupme_users = GroupmeUser.query.all()
+    for groupme_user in all_groupme_users:
+        GROUPME_USER_ID_TO_NAME[groupme_user.id] = groupme_user.nickname
 
-# get women users
+    # get women users
     global WOMEN_GROUPME_USER_IDS
-WOMEN_GROUPME_USER_IDS = [x.id for x in all_groupme_users if x.is_woman]
+    WOMEN_GROUPME_USER_IDS = [x.id for x in all_groupme_users if x.is_woman]
 
-# get bing settings password
+    # get bing settings password
     global BING_SETTINGS_PASSWORD
-BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
+    BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
 
 @app.route('/bing', methods=['POST'])
@@ -163,31 +163,39 @@ def setting_is_turned_on(setting, settings):
     return next(filter(lambda x: x.name == setting, settings), None).value
 
 
+def render_settings_page(settings_were_updated=False):
+    settings = get_settings()
+    command_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'command']
+    scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
+    return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD, settings_saved=settings_were_updated)
+
+
 @app.route('/settings', methods=['GET', 'POST'])
 def settings():
     if request.method == 'GET':
+        # go to password input screen
         return render_template('password.html')
-    elif request.method == 'POST':
+    
+    if request.method == 'POST':
         if request.form['password'] != BING_SETTINGS_PASSWORD:
+            # invalib password; reload password input screen
             return render_template('password.html', invalid_password=True)
-        elif 'submission' in request.form.keys():
+        
+        if 'submission' in request.form.keys():
+            # user submitted new settings
+            # set new settings
             new_settings = list(request.form.keys())
             new_settings.remove('password')
             new_settings.remove('submission')
             new_settings = [x.replace('-', ' ') for x in new_settings]
             set_settings(new_settings)
 
-            # reload with new settings
-            settings = get_settings()
-            command_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'command']
-            scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
-            return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD, settings_saved=True)
+            # reload settings page with updated settings
+            return render_settings_page(settings_were_updated=True)
         
-        # load settings
-        settings = get_settings()
-        command_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'command']
-        scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
-        return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD)
+        # user typed password correctly
+        # load settings page
+        return render_settings_page()
 
 
 if __name__ == '__main__':
