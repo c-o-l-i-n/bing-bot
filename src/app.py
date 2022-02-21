@@ -51,7 +51,7 @@ def receive_message():
             send_message('yeah')
 
         # says 'hi' back to sender, and includes name if they're in H-Row
-        if setting_is_turned_on('hi bing', settings) and message_contains('hi bing', message) or message_contains('hi, bing', message):
+        if setting_is_turned_on('hi bing', settings) and (message_contains('hi bing', message) or message_contains('hi, bing', message)):
             new_message = 'hi'
             if sender_id in GROUPME_USER_ID_TO_NAME.keys():
                 new_message += f' {GROUPME_USER_ID_TO_NAME[sender_id]}'
@@ -80,7 +80,7 @@ def receive_message():
                 f'{temperature}{" (nice)" if "69" in temperature else ""}')
 
         # make a new meme on demand
-        if setting_is_turned_on('make meme', settings) and (message_contains('make', message) or message_contains('send', message)) and message_contains('meme', message):
+        if setting_is_turned_on('make meme', settings) and ((message_contains('make', message) or message_contains('send', message)) and message_contains('meme', message)):
             if sender_id in GROUPME_USER_ID_TO_NAME.keys():
                 message_text = f'''ok {GROUPME_USER_ID_TO_NAME[data["sender_id"]]}, here's a new meme'''
             else:
@@ -91,14 +91,14 @@ def receive_message():
                 send_meme(message_text=message_text)
 
         # gives a random recipe
-        if setting_is_turned_on('cook meal', settings) and message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message):
+        if setting_is_turned_on('cook meal', settings) and (message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message)):
             recipe = requests.get(
                 'https://www.themealdb.com/api/json/v1/1/random.php').json()
             send_message(f'you should have {recipe["meals"][0]["strMeal"].lower()}' + (("\n\n" + recipe['meals'][0]['strYoutube']) if recipe["meals"]
                                                                                        [0]["strYoutube"] else "") + (("\n\n" + recipe['meals'][0]['strSource']) if recipe["meals"][0]["strSource"] else ""))
 
         # sends a quote from the movie "The Car"
-        if setting_is_turned_on('car quote', settings) and message_contains('car', message) and (message_contains('line', message) or message_contains('quote', message)):
+        if setting_is_turned_on('car quote', settings) and (message_contains('car', message) and (message_contains('line', message) or message_contains('quote', message))):
             send_the_car_quote()
 
     # has something for the good of the order
@@ -106,15 +106,15 @@ def receive_message():
         send_message('tits')
 
     # sings "One Pizza Pie"
-    if setting_is_turned_on('one pizza pie', settings) and 'one pizza pie' == message[-13:].lower() or 'one pizza pie' == message[-14:-1].lower() or '1 pizza pie' == message[-11:].lower() or '1 for me' == message[-12:-1].lower():
+    if setting_is_turned_on('one pizza pie', settings) and ('one pizza pie' == message[-13:].lower() or 'one pizza pie' == message[-14:-1].lower() or '1 pizza pie' == message[-11:].lower() or '1 for me' == message[-12:-1].lower()):
         send_message('🍕 one for me, 🍕 one for when i die')
 
     # sings "One Pizza Pie"
-    if setting_is_turned_on('one pizza pie', settings) and 'one for me' == message[-10:].lower() or 'one for me' == message[-11:-1].lower() or '1 for me' == message[-8:].lower() or '1 for me' == message[-9:-1].lower():
+    if setting_is_turned_on('one pizza pie', settings) and ('one for me' == message[-10:].lower() or 'one for me' == message[-11:-1].lower() or '1 for me' == message[-8:].lower() or '1 for me' == message[-9:-1].lower()):
         send_message('🍕 one for when i die')
 
     # says "nice" when someone else says 69 or 420
-    if setting_is_turned_on('69 420', settings) and data['sender_type'] != 'bot' and (message_contains('69', message) or message_contains('420', message)):
+    if setting_is_turned_on('69 420', settings) and data['sender_type'] != 'bot' and ((message_contains('69', message) or message_contains('420', message))):
         send_message('nice')
 
     # says "ass" after "h"
@@ -130,7 +130,7 @@ def receive_message():
         send_message('you suck!')
 
     # says "ohio, you suck" after "h, ass"
-    if setting_is_turned_on('h ass ohio you suck', settings) and data['sender_type'] != 'bot' and ('h ass' == message[-5:].lower() or 'h, ass' == message[-6:].lower()):
+    if setting_is_turned_on('h ass ohio you suck', settings) and (data['sender_type'] != 'bot' and ('h ass' == message[-5:].lower() or 'h, ass' == message[-6:].lower())):
         send_message('ohio, you suck!')
 
     # says cat call if message sent by a woman in H-Row
