@@ -5,8 +5,10 @@
 Contents
 
 - [About Bing Bot](#-about-bing-bot)
-- [How to move Bing to a different chat](https://github.com/c-o-l-i-n/bing-bot/edit/main/README.md#-how-to-move-bing-to-a-different-chat)
+- [How to change Bing's settings](#%EF%B8%8F-how-to-change-bings-settings)
+- [How to move Bing to a different chat](#-how-to-move-bing-to-a-different-chat)
 - [How to change environment variables in Heroku](#-how-to-change-environment-variables-in-heroku)
+- [How to view data from the database](#-how-to-view-data-from-the-database)
 
 ## 🦏 About Bing Bot
 
@@ -14,12 +16,20 @@ Bing Bot is a GroupMe chat bot for H-Row's mascot, Bing. It responds to differen
 
 Bing Bot is a REST API built using the Python Flask framework, hosted on Heroku.
 
-There are 3 components that make Bing run:
+There are 4 components that make Bing run:
 - This code repository
-- The Heroku app (h-row-bing-bot)
 - A GroupMe bot on the owner's GroupMe account
+- A Heroku app (h-row-bing-bot)
+- A PostgreSQL database (Heroku Postgres add-on)
 
 When new code is pushed to the "main" branch of this repository, the Heroku app is updated and re-deployed automatically. (Configured in Heroku settings)
+
+## ⚙️ How to change Bing's settings
+
+1. Navigate to [go.osu.edu/bingsettings](https://go.osu.edu/bingsettings) (or https://h-row-bing-bot.herokuapp.com/settings)
+2. Type in the password, and click "Submit"
+3. Update the features you want to turn on or off
+4. Click "Save Settings"
 
 ## 📲 How to move Bing to a different chat
 
@@ -72,3 +82,13 @@ TZ
 # Password for the /settings page. It is the serial number on H-Caliber
 BING_SETTINGS_PASSWORD
 ```
+
+## 🗄 How to view data from the database
+
+1. Log into [heroku.com](https://id.heroku.com/)
+    - Email address: ```williamsca20+bingheroku@gmail.com```
+    - Password: ```{ Email Buddy at the above email adress if you need the password }```
+2. Click "Heroku Postgres" (under "Installed add-ons")
+3. Click "Dataclips"
+4. Click the Dataclip you want to view (either "Show Settings" or "Show GroupMe Users")
+5. Refresh the data by clicking "Show new data." If that button is not showing, the data is up to date.
