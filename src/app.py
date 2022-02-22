@@ -55,11 +55,20 @@ def before_first_request():
 
 @app.route('/bing', methods=['POST'])
 def receive_message():
-    logging.info('Message received:')
+    logging.info(f'Message received')
+
+    # get message data
     data = request.get_json()
     message = data['text']
+    name = data['name']
     sender_id = data['sender_id']
-    logging.info(data)
+    sender_type = data['sender_type']
+
+    if sender_type != 'user':
+        logging.info('From bot')
+        return
+    
+    logging.info(f'From {name} ({sender_id}): {message}')
 
     settings = get_settings()
     logging.info(settings)
