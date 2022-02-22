@@ -1,4 +1,4 @@
-# 📖 Bing Bot User Guide
+# 🦏 Bing Bot
 
 <img src="https://i.groupme.com/422x422.jpeg.87626f4f99aa48e19536cb96a7314851.avatar" align="right" />
 
@@ -10,7 +10,7 @@ Contents
 - [How to change environment variables in Heroku](#-how-to-change-environment-variables-in-heroku)
 - [How to view data from the database](#-how-to-view-data-from-the-database)
 
-## 🦏 About Bing Bot
+## 🤖 About Bing Bot
 
 Bing Bot is a GroupMe chat bot for H-Row's mascot, Bing. It responds to different "commands" and sends unprompted messages throughout the day.
 
@@ -58,30 +58,18 @@ To move Bing to a different chat, you must create a new GroupMe bot:
 5. Make the change in the "Value" textbox
 6. Click "Save changes"
 
-Verify the environment variables are set correctly:
+Verify that all environment variables are set correctly:
 
-```bash
-# GroupMe bot ID, found at dev.groupme.com/bots
-GROUPME_BOT_ID
-
-# Your GroupMe user's access token, found at dev.groupme.com
-GROUPME_ACCESS_TOKEN
-
-# File path to alex.jpg
-PATH_TO_ALEX
-
-# File path to laugh.png
-PATH_TO_LAUGH
-
-# API key for Open Weather Map (openweathermap.org/api)
-WEATHER_API_KEY
-
-# Timezone in Heroku for scheduling jobs. Set to America/New_York for US Eastern time
-TZ
-
-# Password for the /settings page. It is the serial number on H-Caliber
-BING_SETTINGS_PASSWORD
-```
+|            Key         |             Value                    |                            Notes                              |
+| ---------------------- | ------------------------------------ | ------------------------------------------------------------- |
+| BING_SETTINGS_PASSWORD | *(The serial number on H-Caliber)*   | The password to access the settings panel                     |
+| DATABASE_URL           | *(Automatically set by Heroku)*      | **DO NOT EDIT THIS!** It is automatically set by Heroku       |
+| GROUPME_ACCESS_TOKEN   | *(Your GroupMe user's access token)* | Found at [dev.groupme.com](https://dev.groupme.com)           |
+| GROUPME_BOT_ID         | *(GroupMe bot ID for your chat)*     | Found at [dev.groupme.com/bots](https://dev.groupme.com/bots) |
+| PATH_TO_ALEX           | /app/src/assets/alex.jpg             | File path to alex.jpg                                         |
+| PATH_TO_LAUGH          | /app/src/assets/laugh.png            | File path to laugh.png                                        |
+| TZ                     | America/New_York                     | Time zone used for scheduled jobs                             |
+| WEATHER_API_KEY        | *(API key for Open Weather Map)*     | If needed, get an API key at openweathermap.org/api           |
 
 ## 🗄 How to view data from the database
 
