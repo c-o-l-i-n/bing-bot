@@ -1,7 +1,7 @@
 import os
 import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
-from app import app, get_settings
+from app import app, get_settings, setting_is_turned_on
 from custom_message_senders.send_air_piss import send_air_piss
 from custom_message_senders.send_alex import send_alex
 from custom_message_senders.send_bezos import send_bezos
@@ -23,104 +23,98 @@ scheduler = BlockingScheduler(timezone=timezone)
 logging.info(f'Defining scheduled jobs')
 
 
+# get whether setting is turned on
+def settings(setting):
+    with app.app_context():
+        return setting_is_turned_on(setting, get_settings())
+
+
 # send "H" at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_h', trigger='cron', hour=9, jitter=46800)
 def send_h_job():
-    with app.app_context():
-        if get_settings()['send "H" every day']:
-            send_h()
+    if settings('send "H" every day'):
+        send_h()
 
 
 # send a meme at a random time between 9am and 10pm
 # OFF
 @scheduler.scheduled_job(name='send_meme', trigger='cron', hour=9, jitter=46800)
 def send_meme_job():
-    with app.app_context():
-        if get_settings()['send a meme every day']:
-            send_meme(message_text='meme of the day')
+    if settings('send a meme every day'):
+        send_meme(message_text='meme of the day')
 
 
 # send a "Now You See Me" message at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_now_you_see_me', trigger='cron', hour=9, jitter=46800)
 def send_now_you_see_me_job():
-    with app.app_context():
-        if get_settings()['send a "Now You See Me" message every day']:
-            send_now_you_see_me()
+    if settings('send a "Now You See Me" message every day'):
+        send_now_you_see_me()
 
 
 # reminds Hanna to drink water at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_drink_water', trigger='cron', hour=9, jitter=46800)
 def send_drink_water_job():
-    with app.app_context():
-        if get_settings()['remind Hanna to drink water every day']:
-            send_drink_water()
+    if settings('remind Hanna to drink water every day'):
+        send_drink_water()
 
 
 # send Jeff Bezos message at a random time between 5pm and 8pm
 # OFF
 @scheduler.scheduled_job(name='send_bezos', trigger='cron', day_of_week='mon-fri', hour=17, jitter=10800)
 def send_bezos_job():
-    with app.app_context():
-        if get_settings()["send Jeff Bezos update every weekday"]:
-            send_bezos()
+    if settings()["send Jeff Bezos update every weekday"]:
+        send_bezos()
 
 
 # send Elon message at a random time between 5pm and 8pm
 @scheduler.scheduled_job(name='send_elon', trigger='cron', day_of_week='mon-fri', hour=17, jitter=10800)
 def send_elon_job():
-    with app.app_context():
-        if get_settings()["send Elon Musk update every weekday"]:
-            send_elon()
+    if settings()["send Elon Musk update every weekday"]:
+        send_elon()
 
 
 # check for rain every 30 minutes between 9am and 10pm
 @scheduler.scheduled_job(name='send_sky_piss', trigger='cron', hour='9-21', minute='15,45')
 def send_sky_piss_job():
-    with app.app_context():
-        if get_settings()['check for rain every 30 minutes']:
-            send_sky_piss()
+    if settings('check for rain every 30 minutes'):
+        send_sky_piss()
 
 
 # check for high humidity every 30 minutes between 9am and 10pm
 @scheduler.scheduled_job(name='send_air_piss', trigger='cron', hour='9-21', minute='0,30')
 def send_air_piss_job():
-    with app.app_context():
-        if get_settings()['check for high humidity every 30 minutes']:
-            send_air_piss()
+    if settings('check for high humidity every 30 minutes'):
+        send_air_piss()
 
 
 # send "guys, has anyone called wawa??" at a random time between 3am and 6am every Saturday
 @scheduler.scheduled_job(name='send_call_wawa', trigger='cron', day_of_week='sat', hour=3, jitter=10800)
 def send_call_wawa_job():
-    with app.app_context():
-        if get_settings()['ask if anyone called wawa every Saturday']:
-            send_call_wawa()
+    if settings('ask if anyone called wawa every Saturday'):
+        send_call_wawa()
 
 
 # send a rotated image of Alex Gonzalez at a random time between 9am and 10pm
 # OFF
 @scheduler.scheduled_job(name='send_alex', trigger='cron', hour=9, jitter=46800)
 def send_alex_job():
-    with app.app_context():
-        if get_settings()['rotate Alex Gonzalez every day']:
-            send_alex()
+    if settings('rotate Alex Gonzalez every day'):
+        send_alex()
 
 
 # send a "Katie Paid" message at a random time between 9am and 10pm
 # OFF
 @scheduler.scheduled_job(name='send_katie_paid', trigger='cron', hour=9, jitter=46800)
 def send_katie_paid_job():
-    with app.app_context():
-        if get_settings()['send a "Katie Paid" message every day']:
-            send_katie_paid()
+    if settings('send a "Katie Paid" message every day'):
+        send_katie_paid()
 
 
 # send a quote from "The Car" at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_the_car_quote', trigger='cron', hour=9, jitter=46800)
 def send_the_car_quote_job():
-    with app.app_context():
-        if get_settings()['send a quote from "The Car" every day']:
-            send_the_car_quote(is_quote_of_the_day=True)
+    if settings('send a quote from "The Car" every day'):
+        send_the_car_quote(is_quote_of_the_day=True)
 
 
 logging.info(f'Starting scheduler')
