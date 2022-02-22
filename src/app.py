@@ -34,10 +34,10 @@ def before_first_request():
     global GROUPME_USER_ID_TO_NAME
     GROUPME_USER_ID_TO_NAME = {}
     try:
-    all_groupme_users = GroupmeUser.query.all()
-    for groupme_user in all_groupme_users:
-        GROUPME_USER_ID_TO_NAME[str(groupme_user.id)] = groupme_user.nickname
-    logging.info(f'GROUPME_USER_ID_TO_NAME: {GROUPME_USER_ID_TO_NAME}')
+        all_groupme_users = GroupmeUser.query.all()
+        for groupme_user in all_groupme_users:
+            GROUPME_USER_ID_TO_NAME[str(groupme_user.id)] = groupme_user.nickname
+        logging.info(f'GROUPME_USER_ID_TO_NAME: {GROUPME_USER_ID_TO_NAME}')
     except Exception as exception:
         logging.error(exception)
 
@@ -173,7 +173,7 @@ def get():
 def get_settings():
     logging.info('Getting settings from database')
     try:
-    return Setting.query.all()
+        return Setting.query.all()
     except Exception as exception:
         logging.error(exception)
         return {}
@@ -182,9 +182,9 @@ def get_settings():
 def set_settings(new_settings):
     logging.info(f'Setting new settings: {new_settings}')
     try:
-    for setting in Setting.query.all():
-        setting.value = setting.name in new_settings
-    db.session.commit()
+        for setting in Setting.query.all():
+            setting.value = setting.name in new_settings
+        db.session.commit()
         return True
     except Exception as exception:
         logging.error(exception)
@@ -193,13 +193,13 @@ def set_settings(new_settings):
 
 def setting_is_turned_on(setting, settings):
     try:
-    return next(filter(lambda x: x.name == setting, settings), None).value
+        return next(filter(lambda x: x.name == setting, settings), None).value
     except Exception as exception:
         logging.error(exception)
         return False
 
 
-def render_settings_page(settings_were_updated=False):
+def render_settings_page(is_updating_settings=False, updated_successfully=False):
     settings = get_settings()
     logging.info(settings)
 
@@ -207,7 +207,7 @@ def render_settings_page(settings_were_updated=False):
     scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
     
     logging.info('Serving settings page')
-    return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD, settings_saved=settings_were_updated)
+    return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD, is_updating_settings=is_updating_settings, updated_successfully=updated_successfully)
 
 
 @app.route('/settings', methods=['GET', 'POST'])
@@ -232,10 +232,10 @@ def settings():
             new_settings.remove('password')
             new_settings.remove('submission')
             new_settings = [x.replace('-', ' ') for x in new_settings]
-            set_settings(new_settings)
+            successful = set_settings(new_settings)
 
             # reload settings page with updated settings
-            return render_settings_page(settings_were_updated=True)
+            return render_settings_page(is_updating_settings=True, updated_successfully=successful)
         
         # user typed password correctly
         # load settings page

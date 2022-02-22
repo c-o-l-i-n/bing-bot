@@ -11,10 +11,12 @@
 		/>
 	</head>
 	<body>
-		{% if settings_saved %}
-		<blockquote>Settings saved</blockquote>
-		{% endif %}
-		<h1>Bing Bot Settings</h1>
+		{% if is_updating_settings %} {% if updated_successfully %}
+		<blockquote>✅ Settings saved</blockquote>
+		{% else %}
+		<blockquote>❌ Error saving settings</blockquote>
+		{% endif %} {% endif %}
+		<h1>Bing Bot Settings 🦏</h1>
 		<form action="/settings" method="post">
 			<h2>Commands / Responses</h2>
 			{% for setting in command_settings %}
