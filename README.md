@@ -86,9 +86,9 @@ Verify that all environment variables are set correctly:
 | DATABASE_URL           | _(Automatically set by Heroku)_      | **DO NOT EDIT THIS!** It is automatically set by Heroku         |
 | GROUPME_ACCESS_TOKEN   | _(Your GroupMe user's access token)_ | Found at [dev.groupme.com](https://dev.groupme.com)             |
 | GROUPME_BOT_ID         | _(GroupMe bot ID for your chat)_     | Found at [dev.groupme.com/bots](https://dev.groupme.com/bots)   |
-| PATH_TO_ALEX           | /app/src/assets/alex.jpg             | File path to alex.jpg                                           |
-| PATH_TO_LAUGH          | /app/src/assets/laugh.png            | File path to laugh.png                                          |
-| TZ                     | America/New_York                     | Time zone used for scheduled jobs                               |
+| PATH_TO_ALEX           | ```/app/src/assets/alex.jpg```       | File path to alex.jpg                                           |
+| PATH_TO_LAUGH          | ```/app/src/assets/laugh.png```      | File path to laugh.png                                          |
+| TZ                     | ```America/New_York```               | Time zone used for scheduled jobs                               |
 | WEATHER_API_KEY        | _(API key for Open Weather Map)_     | If needed, get an API key at openweathermap.org/api             |
 | IMGFLIP_API_KEY        | _(API key for ImgFlip)_              | ImgFlip password for account "bing_bot". Used to generate memes |
 
