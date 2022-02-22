@@ -1,4 +1,5 @@
 import os
+import logging
 import requests
 from flask import Flask, request, render_template
 from models import db, Setting, GroupmeUser
@@ -8,13 +9,20 @@ from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme
 
 
+# set logging config
+logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+
+
 # initialize Flask app
+logging.info('Creating Flask app')
 app = Flask(__name__)
+logging.info('Setting Flask app config')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['DATABASE_URL']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 
 # initialize database
+logging.info('Initializing app for use with database')
 app.app_context().push()
 db.init_app(app)
 
@@ -22,27 +30,41 @@ db.init_app(app)
 @app.before_first_request
 def before_first_request():
     # get nicknames of groupme users
+    logging.info('Getting GroupMe users from database')
     global GROUPME_USER_ID_TO_NAME
     GROUPME_USER_ID_TO_NAME = {}
     all_groupme_users = GroupmeUser.query.all()
     for groupme_user in all_groupme_users:
         GROUPME_USER_ID_TO_NAME[str(groupme_user.id)] = groupme_user.nickname
+    logging.info(f'GROUPME_USER_ID_TO_NAME: {GROUPME_USER_ID_TO_NAME}')
 
     # get women users
+    logging.info('Getting women users')
     global WOMEN_GROUPME_USER_IDS
     WOMEN_GROUPME_USER_IDS = [x.id for x in all_groupme_users if x.is_woman]
+    logging.info(f'WOMEN_GROUPME_USER_IDS: {WOMEN_GROUPME_USER_IDS}')
 
     # get bing settings password
+    logging.info('Getting settings password')
     global BING_SETTINGS_PASSWORD
     BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
 
+@app.before_request
+def before_request():
+    logging.info(f'Received {request.method} request to {request.path} from {request.remote_addr}')
+
+
 @app.route('/bing', methods=['POST'])
 def receive_message():
+    logging.info('Message received:')
     data = request.get_json()
     message = data['text']
     sender_id = data['sender_id']
+    logging.info(data)
+
     settings = get_settings()
+    logging.info(settings)
 
     if message_contains('bing', message):
 
@@ -146,14 +168,17 @@ def message_contains(substring, message_text):
 
 @app.route('/', methods=['GET'])
 def get():
+    logging.info(f'Serving index page')
     return render_template('index.html')
 
 
 def get_settings():
+    logging.info('Getting settings from database')
     return Setting.query.all()
 
 
 def set_settings(new_settings):
+    logging.info(f'Setting new settings: {new_settings}')
     for setting in Setting.query.all():
         setting.value = setting.name in new_settings
     db.session.commit()
@@ -165,8 +190,15 @@ def setting_is_turned_on(setting, settings):
 
 def render_settings_page(settings_were_updated=False):
     settings = get_settings()
+    logging.info(settings)
+
+    logging.info('Filtering and sorting command and scheduled settings')
     command_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'command']
+    logging.info(f'Command settings: {command_settings}')
     scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
+    logging.info(f'Scheduled settings: {command_settings}')
+    
+    logging.info('Serving settings page')
     return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD, settings_saved=settings_were_updated)
 
 
@@ -174,16 +206,20 @@ def render_settings_page(settings_were_updated=False):
 def settings():
     if request.method == 'GET':
         # go to password input screen
+        logging.info(f'Serving settings password page')
         return render_template('password.html')
     
     if request.method == 'POST':
         if request.form['password'] != BING_SETTINGS_PASSWORD:
             # invalib password; reload password input screen
+            logging.info(f"User input invalid password: \"{request.form['password']}\"")
+            logging.info(f'Re-serving settings password page')
             return render_template('password.html', invalid_password=True)
         
         if 'submission' in request.form.keys():
             # user submitted new settings
             # set new settings
+            logging.info(f"User submitted new settings")
             new_settings = list(request.form.keys())
             new_settings.remove('password')
             new_settings.remove('submission')
@@ -195,6 +231,7 @@ def settings():
         
         # user typed password correctly
         # load settings page
+        logging.info(f'User typed password correctly')
         return render_settings_page()
 
 
