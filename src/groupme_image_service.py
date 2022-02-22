@@ -13,13 +13,13 @@ def upload_image_data(image_data):
     response = requests.post(url='https://image.groupme.com/pictures',
                         data=image_data,
                         headers={'Content-Type': 'image/jpeg',
-                                'X-Access-Token': GROUPME_ACCESS_TOKEN}).json()
+                                'X-Access-Token': GROUPME_ACCESS_TOKEN})
 
     if response.status_code != 200:
         logging.error(response.text)
         return '' 
 
-    groupme_image_url = response['payload']['picture_url']
+    groupme_image_url = response.json()['payload']['picture_url']
     logging.info(f'Image uploaded to {groupme_image_url}')
 
     return groupme_image_url
