@@ -5,6 +5,7 @@
 Contents
 
 - [About Bing Bot](#-about-bing-bot)
+- [System Architecture](#-system-architecture)
 - [How to change Bing's settings](#%EF%B8%8F-how-to-change-bings-settings)
 - [How to move Bing to a different chat](#-how-to-move-bing-to-a-different-chat)
 - [How to change environment variables in Heroku](#-how-to-change-environment-variables-in-heroku)
@@ -16,11 +17,15 @@ Bing Bot is a GroupMe chat bot for H-Row's mascot, Bing. It responds to differen
 
 Bing Bot is a REST API built with the Python Flask framework and PostgreSQL, hosted on Heroku.
 
+## 🏰 System Architecture
+
 There are 4 components that make Bing run:
 - This code repository
 - A GroupMe bot on the owner's GroupMe account
 - A Heroku app (h-row-bing-bot)
 - A PostgreSQL database (Heroku Postgres add-on)
+
+There is arguably a 5th compoonent: [Kaffeine](http://kaffeine.herokuapp.com) pings the Heroku server every 30 minutes to keep the bot from idling during the day. Kaffeine observes a "bedtime" between 6am-12pm GMT (1am-7am EST or 2am-8am EDT) when it does not ping the server [to keep the Heroko app in the free tier](https://devcenter.heroku.com/articles/free-dyno-hours#quota).
 
 When new code is pushed to the "main" branch of this repository, the Heroku app is updated and re-deployed automatically. (Configured in Heroku settings)
 
