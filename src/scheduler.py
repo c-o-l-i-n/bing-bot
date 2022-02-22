@@ -1,4 +1,5 @@
 import os
+import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
 from app import get_settings
 from custom_message_senders.send_air_piss import send_air_piss
@@ -15,7 +16,11 @@ from custom_message_senders.send_sky_piss import send_sky_piss
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 
 
-scheduler = BlockingScheduler(timezone=os.environ['TZ'])
+timezone = os.environ['TZ']
+logging.info(f'Creating scheduler with timezone "{timezone}"')
+scheduler = BlockingScheduler(timezone=timezone)
+
+logging.info(f'Defining scheduled jobs')
 
 
 # send "H" at a random time between 9am and 10pm
@@ -106,4 +111,5 @@ def scheduled_job():
         send_the_car_quote(is_quote_of_the_day=True)
 
 
+logging.info(f'Starting scheduler')
 scheduler.start()
