@@ -187,11 +187,8 @@ def render_settings_page(settings_were_updated=False):
     settings = get_settings()
     logging.info(settings)
 
-    logging.info('Filtering and sorting command and scheduled settings')
     command_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'command']
-    logging.info(f'Command settings: {command_settings}')
     scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
-    logging.info(f'Scheduled settings: {command_settings}')
     
     logging.info('Serving settings page')
     return render_template('settings.html', command_settings=command_settings, scheduled_settings=scheduled_settings, password=BING_SETTINGS_PASSWORD, settings_saved=settings_were_updated)
