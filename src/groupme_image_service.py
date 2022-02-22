@@ -17,7 +17,7 @@ def upload_image_data(image_data):
 
     if response.status_code != 200:
         logging.error(response.text)
-        response.raise_for_status() 
+        return '' 
 
     groupme_image_url = response['payload']['picture_url']
     logging.info(f'Image uploaded to {groupme_image_url}')
