@@ -65,8 +65,8 @@ def receive_message():
     sender_type = data['sender_type']
 
     if sender_type != 'user':
-        logging.info('From bot')
-        return
+        logging.info(f'From {sender_type}')
+        return "ok", 200
     
     logging.info(f'From {name} ({sender_id}): {message}')
 
