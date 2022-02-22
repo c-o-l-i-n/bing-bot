@@ -15,9 +15,9 @@ def send_message(text, image_url=None):
         'picture_url' : image_url if image_url else '',
     }
 
-    logging.info(f'Seding message: {data}')
+    logging.info(f'Sending message: {data}')
 
     response = requests.post(url, json=data)
 
     if response.status_code != 200:
-        logging.error(response)
+        logging.error(response.text)
