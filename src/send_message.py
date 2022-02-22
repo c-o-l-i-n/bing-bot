@@ -19,5 +19,5 @@ def send_message(text, image_url=None):
 
     response = requests.post(url, json=data)
 
-    if response.status_code != 200:
+    if response.status_code != 202:
         logging.error(response.text)
