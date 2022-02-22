@@ -8,7 +8,9 @@ from PIL import Image, ImageFilter, ImageEnhance
 import groupme_image_service
 import random
 
+
 PATH_TO_LAUGH = os.environ['PATH_TO_LAUGH']
+IMGFLIP_API_KEY = os.environ['IMGFLIP_API_KEY']
 
 
 def get_random_meme_url():
@@ -122,7 +124,7 @@ def get_random_meme_url():
     # 1: only text1 (bottom text)
     # 2: both text0 and text1
 
-    api_url = f'http://api.imgflip.com/caption_image?template_id={str(random.choice(MEME_IDS))}&username=bing_bot&password=vzhOzeCWmmZjhhvOpPOZOezgbDIkHyKJATWWvujmpetJrBSdpS{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
+    api_url = f'http://api.imgflip.com/caption_image?template_id={str(random.choice(MEME_IDS))}&username=bing_bot&password={IMGFLIP_API_KEY}{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
 
     response = requests.post(
         api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
