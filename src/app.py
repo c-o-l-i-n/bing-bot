@@ -50,11 +50,6 @@ def before_first_request():
     BING_SETTINGS_PASSWORD = os.environ['BING_SETTINGS_PASSWORD']
 
 
-@app.before_request
-def before_request():
-    logging.info(f'Received {request.method} request to {request.path} from {request.remote_addr}')
-
-
 @app.route('/bing', methods=['POST'])
 def receive_message():
     logging.info('Message received:')
