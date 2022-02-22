@@ -26,7 +26,10 @@ logging.info(f'Defining scheduled jobs')
 # get whether setting is turned on
 def settings(setting):
     with app.app_context():
-        return setting_is_turned_on(setting, get_settings())
+        is_turned_on = setting_is_turned_on(setting, get_settings())
+        if not is_turned_on:
+            logging.info('Setting is turned off')
+        return is_turned_on
 
 
 # send "H" at a random time between 9am and 10pm
