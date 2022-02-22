@@ -33,10 +33,13 @@ def before_first_request():
     logging.info('Getting GroupMe users from database')
     global GROUPME_USER_ID_TO_NAME
     GROUPME_USER_ID_TO_NAME = {}
+    try:
     all_groupme_users = GroupmeUser.query.all()
     for groupme_user in all_groupme_users:
         GROUPME_USER_ID_TO_NAME[str(groupme_user.id)] = groupme_user.nickname
     logging.info(f'GROUPME_USER_ID_TO_NAME: {GROUPME_USER_ID_TO_NAME}')
+    except Exception as exception:
+        logging.error(exception)
 
     # get women users
     logging.info('Getting women users')
@@ -169,18 +172,31 @@ def get():
 
 def get_settings():
     logging.info('Getting settings from database')
+    try:
     return Setting.query.all()
+    except Exception as exception:
+        logging.error(exception)
+        return {}
 
 
 def set_settings(new_settings):
     logging.info(f'Setting new settings: {new_settings}')
+    try:
     for setting in Setting.query.all():
         setting.value = setting.name in new_settings
     db.session.commit()
+        return True
+    except Exception as exception:
+        logging.error(exception)
+        return False
 
 
 def setting_is_turned_on(setting, settings):
+    try:
     return next(filter(lambda x: x.name == setting, settings), None).value
+    except Exception as exception:
+        logging.error(exception)
+        return False
 
 
 def render_settings_page(settings_were_updated=False):
