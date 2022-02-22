@@ -14,7 +14,7 @@ def _get_weather_data():
         logging.error(response.text)
         response.raise_for_status() 
 
-    logging.info(response)
+    logging.info(response.text)
     return response
 
 
