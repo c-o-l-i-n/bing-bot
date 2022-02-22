@@ -70,8 +70,8 @@ def receive_message():
     
     logging.info(f'From {name} ({sender_id}): {message}')
 
+    # get settings from database
     settings = get_settings()
-    logging.info(settings)
 
     if message_contains('bing', message):
 
@@ -210,7 +210,6 @@ def setting_is_turned_on(setting, settings):
 
 def render_settings_page(is_updating_settings=False, updated_successfully=False):
     settings = get_settings()
-    logging.info(settings)
 
     command_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'command']
     scheduled_settings = [setting for setting in sorted(settings, key=lambda x: x.category_position) if setting.category == 'scheduled']
