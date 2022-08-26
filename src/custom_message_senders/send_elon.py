@@ -12,8 +12,9 @@ def send_elon():
     # get amount of net worth change
     net_worth_change_text = htmlcontent.find(
         'div', {'class': 'profile-info__item-diff'}).text
-    pipe_index = net_worth_change_text.find('|')
-    net_worth_change = net_worth_change_text[1:pipe_index - 3]
+    print(net_worth_change_text)
+    space_index = net_worth_change_text.find(' ')
+    net_worth_change = net_worth_change_text[1:space_index - 1]
 
     amount_map = {
         'k': 'thousand',
@@ -21,7 +22,7 @@ def send_elon():
         'b': 'billion'
     }
 
-    amount_text = amount_map[net_worth_change_text[pipe_index - 2].lower()]
+    amount_text = amount_map[net_worth_change_text[space_index - 1].lower()]
 
     # see if increased or decreased
     net_worth_increased = htmlcontent.find(
