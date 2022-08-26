@@ -2,9 +2,8 @@ import os
 import logging
 import requests
 from io import BytesIO
+from tech_config import GROUPME_ACCESS_TOKEN
 
-
-GROUPME_ACCESS_TOKEN = os.environ['GROUPME_ACCESS_TOKEN']
 
 
 def upload_image_data(image_data):

@@ -1,9 +1,7 @@
 import os
 import logging
 import requests
-
-
-WEATHER_API_KEY = os.environ['WEATHER_API_KEY']
+from tech_config import WEATHER_API_KEY
 
 
 def _get_weather_data():

@@ -1,7 +1,7 @@
 import os
 import logging
 from apscheduler.schedulers.blocking import BlockingScheduler
-from app import app, get_settings, setting_is_turned_on
+from settings import UnsolicitedMessageSetting, get_settings
 from custom_message_senders.send_air_piss import send_air_piss
 from custom_message_senders.send_alex import send_alex
 from custom_message_senders.send_bezos import send_bezos
@@ -16,7 +16,7 @@ from custom_message_senders.send_sky_piss import send_sky_piss
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 
 
-timezone = os.environ['TZ']
+timezone = 'America/New_York'
 logging.info(f'Creating scheduler with timezone "{timezone}"')
 scheduler = BlockingScheduler(timezone=timezone)
 
@@ -24,18 +24,18 @@ logging.info(f'Defining scheduled jobs')
 
 
 # get whether setting is turned on
-def settings(setting):
-    with app.app_context():
-        is_turned_on = setting_is_turned_on(setting, get_settings())
-        if not is_turned_on:
-            logging.info('Setting is turned off')
-        return is_turned_on
+def settings(setting: UnsolicitedMessageSetting):
+    SETTING = get_settings()
+    is_turned_on = SETTING[setting]
+    if not is_turned_on:
+        logging.info('Setting is turned off')
+    return is_turned_on
 
 
 # send "H" at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_h', trigger='cron', hour=9, jitter=46800)
 def send_h_job():
-    if settings('send "H" every day'):
+    if settings(UnsolicitedMessageSetting.H):
         send_h()
 
 
@@ -43,21 +43,21 @@ def send_h_job():
 # OFF
 @scheduler.scheduled_job(name='send_meme', trigger='cron', hour=9, jitter=46800)
 def send_meme_job():
-    if settings('send a meme every day'):
+    if settings(UnsolicitedMessageSetting.MEME):
         send_meme(message_text='meme of the day')
 
 
 # send a "Now You See Me" message at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_now_you_see_me', trigger='cron', hour=9, jitter=46800)
 def send_now_you_see_me_job():
-    if settings('send a "Now You See Me" message every day'):
+    if settings(UnsolicitedMessageSetting.NOW_YOU_SEE_ME):
         send_now_you_see_me()
 
 
 # reminds Hanna to drink water at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_drink_water', trigger='cron', hour=9, jitter=46800)
 def send_drink_water_job():
-    if settings('remind Hanna to drink water every day'):
+    if settings(UnsolicitedMessageSetting.HANNA_DRINK_WATER):
         send_drink_water()
 
 
@@ -65,35 +65,35 @@ def send_drink_water_job():
 # OFF
 @scheduler.scheduled_job(name='send_bezos', trigger='cron', day_of_week='mon-fri', hour=17, jitter=10800)
 def send_bezos_job():
-    if settings()["send Jeff Bezos update every weekday"]:
+    if settings(UnsolicitedMessageSetting.JEFF_BEZOS):
         send_bezos()
 
 
 # send Elon message at a random time between 5pm and 8pm
 @scheduler.scheduled_job(name='send_elon', trigger='cron', day_of_week='mon-fri', hour=17, jitter=10800)
 def send_elon_job():
-    if settings()["send Elon Musk update every weekday"]:
+    if settings(UnsolicitedMessageSetting.ELON_MUSK):
         send_elon()
 
 
 # check for rain every 30 minutes between 9am and 10pm
 @scheduler.scheduled_job(name='send_sky_piss', trigger='cron', hour='9-21', minute='15,45')
 def send_sky_piss_job():
-    if settings('check for rain every 30 minutes'):
+    if settings(UnsolicitedMessageSetting.RAIN):
         send_sky_piss()
 
 
 # check for high humidity every 30 minutes between 9am and 10pm
 @scheduler.scheduled_job(name='send_air_piss', trigger='cron', hour='9-21', minute='0,30')
 def send_air_piss_job():
-    if settings('check for high humidity every 30 minutes'):
+    if settings(UnsolicitedMessageSetting.HUMIDITY):
         send_air_piss()
 
 
 # send "guys, has anyone called wawa??" at a random time between 3am and 6am every Saturday
 @scheduler.scheduled_job(name='send_call_wawa', trigger='cron', day_of_week='sat', hour=3, jitter=10800)
 def send_call_wawa_job():
-    if settings('ask if anyone called wawa every Saturday'):
+    if settings(UnsolicitedMessageSetting.WAWA):
         send_call_wawa()
 
 
@@ -101,22 +101,14 @@ def send_call_wawa_job():
 # OFF
 @scheduler.scheduled_job(name='send_alex', trigger='cron', hour=9, jitter=46800)
 def send_alex_job():
-    if settings('rotate Alex Gonzalez every day'):
+    if settings(UnsolicitedMessageSetting.ROTATE_ALEX):
         send_alex()
-
-
-# send a "Katie Paid" message at a random time between 9am and 10pm
-# OFF
-@scheduler.scheduled_job(name='send_katie_paid', trigger='cron', hour=9, jitter=46800)
-def send_katie_paid_job():
-    if settings('send a "Katie Paid" message every day'):
-        send_katie_paid()
 
 
 # send a quote from "The Car" at a random time between 9am and 10pm
 @scheduler.scheduled_job(name='send_the_car_quote', trigger='cron', hour=9, jitter=46800)
 def send_the_car_quote_job():
-    if settings('send a quote from "The Car" every day'):
+    if settings(UnsolicitedMessageSetting.THE_CAR_QUOTE):
         send_the_car_quote(is_quote_of_the_day=True)
 
 

@@ -7,10 +7,10 @@ from io import BytesIO
 from PIL import Image, ImageFilter, ImageEnhance
 import groupme_image_service
 import random
+from tech_config import IMGFLIP_API_KEY
 
 
 PATH_TO_LAUGH = os.environ['PATH_TO_LAUGH']
-IMGFLIP_API_KEY = os.environ['IMGFLIP_API_KEY']
 
 
 def get_random_meme_url():

@@ -1,9 +1,7 @@
 import os
 import logging
 import requests
-
-
-GROUPME_BOT_ID = os.environ['GROUPME_BOT_ID']
+from tech_config import GROUPME_BOT_ID
 
 
 def send_message(text, image_url=None):
