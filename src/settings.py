@@ -1,5 +1,5 @@
 from enum import Enum, auto
-from operator import itemgetter
+import logging
 from google_sheets import get_ranges
 
 
@@ -47,6 +47,7 @@ def _convert_ranges_to_booleans(value_ranges):
 
 
 def get_settings():
+	logging.info('Getting settings from Google Sheet')
 	settings = {}
 	command_settings_values, unsolicited_message_settings_values = _convert_ranges_to_booleans(get_ranges(SETTINGS_GOOGLE_SHEET_RANGES))
 	

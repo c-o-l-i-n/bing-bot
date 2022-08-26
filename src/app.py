@@ -1,16 +1,17 @@
 import logging
+import logging.config
 import requests
-from flask import Flask, request, render_template
-from nicknames import get_nicknames
+from flask import Flask, request
+from nicknames import create_new_nickname, get_nicknames
 from send_message import send_message
-from settings import CommandSetting, UnsolicitedMessageSetting, get_settings
+from settings import CommandSetting, get_settings
 from weather import get_weather, get_temperature
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme
 
 
 # set logging config
-logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.INFO)
+logging.config.fileConfig('logging.conf')#(format='%(levelname)s: %(message)s', level=logging.INFO)
 
 
 # initialize Flask app
@@ -25,7 +26,6 @@ def message_contains(text, message):
 @app.before_first_request
 def before_first_request():
     # get nicknames of groupme users
-    logging.info('Getting nicknames from Google Sheet')
     global NICKNAME
     NICKNAME = {}
     try:
@@ -35,7 +35,6 @@ def before_first_request():
         logging.error(exception)
 
     # get settings
-    logging.info('Getting settings from Google Sheet')
     global SETTING
     SETTING = {}
     try:
@@ -64,6 +63,14 @@ def receive_message():
         return "ok", 200
     
     logging.info(f'From {name} ({sender_id}): {message}')
+
+    global NICKNAME
+    if not sender_id in NICKNAME:
+        logging.info('Never seen message by this user before. Adding to Nicknames spreadsheet.')
+        sender_first_name = name.split(' ')[0].lower()
+        create_new_nickname(sender_id, sender_first_name)
+        send_message(f'nice to meet you, {sender_first_name}!')
+        NICKNAME = get_nicknames()
 
     if message_contains('bing', message):
         # a message to confirm that bing is up and running

@@ -1,4 +1,3 @@
-import os
 import logging
 import requests
 from tech_config import GROUPME_BOT_ID
