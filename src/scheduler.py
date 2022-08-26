@@ -9,7 +9,6 @@ from custom_message_senders.send_call_wawa import send_call_wawa
 from custom_message_senders.send_drink_water import send_drink_water
 from custom_message_senders.send_elon import send_elon
 from custom_message_senders.send_h import send_h
-from custom_message_senders.send_katie_paid import send_katie_paid
 from custom_message_senders.send_meme import send_meme
 from custom_message_senders.send_now_you_see_me import send_now_you_see_me
 from custom_message_senders.send_sky_piss import send_sky_piss

@@ -8,8 +8,10 @@ from PIL import Image, ImageFilter, ImageEnhance
 import groupme_image_service
 import random
 from tech_config import IMGFLIP_API_KEY
+from dotenv import load_dotenv
 
 
+load_dotenv()
 PATH_TO_LAUGH = os.environ['PATH_TO_LAUGH']
 
 

@@ -4,7 +4,10 @@ from PIL import Image
 from io import BytesIO
 from datetime import date
 import groupme_image_service
+from dotenv import load_dotenv
 
+
+load_dotenv()
 PATH_TO_ALEX = os.environ['PATH_TO_ALEX']
 
 
