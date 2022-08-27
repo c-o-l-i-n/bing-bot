@@ -3,7 +3,7 @@ import logging
 from google_sheets import get_ranges
 
 
-SETTINGS_GOOGLE_SHEET_RANGES = ['Settings!A2:A14', 'Settings!D2:D12']
+SETTINGS_GOOGLE_SHEET_RANGES = ['Settings!A3:A15', 'Settings!D3:D13']
 
 
 class CommandSetting(Enum):
