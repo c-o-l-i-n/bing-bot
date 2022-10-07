@@ -1,7 +1,6 @@
 import os
 import logging
-from apscheduler.schedulers.background import BackgroundScheduler
-from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
+from apscheduler.schedulers.background import BlockingScheduler
 from settings import UnsolicitedMessageSetting, get_settings
 from custom_message_senders.send_air_piss import send_air_piss
 from custom_message_senders.send_alex import send_alex
@@ -17,7 +16,7 @@ from custom_message_senders.send_the_car_quote import send_the_car_quote
 
 TIME_ZONE = os.environ['TZ']
 logging.info(f'Creating scheduler with timezone "{TIME_ZONE}"')
-scheduler = BackgroundScheduler(timezone=TIME_ZONE)
+scheduler = BlockingScheduler(timezone=TIME_ZONE)
 
 
 logging.info(f'Defining scheduled jobs')

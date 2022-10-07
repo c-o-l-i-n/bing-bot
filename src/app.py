@@ -173,5 +173,4 @@ def get():
 
 
 if __name__ == '__main__':
-    import scheduler
     serve(app, port=8080)
