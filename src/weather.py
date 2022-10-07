@@ -1,12 +1,12 @@
 import os
 import logging
 import requests
-from tech_config import WEATHER_API_KEY
+from tech_config import weather_api_key
 
 
 def _get_weather_data():
     logging.info('Getting current weather data for Columbus')
-    response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?id=4509177&appid={WEATHER_API_KEY}')
+    response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?id=4509177&appid={weather_api_key()}')
 
     if response.status_code != 200:
         logging.error(response.text)

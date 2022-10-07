@@ -1,14 +1,9 @@
-import os
+from pathlib import Path
 from send_message import send_message
 from PIL import Image
 from io import BytesIO
 from datetime import date
 import groupme_image_service
-from dotenv import load_dotenv
-
-
-load_dotenv()
-PATH_TO_ALEX = os.environ['PATH_TO_ALEX']
 
 
 def send_alex():
@@ -19,7 +14,7 @@ def send_alex():
 
     # rotate image
     with BytesIO() as output:
-        with Image.open(PATH_TO_ALEX) as img:
+        with Image.open(Path(__file__).parent / '../../assets/alex.jpg') as img:
             rotate_img= img.rotate(-days_since_start)
             rotate_img.save(output, 'jpeg')
         data = output.getvalue()

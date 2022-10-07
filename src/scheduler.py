@@ -1,10 +1,10 @@
 import os
 import logging
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+from apscheduler.executors.pool import ThreadPoolExecutor, ProcessPoolExecutor
 from settings import UnsolicitedMessageSetting, get_settings
 from custom_message_senders.send_air_piss import send_air_piss
 from custom_message_senders.send_alex import send_alex
-from custom_message_senders.send_bezos import send_bezos
 from custom_message_senders.send_call_wawa import send_call_wawa
 from custom_message_senders.send_drink_water import send_drink_water
 from custom_message_senders.send_elon import send_elon
@@ -15,17 +15,17 @@ from custom_message_senders.send_sky_piss import send_sky_piss
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 
 
-timezone = 'America/New_York'
-logging.info(f'Creating scheduler with timezone "{timezone}"')
-scheduler = BlockingScheduler(timezone=timezone)
+TIME_ZONE = os.environ['TZ']
+logging.info(f'Creating scheduler with timezone "{TIME_ZONE}"')
+scheduler = BackgroundScheduler(timezone=TIME_ZONE)
+
 
 logging.info(f'Defining scheduled jobs')
 
 
 # get whether setting is turned on
 def settings(setting: UnsolicitedMessageSetting):
-    SETTING = get_settings()
-    is_turned_on = SETTING[setting]
+    is_turned_on = get_settings()[setting]
     if not is_turned_on:
         logging.info('Setting is turned off')
     return is_turned_on
@@ -58,14 +58,6 @@ def send_now_you_see_me_job():
 def send_drink_water_job():
     if settings(UnsolicitedMessageSetting.HANNA_DRINK_WATER):
         send_drink_water()
-
-
-# send Jeff Bezos message at a random time between 5pm and 8pm
-# OFF
-@scheduler.scheduled_job(name='send_bezos', trigger='cron', day_of_week='mon-fri', hour=17, jitter=10800)
-def send_bezos_job():
-    if settings(UnsolicitedMessageSetting.JEFF_BEZOS):
-        send_bezos()
 
 
 # send Elon message at a random time between 5pm and 8pm

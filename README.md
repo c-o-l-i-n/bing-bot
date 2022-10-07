@@ -4,12 +4,13 @@
 
 Contents
 
-- [About Bing Bot](#-about-bing-bot)
-- [System Architecture](#-system-architecture)
-- [How to change Bing's settings](#%EF%B8%8F-how-to-change-bings-settings)
-- [How to move Bing to a different chat](#-how-to-move-bing-to-a-different-chat)
-- [How to change environment variables in Heroku](#-how-to-change-environment-variables-in-heroku)
-- [How to view data from the database](#-how-to-view-data-from-the-database)
+- [🦏 Bing Bot](#-bing-bot)
+  - [🤖 About Bing Bot](#-about-bing-bot)
+  - [🏰 System Architecture](#-system-architecture)
+  - [⚙️ How to change Bing's settings](#️-how-to-change-bings-settings)
+  - [📲 How to move Bing to a different chat](#-how-to-move-bing-to-a-different-chat)
+  - [🌐 How to change environment variables in Heroku](#-how-to-change-environment-variables-in-heroku)
+  - [🗄 How to view data from the database](#-how-to-view-data-from-the-database)
 
 ## 🤖 About Bing Bot
 
@@ -80,17 +81,11 @@ To move Bing to a different chat, you must create a new GroupMe bot:
 
 Verify that all environment variables are set correctly:
 
-| Key                    | Value                                | Notes                                                           |
-| ---------------------- | ------------------------------------ | --------------------------------------------------------------- |
-| BING_SETTINGS_PASSWORD | _(The serial number on H-Caliber)_   | The password to access the settings panel                       |
-| DATABASE_URL           | _(Automatically set by Heroku)_      | **DO NOT EDIT THIS!** It is automatically set by Heroku         |
-| GROUPME_ACCESS_TOKEN   | _(Your GroupMe user's access token)_ | Found at [dev.groupme.com](https://dev.groupme.com)             |
-| GROUPME_BOT_ID         | _(GroupMe bot ID for your chat)_     | Found at [dev.groupme.com/bots](https://dev.groupme.com/bots)   |
-| PATH_TO_ALEX           | ```/app/src/assets/alex.jpg```       | File path to alex.jpg                                           |
-| PATH_TO_LAUGH          | ```/app/src/assets/laugh.png```      | File path to laugh.png                                          |
-| TZ                     | ```America/New_York```               | Time zone used for scheduled jobs                               |
-| WEATHER_API_KEY        | _(API key for Open Weather Map)_     | If needed, get an API key at openweathermap.org/api             |
-| IMGFLIP_API_KEY        | _(API key for ImgFlip)_              | ImgFlip password for account "bing_bot". Used to generate memes |
+| Key                            | Value                                | Notes                                      |
+| ------------------------------ | ------------------------------------ | ------------------------------------------ |
+| TZ                             | ```America/New_York```               | Time zone used for scheduled jobs          |
+| GOOGLE_APPLICATION_CREDENTIALS | ```./credentials.json```             | Path to Google credentials file            |
+| SPREADSHEET_ID                 | _Settings Google Sheets ID from URL_ | docs.google.com/spreadsheets/d/**ID**/edit |
 
 ## 🗄 How to view data from the database
 

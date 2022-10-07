@@ -3,7 +3,7 @@ import logging
 from google_sheets import get_ranges
 
 
-SETTINGS_GOOGLE_SHEET_RANGES = ['Settings!A3:A15', 'Settings!D3:D13']
+SETTINGS_GOOGLE_SHEET_RANGES = ['Settings!A3:A15', 'Settings!D3:D12']
 
 
 class CommandSetting(Enum):
@@ -26,7 +26,6 @@ class UnsolicitedMessageSetting(Enum):
 	MEME = auto()
 	NOW_YOU_SEE_ME = auto()
 	HANNA_DRINK_WATER = auto()
-	JEFF_BEZOS = auto()
 	ELON_MUSK = auto()
 	RAIN = auto()
 	HUMIDITY = auto()
@@ -57,6 +56,7 @@ def get_settings():
 	for i, unsolicited_message_setting in enumerate(UnsolicitedMessageSetting):
 		settings[unsolicited_message_setting] = unsolicited_message_settings_values[i]
 	
+	logging.info(settings)
 	return settings
 
 

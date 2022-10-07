@@ -2,7 +2,7 @@ import os
 import logging
 import requests
 from io import BytesIO
-from tech_config import GROUPME_ACCESS_TOKEN
+from tech_config import groupme_access_token
 
 
 
@@ -12,7 +12,7 @@ def upload_image_data(image_data):
     response = requests.post(url='https://image.groupme.com/pictures',
                         data=image_data,
                         headers={'Content-Type': 'image/jpeg',
-                                'X-Access-Token': GROUPME_ACCESS_TOKEN})
+                                'X-Access-Token': groupme_access_token()})
 
     if response.status_code != 200:
         logging.error(response.text)
