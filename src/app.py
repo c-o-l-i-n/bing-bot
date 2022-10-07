@@ -172,9 +172,6 @@ def get():
         </body>'''
 
 
-# start scheduler
-import scheduler
-
 
 if __name__ == '__main__':
     serve(app, port=8080)
