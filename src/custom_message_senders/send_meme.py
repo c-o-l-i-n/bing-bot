@@ -38,7 +38,7 @@ def get_random_meme_url():
     # 1: only text1 (bottom text)
     # 2: both text0 and text1
 
-    api_url = f'http://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={imgflip_api_key()}{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
+    api_url = f'https://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={imgflip_api_key()}{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
 
     response = requests.post(
         api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
