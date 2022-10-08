@@ -25,7 +25,7 @@
 
 ## 📲 How to move Bing to a different chat
 
-To move Bing to a different chat, you must create a new GroupMe bot:
+To move Bing to a different chat, you need register a GroupMe bot for that chat:
 
 1. Log into [dev.groupme.com](https://dev.groupme.com)
 2. Navigate to the [Bots page](https://dev.groupme.com/bots)
@@ -34,7 +34,7 @@ To move Bing to a different chat, you must create a new GroupMe bot:
    - Choose the group this bot will live in: `(Current H-Row Chat)`
    - Name: `Bing`
    - Callback URL: `https://bingbot.pythonanywhere.com/bing`
-   - Avatar URL: `https://i.groupme.com/422x422.jpeg.87626f4f99aa48e19536cb96a7314851`
+   - Avatar URL: `https://i.groupme.com/422x422.jpeg.a071c9e4553d43559a4dcd3829001a8c`
 5. Click "Submit"
 6. Copy the Bot ID, and paste it into the `GroupMe Bot ID` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 7. Click "Access Token" at the top right corner of the screen, copy it, and paste it into the `GroupMe Access Token` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
