@@ -1,3 +1,4 @@
+import os
 import logging
 from send_message import send_message
 import random
@@ -8,9 +9,9 @@ from PIL import Image, ImageFilter, ImageEnhance
 import groupme_image_service
 import random
 from cachetools import cached, TTLCache
-from tech_config import imgflip_api_key
 
 
+IMGFLIP_API_KEY = os.environ['IMGFLIP_API_KEY']
 BACKUP_MEME_TEMPLATES = ['181913649', '87743020', '112126428', '131087935', '129242436', '217743513', '124822590', '247375501', '222403160', '131940431', '4087833', '135256802', '80707627', '438680', '93895088', '252600902', '188390779', '97984', '119139145', '27813981', '61579', '178591752', '101470', '1035805', '102156234', '110163934', '91538330', '79132341', '195515965', '148909805', '161865971', '216951317', '180190441', '226297822', '100777631', '114585149', '3218037', '55311130', '124055727', '89370399', '134797956', '61520', '61556', '123999232', '99683372', '21735', '28251713', '5496396', '135678846', '155067746', '259237855', '6235864', '84341851', '132769734', '175540452', '101288', '196652226', '91545132', '8072285', '61544', '61532', '17496002', '563423', '29617627', '163573', '14371066', '61546', '24557067', '460541', '61539', '101716', '6531067', '1367068', '29562797', '142921050', '285870', '101511', '61585', '7183956', '61580', '61533', '101910402', '16464531', '8279814', '183518946', '21604248', '922147', '176908', '405658', '89655', '61527', '1464444', '56225174', '1202623', '61516', '101287', '61581', '28034788', '71428573', '371382']
 
 
@@ -38,7 +39,7 @@ def get_random_meme_url():
     # 1: only text1 (bottom text)
     # 2: both text0 and text1
 
-    api_url = f'https://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={imgflip_api_key()}{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
+    api_url = f'https://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={IMGFLIP_API_KEY}{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
 
     response = requests.post(
         api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()

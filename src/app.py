@@ -1,22 +1,13 @@
-import os
-import logging
 import logging.config
-import requests
-from http import HTTPStatus
-from pathlib import Path
-from cachetools import cached, TTLCache
-from flask import Flask, request
 
-
-# set logging config
+# set logging config before importing other files that use logging
 logging.config.fileConfig('logging.conf')
 
-# set up google credentials
-logging.info('Setting up credentials.json')
-with open(Path(__file__).parent / '../credentials.json', 'w') as credentials_file:
-    credentials_file.write(os.environ['CREDENTIALS_JSON'])
-
-
+import logging
+import requests
+from http import HTTPStatus
+from cachetools import cached, TTLCache
+from flask import Flask, request
 from nicknames import create_new_nickname, get_nicknames as nicknames
 from send_message import send_message
 from settings import Command, UnsolicitedMessage, get_settings

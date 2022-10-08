@@ -16,7 +16,7 @@ There are many components/services that connect to create the Bing Bot we know a
 
 - GroupMe bot registered on the owner's GroupMe account
 - pythonanywhere Flask web app
-- pythonanywhere scheduled task
+- cron-job.org for triggering unsolicited messages
 - "Bing Settings" Google Sheet where settings and nicknames can be changed
 - The Google Sheets API enabled from Google Cloud Platform
 - OpenWeather API for getting weather data
