@@ -26,5 +26,5 @@ def upload_image_data(image_data):
 
 def upload_image_url(url):
     logging.info(f'Uploading image URL to GroupMe image service: {url}')
-    image_data = BytesIO(requests.get(url).content)
+    image_data = BytesIO(requests.get(f'https://api.allorigins.win/raw?url={url}').content)
     return upload_image_data(image_data)

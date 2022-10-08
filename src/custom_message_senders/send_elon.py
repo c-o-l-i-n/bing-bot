@@ -5,7 +5,7 @@ from send_message import send_message
 
 def send_elon():
     # scrape web data
-    webpage = requests.get('https://www.forbes.com/profile/elon-musk/')
+    webpage = requests.get('https://api.allorigins.win/raw?url=https://www.forbes.com/profile/elon-musk/')
     webcontent = webpage.content
     htmlcontent = bs(webcontent, 'html.parser')
 
