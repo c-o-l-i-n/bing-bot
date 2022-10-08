@@ -192,6 +192,8 @@ def send_unsolicited_message():
     
     if settings()[unsolicited_message]:
         UNSOLICITED_MESSAGE_FUNCTIONS[unsolicited_message]()
+    else:
+        logging.info('Setting turned off. No message sent.')
 
     return '', HTTPStatus.NO_CONTENT
     
