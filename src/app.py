@@ -39,6 +39,7 @@ def settings():
     return get_settings()
 
 
+# GroupMe message callback
 @app.route('/', methods=['POST'])
 def receive_message():
     logging.info(f'Message received')
@@ -175,7 +176,8 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
 }
 
 
-# I know this isn't the proper semantic use of a HEAD request, but it works nicely
+# trigger unsolictied message
+# I know this isn't the proper semantic use of a HEAD request, but it works nicely here
 @app.route('/', methods=['HEAD'])
 def send_unsolicited_message():
     unsolicited_message = UnsolicitedMessage(int(request.args.get('type')))
@@ -189,16 +191,27 @@ def send_unsolicited_message():
     return '', HTTPStatus.NO_CONTENT
     
 
+# index webpage
 @app.route('/', methods=['GET'])
 def get_index_page():
     logging.info(f'Serving index page')
     return '''
-        <body style="display:flex;justify-content:center;align-items:center">
-            <h1 style="font-family:sans-serif;text-align:center">
-                🦏👋 Hello from Bing's server!
-            </h1>
-        </body>'''
+        <!DOCTYPE html>
+        <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>🦏👋 Hello from Bing's server!</title>
+            </head>
+            <body style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0">
+                <h1 style="font-family:sans-serif;text-align:center;margin:-2rem 0 3rem 0">
+                    🦏👋 Hello from Bing's server!
+                </h1>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/b-nwRDNoJR4?autoplay=1&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </body>
+        </html>'''
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
