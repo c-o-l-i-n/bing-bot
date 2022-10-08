@@ -6,7 +6,7 @@ from google_sheets import get_ranges
 SETTINGS_GOOGLE_SHEET_RANGES = ['Settings!A3:A15', 'Settings!D3:D12']
 
 
-class CommandSetting(Enum):
+class Command(Enum):
 	ARE_YOU_ALIVE = auto()
 	HI = auto()
 	I_LOVE_YOU = auto()
@@ -21,7 +21,7 @@ class CommandSetting(Enum):
 	FUNNY_NUMBERS = auto()
 	HAOUS = auto()
 
-class UnsolicitedMessageSetting(Enum):
+class UnsolicitedMessage(Enum):
 	H = auto()
 	MEME = auto()
 	NOW_YOU_SEE_ME = auto()
@@ -50,10 +50,10 @@ def get_settings():
 	settings = {}
 	command_settings_values, unsolicited_message_settings_values = _convert_ranges_to_booleans(get_ranges(SETTINGS_GOOGLE_SHEET_RANGES))
 	
-	for i, command_setting in enumerate(CommandSetting):
+	for i, command_setting in enumerate(Command):
 		settings[command_setting] = command_settings_values[i]
 	
-	for i, unsolicited_message_setting in enumerate(UnsolicitedMessageSetting):
+	for i, unsolicited_message_setting in enumerate(UnsolicitedMessage):
 		settings[unsolicited_message_setting] = unsolicited_message_settings_values[i]
 	
 	logging.info(settings)
