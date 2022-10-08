@@ -5,7 +5,6 @@ import requests
 from pathlib import Path
 from cachetools import cached, TTLCache
 from flask import Flask, request
-from waitress import serve
 
 
 # set logging config
@@ -172,6 +171,5 @@ def get():
         </body>'''
 
 
-
 if __name__ == '__main__':
-    serve(app, port=8080)
+    app.run()
