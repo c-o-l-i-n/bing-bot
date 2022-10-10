@@ -1,3 +1,4 @@
+import logging
 import os
 import json
 import requests
@@ -35,7 +36,7 @@ CRON_JOB_TO_TIME_INTERVAL: dict[CronJob, Tuple[int, int]] = {
 
 
 def set_cron_job_time(cron_job: CronJob, hour: int, minute: int) -> None:
-  print(f'Setting cron job {cron_job.name} ({cron_job.value}) time to {hour}:{minute:02d}', flush=True)
+  logging.info(f'Setting cron job {cron_job.name} ({cron_job.value}) time to {hour}:{minute:02d}')
 
   ENDPOINT = f'https://api.cron-job.org/jobs/{cron_job.value}'
   headers = {
@@ -54,9 +55,9 @@ def set_cron_job_time(cron_job: CronJob, hour: int, minute: int) -> None:
   response = requests.patch(ENDPOINT, headers=headers, data=json.dumps(payload))
   
   if response.status_code == HTTPStatus.OK:
-    print(f'Success', flush=True)
+    logging.info(f'Success')
   else:
-    print(f'Failed :( {response.status_code} {response.text}', flush=True)
+    logging.info(f'Failed :( {response.status_code} {response.text}')
 
 
 def _get_random_time_between(start_hour: int, end_hour: int) -> Tuple[int, int]:
@@ -66,11 +67,12 @@ def _get_random_time_between(start_hour: int, end_hour: int) -> Tuple[int, int]:
 
 
 def randomize_unsolicited_message_times() -> None:
+  logging.info('Randomizing unsolicited message cron job times')
   for cron_job in CRON_JOB_TO_TIME_INTERVAL:
     start_hour, end_hour = CRON_JOB_TO_TIME_INTERVAL[cron_job]
     hour, minute = _get_random_time_between(start_hour, end_hour)
     set_cron_job_time(cron_job, hour, minute)
-    sleep(1) # avoid API usage limit
+    sleep(0.5) # avoid API usage limit
 
 
 # to be run once daily before cron jobs begin

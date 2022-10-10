@@ -22,6 +22,7 @@ from custom_message_senders.send_elon import send_elon
 from custom_message_senders.send_h import send_h
 from custom_message_senders.send_now_you_see_me import send_now_you_see_me
 from custom_message_senders.send_sky_piss import send_sky_piss
+from randomize_unsolicited_message_times import randomize_unsolicited_message_times
 
 
 # initialize Flask app
@@ -176,8 +177,10 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
 }
 
 
-# trigger unsolictied message
-# I know this isn't the proper semantic use of a HEAD request, but it works nicely here
+# triggered by cron jobs from cron-job.org
+# I know this isn't the proper semantic use of a HEAD request,
+# but it works nicely here as an alternative to GET,
+# such that typing the URL in a browser won't trigger the endpoint
 @app.route('/', methods=['HEAD'])
 def send_unsolicited_message():
     unsolicited_message = UnsolicitedMessage(int(request.args.get('type')))
@@ -188,6 +191,14 @@ def send_unsolicited_message():
     else:
         logging.info('Setting turned off. No message sent.')
 
+    return '', HTTPStatus.NO_CONTENT
+    
+
+# randomize unsolictied message times
+# triggered every morning by cron-job.org
+@app.route('/randomize', methods=['HEAD'])
+def randomize():
+    randomize_unsolicited_message_times()
     return '', HTTPStatus.NO_CONTENT
     
 
@@ -202,13 +213,16 @@ def get_index_page():
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>🦏👋 Hello from Bing's server!</title>
+                <title>🦏 Bing Bot</title>
             </head>
             <body style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;margin:0">
-                <h1 style="font-family:sans-serif;text-align:center;margin:-2rem 0 3rem 0">
+                <h1 style="font-family:sans-serif;text-align:center">
                     🦏👋 Hello from Bing's server!
                 </h1>
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/b-nwRDNoJR4?autoplay=1&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <h2 style="font-family:sans-serif;text-align:center">
+                    ✅ Bing Bot is up and running. Something wrong? Check the <a href="https://go.osu.edu/binghelp">help</a> page.
+                </h2>
             </body>
         </html>'''
 
