@@ -1,14 +1,14 @@
 # 🦏 Bing Bot Help
 
 - [🦏 Bing Bot Help](#-bing-bot-help)
-  - [⚙️ How to change Bing's settings](#️-how-to-change-bings-settings)
+  - [⚙️ How to turn a command or unsolicited message on or off](#️-how-to-turn-a-command-or-unsolicited-message-on-or-off)
   - [🙋 How to change the name Bing calls someone](#-how-to-change-the-name-bing-calls-someone)
   - [📲 How to move Bing to a new chat](#-how-to-move-bing-to-a-new-chat)
-  - [🏃 How do I check if Bing is running?](#-how-do-i-check-if-bing-is-running)
+  - [🏃 How to check if Bing is running](#-how-to-check-if-bing-is-running)
 - [💻 Tech Stuff for Nerds](#-tech-stuff-for-nerds)
   - [🌐 What online accounts are there?](#-what-online-accounts-are-there)
   - [🌅 Every 3 Months, Bing Needs Rejuvenated](#-every-3-months-bing-needs-rejuvenated)
-  - [🪵 How do I check for errors?](#-how-do-i-check-for-errors)
+  - [🪵 How to check for errors](#-how-to-check-for-errors)
   - [👾 How to update Bing's code](#-how-to-update-bings-code)
     - [Set up your development environment](#set-up-your-development-environment)
     - [Make Code Changes](#make-code-changes)
@@ -17,7 +17,7 @@
   - [🏔 Environment Variables](#-environment-variables)
   - [🐍 WSGI Configuration](#-wsgi-configuration)
 
-## ⚙️ How to change Bing's settings
+## ⚙️ How to turn a command or unsolicited message on or off
 
 1. Navigate to the Settings Google Sheet at [go.osu.edu/bingsettings](https://go.osu.edu/bingsettings)
 2. Check or uncheck the box next to any setting
@@ -25,8 +25,8 @@
 ## 🙋 How to change the name Bing calls someone
 
 1. Navigate to the Settings Google Sheet at [go.osu.edu/bingsettings](https://go.osu.edu/bingsettings)
-2. Go to the `Nicknames` tab
-3. Edit the text in the `Nickname` column
+2. Go to the "Nicknames" tab
+3. Edit the text in the "Nickname" column
 
 ## 📲 How to move Bing to a new chat
 
@@ -43,9 +43,9 @@ To move Bing to a new chat, you need register a GroupMe bot for that chat:
 5. Click "Submit"
 6. Copy the Bot ID, and paste it into the `GroupMe Bot ID` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 7. Click "Access Token" at the top right corner of the screen, copy it, and paste it into the `GroupMe Access Token` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
-8. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#️-code-expiration), and you can prevent that from happening.
+8. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#️-code-expiration), so you can prevent that from happening.
 
-## 🏃 How do I check if Bing is running?
+## 🏃 How to check if Bing is running
 Either send a message in the chat "Bing, are you alive?" and see if she responds, or visit the URL of her server: https://bingbot.pythonanywhere.com/
 
 # 💻 Tech Stuff for Nerds
@@ -57,7 +57,7 @@ Either send a message in the chat "Bing, are you alive?" and see if she responds
   - Recieves emails
   - Google Sheets API & credentials from GCP
 - [pythonanywhere](https://www.pythonanywhere.com/user/bingbot/webapps/#tab_id_bingbot_pythonanywhere_com)
-  - Hosts the Python code that runs the web server and daily scheduled task
+  - Hosts the Python code that runs the web server
 - [GitHub](https://github.com/bing-bot)
   - To push code changes, use the `bing-bot` GitHub account. Colin (`c-o-l-i-n`) is the repo owner.
 - [OpenWeather](https://home.openweathermap.org/api_keys)
@@ -69,7 +69,7 @@ Either send a message in the chat "Bing, are you alive?" and see if she responds
 
 The username/email for all accounts is `hrow.bing.bot@gmail.com`
 
-The password for all accounts is (all lowercase) the nickname of the OSUMB, then the serial number on H-Caliber.
+The password for all accounts is (all lowercase) the nickname of the band, then the serial number on H-Caliber, then an exclamation point.
 
 All accounts and services are free. Just make sure Bing doesn't die every 3 months:
 
@@ -81,7 +81,7 @@ pythonanywhere will email hrow.bing.bot@gmail.com the link to keep things runnin
 
 ![Don't let Bing die](assets/extend.jpg)
 
-## 🪵 How do I check for errors?
+## 🪵 How to check for errors
 
 [pythonanywhere](https://www.pythonanywhere.com/user/bingbot/files/var/log) provides a few different log files. Scroll all the way to the bottom for the latest log entries:
 
@@ -128,7 +128,7 @@ If you don't know what any of that means, ask a CSE major to do it.
 
 ## 🏔 Environment Variables
 
-These environment variables are require in pythonanywhere for Bing to work properly. They are set within the [`.env` file in the project root](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit). After updating the `.env` file, [reload the web app](#-how-to-update-bings-code) to apply the changes.
+These environment variables are require in pythonanywhere for Bing to work properly. They are set within the [`.env` file in the project root](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit). After updating and saving the `.env` file, [reload the web app](#update-the-code-on-the-server) to apply the changes.
 
 | Key                              | Value                                                                    | Notes                                    |
 | -------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------- |
@@ -140,4 +140,21 @@ These environment variables are require in pythonanywhere for Bing to work prope
 
 ## 🐍 WSGI Configuration
 
-Python web apps run on a [WSGI server](https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface). There is a configuration file in pythonanywhere located at [/var/www/bingbot_pythonanywhere_com_wsgi.py](https://www.pythonanywhere.com/user/bingbot/files/var/www/bingbot_pythonanywhere_com_wsgi.py?edit). It tells pythonanywhere to use the environment variables assigned in the `.env` file and where the Flask app is (`src/app.py`).
+Python web apps run on a [WSGI server](https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface). There is a configuration file in pythonanywhere located at [/var/www/bingbot_pythonanywhere_com_wsgi.py](https://www.pythonanywhere.com/user/bingbot/files/var/www/bingbot_pythonanywhere_com_wsgi.py?edit). It loads the environment variables from the `.env` file and imports the Flask app.
+
+If something happens to that file, replace it with this, and then [reload the web app](#update-the-code-on-the-server):
+
+```python
+# load environment variables from .env file
+import os
+from dotenv import load_dotenv
+project_folder = os.path.expanduser('/home/bingbot/bing-bot/')
+load_dotenv(os.path.join(project_folder, '.env'))
+
+# import Flask app
+import sys
+path = '/home/bingbot/bing-bot/src'
+if path not in sys.path:
+    sys.path.append(path)
+from app import app as application
+```
