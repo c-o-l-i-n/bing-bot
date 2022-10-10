@@ -12,6 +12,7 @@ from nicknames import create_new_nickname, get_nicknames as nicknames
 from send_message import send_message
 from settings import Command, UnsolicitedMessage, get_settings
 from weather import get_weather, get_temperature
+from image_recognition import identify_image
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme
 from custom_message_senders.send_air_piss import send_air_piss
@@ -46,18 +47,16 @@ def receive_message():
     logging.info(f'Message received')
 
     # get message data
-    try:
-        data = request.get_json()
-        message = data['text']
-        name = data['name']
-        sender_id = data['sender_id']
-        sender_type = data['sender_type']
-    except:
-        return
+    data = request.get_json()
+    message = data['text']
+    name = data['name']
+    sender_id = data['sender_id']
+    sender_type = data['sender_type']
+    image_attachment_urls = list(map(lambda i: i['url'], filter(lambda a: a['type'] == 'image', data['attachments'])))
 
     if sender_type != 'user':
         logging.info(f'From {sender_type}')
-        return "ok", 200
+        return '', HTTPStatus.NO_CONTENT
     
     logging.info(f'From {name} ({sender_id}): {message}')
 
@@ -127,6 +126,12 @@ def receive_message():
         if settings()[Command.BORED] and message_contains('bored', message):
             activity = requests.get('https://www.boredapi.com/api/activity').json()['activity'].lower()
             send_message(f'you should {activity}')
+
+        if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
+            if len(image_attachment_urls) > 0:
+                send_message(identify_image(image_attachment_urls[0]))
+            else:
+                send_message('you gotta send me a picture ya dingus')
 
         # get help links
         if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):

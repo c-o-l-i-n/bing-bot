@@ -130,13 +130,15 @@ If you don't know what any of that means, ask a CSE major to do it.
 
 These environment variables are require in pythonanywhere for Bing to work properly. They are set within the [`.env` file in the project root](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit). After updating and saving the `.env` file, [reload the web app](#update-the-code-on-the-server) to apply the changes.
 
-| Key                              | Value                                                                    | Notes                                    |
-| -------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------- |
-| `GOOGLE_APPLICATION_CREDENTIALS` | `/home/bingbot/bing-bot/credentials.json`                                | Path to Google credentials file          |
-| `SPREADSHEET_ID`                 | _([Settings Google Sheet](http://go.osu.edu/bingsettings) ID from URL)_  | docs.google.com/spreadsheets/d/`ID`/edit |
-| `OPENWEATHER_API_KEY`            | _([API key from OpenWeather](https://home.openweathermap.org/api_keys))_ | Weather data API                         |
-| `IMGFLIP_API_KEY`                | _(Password to [Imgflip](https://imgflip.com) account)_                   | Meme generator API                       |
-| `CRON_JOB_ORG_API_KEY`           | _([API key from cron-job.org](https://console.cron-job.org/settings))_   | API to change unsolicited message times  |
+| Key                              | Value                                                                        | Notes                                    |
+| -------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------- |
+| `GOOGLE_APPLICATION_CREDENTIALS` | `/home/bingbot/bing-bot/credentials.json`                                    | Path to Google credentials file          |
+| `SPREADSHEET_ID`                 | _([Settings Google Sheet](http://go.osu.edu/bingsettings) ID from URL)_      | docs.google.com/spreadsheets/d/`ID`/edit |
+| `OPENWEATHER_API_KEY`            | _([API key from OpenWeather](https://home.openweathermap.org/api_keys))_     | Weather data API                         |
+| `IMGFLIP_API_KEY`                | _(Password to [Imgflip](https://imgflip.com) account)_                       | Meme generator API                       |
+| `CRON_JOB_ORG_API_KEY`           | _([API key from cron-job.org](https://console.cron-job.org/settings))_       | API to change unsolicited message times  |
+| `CLARIFAI_PERSONAL_ACCESS_TOKEN` | _([PAT from Clarifai](https://portal.clarifai.com/settings/authentication))_ | Computer vision API                      |
+| `OPEN_EMOJI_API_KEY`             | _([API key from Open Emoji](https://emoji-api.com/))_                        | Emoji search API                         |
 
 ## 🐍 WSGI Configuration
 

@@ -18,6 +18,7 @@ class Command(Enum):
 	FUNNY_NUMBERS = auto()
 	HAOUS = auto()
 	BORED = auto()
+	WHAT_IS_THIS = auto()
 
 class UnsolicitedMessage(Enum):
 	H = auto()
@@ -34,8 +35,8 @@ class UnsolicitedMessage(Enum):
 
 SETTINGS_ROW_OFFSET = 2
 SETTINGS_GOOGLE_SHEET_RANGES = [
-	f'Settings!A3:A{len(Command) + SETTINGS_ROW_OFFSET}',
-	f'Settings!D3:D{len(UnsolicitedMessage) + SETTINGS_ROW_OFFSET}'
+	f'Settings!A{SETTINGS_ROW_OFFSET + 1}:A{len(Command) + SETTINGS_ROW_OFFSET}',
+	f'Settings!D{SETTINGS_ROW_OFFSET + 1}:D{len(UnsolicitedMessage) + SETTINGS_ROW_OFFSET}'
 ]
 
 
