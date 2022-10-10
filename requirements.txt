@@ -5,6 +5,8 @@ beautifulsoup4==4.9.3
 cachetools==5.2.0
 certifi==2020.6.20
 chardet==3.0.4
+charset-normalizer==2.1.1
+clarifai-grpc==8.8.0
 click==7.1.2
 coloredlogs==14.3
 decorator==5.1.1
@@ -21,6 +23,7 @@ google-auth-httplib2==0.1.0
 google-auth-oauthlib==0.5.2
 googleapis-common-protos==1.56.4
 greenlet==1.1.2
+grpcio==1.49.1
 gunicorn==20.1.0
 httplib2==0.20.4
 humanfriendly==9.1
@@ -37,7 +40,7 @@ oauthlib==3.2.0
 pandas==1.4.1
 pdf2image==1.16.0
 Pillow==8.0.1
-protobuf==4.21.5
+protobuf==3.19.3
 psycopg2==2.9.3
 py==1.11.0
 pyasn1==0.4.8
@@ -48,7 +51,7 @@ python-dateutil==2.8.2
 python-dotenv==0.21.0
 pytz==2021.3
 pytz-deprecation-shim==0.1.0.post0
-requests==2.24.0
+requests==2.28.1
 requests-oauthlib==1.3.1
 retry==0.9.2
 rsa==4.9
