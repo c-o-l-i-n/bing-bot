@@ -226,8 +226,11 @@ def get_index_page():
                 </h1>
                 <iframe width="560" height="315" src="https://www.youtube.com/embed/b-nwRDNoJR4?autoplay=1&controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 <h2 style="font-family:sans-serif;text-align:center">
-                    ✅ Bing Bot is up and running. Something wrong? Check the <a href="https://go.osu.edu/binghelp">help</a> page.
+                    ✅ Bing Bot is up and running
                 </h2>
+                <p style="font-family:sans-serif;text-align:center;margin-top:0">
+                    Something wrong? Check the <a href="https://go.osu.edu/binghelp">help guide</a>
+                </p>
             </body>
         </html>'''
 
