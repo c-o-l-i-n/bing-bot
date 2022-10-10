@@ -3,14 +3,19 @@
 - [🦏 Bing Bot Help](#-bing-bot-help)
   - [⚙️ How to change Bing's settings](#️-how-to-change-bings-settings)
   - [🙋 How to change the name Bing calls someone](#-how-to-change-the-name-bing-calls-someone)
-  - [📲 How to move Bing to a different chat](#-how-to-move-bing-to-a-different-chat)
-- [💻 Tech Stuff for Nerds](#-tech-stuff-for-nerds)
+  - [📲 How to move Bing to a new chat](#-how-to-move-bing-to-a-new-chat)
   - [🏃 How do I check if Bing is running?](#-how-do-i-check-if-bing-is-running)
+- [💻 Tech Stuff for Nerds](#-tech-stuff-for-nerds)
   - [🌐 What online accounts are there?](#-what-online-accounts-are-there)
-  - [🪵 How do I check the error logs?](#-how-do-i-check-the-error-logs)
-  - [☠️ Code Expiration](#️-code-expiration)
-  - [⏰ Scheduled Task Sketchiness](#-scheduled-task-sketchiness)
+  - [🌅 Every 3 Months, Bing Needs Rejuvenated](#-every-3-months-bing-needs-rejuvenated)
+  - [🪵 How do I check for errors?](#-how-do-i-check-for-errors)
+  - [👾 How to update Bing's code](#-how-to-update-bings-code)
+    - [Set up your development environment](#set-up-your-development-environment)
+    - [Make Code Changes](#make-code-changes)
+    - [Commit Code Changes](#commit-code-changes)
+    - [Update the code on the server](#update-the-code-on-the-server)
   - [🏔 Environment Variables](#-environment-variables)
+  - [🐍 WSGI Configuration](#-wsgi-configuration)
 
 ## ⚙️ How to change Bing's settings
 
@@ -23,9 +28,9 @@
 2. Go to the `Nicknames` tab
 3. Edit the text in the `Nickname` column
 
-## 📲 How to move Bing to a different chat
+## 📲 How to move Bing to a new chat
 
-To move Bing to a different chat, you need register a GroupMe bot for that chat:
+To move Bing to a new chat, you need register a GroupMe bot for that chat:
 
 1. Log into [dev.groupme.com](https://dev.groupme.com)
 2. Navigate to the [Bots page](https://dev.groupme.com/bots)
@@ -38,11 +43,12 @@ To move Bing to a different chat, you need register a GroupMe bot for that chat:
 5. Click "Submit"
 6. Copy the Bot ID, and paste it into the `GroupMe Bot ID` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 7. Click "Access Token" at the top right corner of the screen, copy it, and paste it into the `GroupMe Access Token` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
-
-# 💻 Tech Stuff for Nerds
+8. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#️-code-expiration), and you can prevent that from happening.
 
 ## 🏃 How do I check if Bing is running?
 Either send a message in the chat "Bing, are you alive?" and see if she responds, or visit the URL of her server: https://bingbot.pythonanywhere.com/
+
+# 💻 Tech Stuff for Nerds
 
 ## 🌐 What online accounts are there?
 
@@ -52,6 +58,8 @@ Either send a message in the chat "Bing, are you alive?" and see if she responds
   - Google Sheets API & credentials from GCP
 - [pythonanywhere](https://www.pythonanywhere.com/user/bingbot/webapps/#tab_id_bingbot_pythonanywhere_com)
   - Hosts the Python code that runs the web server and daily scheduled task
+- [GitHub](https://github.com/bing-bot)
+  - To push code changes, use the `bing-bot` GitHub account. Colin (`c-o-l-i-n`) is the repo owner.
 - [OpenWeather](https://home.openweathermap.org/api_keys)
   - Weather data API
 - [Imgflip](https://imgflip.com/api)
@@ -63,7 +71,17 @@ The username/email for all accounts is `hrow.bing.bot@gmail.com`
 
 The password for all accounts is (all lowercase) the nickname of the OSUMB, then the serial number on H-Caliber.
 
-## 🪵 How do I check the error logs?
+All accounts and services are free. Just make sure Bing doesn't die every 3 months:
+
+## 🌅 Every 3 Months, Bing Needs Rejuvenated
+
+In free pythonanywhere accounts, [web apps are disabled after 3 months unless you click the "extend" button](https://blog.pythonanywhere.com/129/).
+
+pythonanywhere will email hrow.bing.bot@gmail.com the link to keep things running 1 week before she is brutally murdered.
+
+![Don't let Bing die](assets/extend.jpg)
+
+## 🪵 How do I check for errors?
 
 [pythonanywhere](https://www.pythonanywhere.com/user/bingbot/files/var/log) provides a few different log files. Scroll all the way to the bottom for the latest log entries:
 
@@ -71,25 +89,46 @@ The password for all accounts is (all lowercase) the nickname of the OSUMB, then
 - [Server log](https://www.pythonanywhere.com/user/bingbot/files/var/log/bingbot.pythonanywhere.com.server.log)
 - [Access log](https://www.pythonanywhere.com/user/bingbot/files/var/log/bingbot.pythonanywhere.com.access.log)
 
-## ☠️ Code Expiration
+## 👾 How to update Bing's code
 
-In free pythonanywhere accounts, [scheduled tasks (Bing's unsolicited messages) expire every 4 weeks, and web apps (Bing's command responses) expire every 3 months.](https://blog.pythonanywhere.com/129/)
+You can technically just change the [code files directly on the server](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/src), but the "right way" is making the changes in git:
 
-  pythonanywhere will email Bing a link to keep things running a week before things expire. Bing's email currently forwards to me, Colin, so I'll probably click the link every time. If I don't click the link, there are buttons in the pythonanywhere dashboard that keep things running.
+### Set up your development environment
+1. `git clone https://github.com/c-o-l-i-n/bing-bot.git`
+2. `cd bing-bot`
+3. [Create the Python virtual environment and install dependencies](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments)
+   - `python3 -m venv bing-env`
+   - `source bing-env/bin/activate`
+   - `pip install -r requirements.txt`
+4. Set up [the environment variables](#-environment-variables) for [your system](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html)
 
-## ⏰ Scheduled Task Sketchiness
+### Make Code Changes
 
-Unsolicited messages when using pythonanywhere (and other free hosting tools) are a bit sketchy because free accounts only let you have 1 daily scheduled task. I tried triggering every unsolicited message from a single Python scheduler file, but pythonanywhere only allows schedlued tasks to last up to 2 hours, which won't work if we want to run tasks the whole day.
+5. Make code changes
+6. Test the code by running `python src/app.py`
 
-__The plan:__
-- [x] Set up a Flask endpoint to send an unsolicited message when hit
-- [x] Hit that endpoint using cron jobs triggered by the free service cron-job.org
-- [ ] Use my 1 daily Python scheduled task to change the cron-job.org cron jobs to random times
-- [ ] Profit
+### Commit Code Changes
+
+7. `git commit` any changes to the `main` branch
+8. `git push` the changes
+    - When prompted to log into GitHub, use [Bing's GitHub account](#-what-online-accounts-are-there).
+
+### Update the code on the server
+
+9.  [Log into pythonanywhere, and open a console.](https://www.pythonanywhere.com/user/bingbot/consoles/)
+10. Run the commands:
+    - `cd bing-bot` (if not already in the bing-bot folder)
+    - `git pull`
+11. Go to the [Web](https://www.pythonanywhere.com/user/bingbot/webapps/#tab_id_bingbot_pythonanywhere_com) page
+12. Click the reload button
+
+![Reload button](assets/reload.jpg)
+
+If you don't know what any of that means, ask a CSE major to do it.
 
 ## 🏔 Environment Variables
 
-These environment variables are require in pythonanywhere for Bing to work properly. They are set within the [`.env` file in the project root](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit).
+These environment variables are require in pythonanywhere for Bing to work properly. They are set within the [`.env` file in the project root](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit). After updating the `.env` file, [reload the web app](#-how-to-update-bings-code) to apply the changes.
 
 | Key                              | Value                                                                    | Notes                                    |
 | -------------------------------- | ------------------------------------------------------------------------ | ---------------------------------------- |
@@ -98,3 +137,7 @@ These environment variables are require in pythonanywhere for Bing to work prope
 | `OPENWEATHER_API_KEY`            | _([API key from OpenWeather](https://home.openweathermap.org/api_keys))_ | Weather data API                         |
 | `IMGFLIP_API_KEY`                | _(Password to [Imgflip](https://imgflip.com) account)_                   | Meme generator API                       |
 | `CRON_JOB_ORG_API_KEY`           | _([API key from cron-job.org](https://console.cron-job.org/settings))_   | API to change unsolicited message times  |
+
+## 🐍 WSGI Configuration
+
+Python web apps run on a [WSGI server](https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface). There is a configuration file in pythonanywhere located at [/var/www/bingbot_pythonanywhere_com_wsgi.py](https://www.pythonanywhere.com/user/bingbot/files/var/www/bingbot_pythonanywhere_com_wsgi.py?edit). It tells pythonanywhere to use the environment variables assigned in the `.env` file and where the Flask app is (`src/app.py`).
