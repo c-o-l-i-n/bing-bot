@@ -3,9 +3,6 @@ import logging
 from google_sheets import get_ranges
 
 
-SETTINGS_GOOGLE_SHEET_RANGES = ['Settings!A3:A15', 'Settings!D3:D12']
-
-
 class Command(Enum):
 	ARE_YOU_ALIVE = auto()
 	HI = auto()
@@ -20,6 +17,7 @@ class Command(Enum):
 	ONE_PIZZA_PIE = auto()
 	FUNNY_NUMBERS = auto()
 	HAOUS = auto()
+	BORED = auto()
 
 class UnsolicitedMessage(Enum):
 	H = auto()
@@ -32,6 +30,13 @@ class UnsolicitedMessage(Enum):
 	WAWA = auto()
 	ROTATE_ALEX = auto()
 	THE_CAR_QUOTE = auto()
+
+
+SETTINGS_ROW_OFFSET = 2
+SETTINGS_GOOGLE_SHEET_RANGES = [
+	f'Settings!A3:A{len(Command) + SETTINGS_ROW_OFFSET}',
+	f'Settings!D3:D{len(UnsolicitedMessage) + SETTINGS_ROW_OFFSET}'
+]
 
 
 def _convert_ranges_to_booleans(value_ranges):

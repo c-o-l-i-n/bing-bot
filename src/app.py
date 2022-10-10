@@ -123,6 +123,11 @@ def receive_message():
         if settings()[Command.THE_CAR_QUOTE] and (message_contains('car', message) and (message_contains('line', message) or message_contains('quote', message))):
             send_the_car_quote(is_quote_of_the_day=False)
 
+        # suggests an activity if you're bored
+        if settings()[Command.BORED] and message_contains('bored', message):
+            activity = requests.get('https://www.boredapi.com/api/activity').json()['activity'].lower()
+            send_message(f'you should {activity}')
+
         # get help links
         if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):
             send_message('change settings and nicknames here:\ngo.osu.edu/bingsettings\n\nread more here:\ngo.osu.edu/binghelp')
