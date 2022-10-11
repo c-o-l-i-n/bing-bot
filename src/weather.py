@@ -1,3 +1,4 @@
+from http import HTTPStatus
 import os
 import logging
 import requests
@@ -10,7 +11,7 @@ def _get_weather_data():
     logging.info('Getting current weather data for Columbus')
     response = requests.get(f'http://api.openweathermap.org/data/2.5/weather?id=4509177&appid={OPENWEATHER_API_KEY}')
 
-    if response.status_code != 200:
+    if response.status_code != HTTPStatus.OK:
         logging.error(response.text)
         response.raise_for_status() 
 

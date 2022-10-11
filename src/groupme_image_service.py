@@ -1,4 +1,4 @@
-import os
+from http import HTTPStatus
 import logging
 import requests
 from io import BytesIO
@@ -14,7 +14,7 @@ def upload_image_data(image_data):
                         headers={'Content-Type': 'image/jpeg',
                                 'X-Access-Token': groupme_access_token()})
 
-    if response.status_code != 200:
+    if response.status_code != HTTPStatus.OK:
         logging.error(response.text)
         return '' 
 
