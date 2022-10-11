@@ -87,7 +87,6 @@ def _get_random_time_between(start_hour: int, end_hour: int) -> Tuple[int, int]:
 
 
 def randomize_unsolicited_message_times() -> None:
-  logging.info('Randomizing unsolicited message cron job times')
   for cron_job in CRON_JOB_TO_TIME_INTERVAL:
     start_hour, end_hour = CRON_JOB_TO_TIME_INTERVAL[cron_job]
     hour, minute = _get_random_time_between(start_hour, end_hour)

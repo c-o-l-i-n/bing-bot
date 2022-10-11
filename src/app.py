@@ -219,6 +219,7 @@ def send_unsolicited_message():
 # triggered every morning by cron-job.org
 @app.route('/randomize', methods=['GET'])
 def randomize():
+    logging.info('Received request to randomize unsolicited message cron job times')
     randomize_unsolicited_message_times()
     return '', HTTPStatus.NO_CONTENT
     
@@ -227,6 +228,7 @@ def randomize():
 # triggered every Friday morning from August to January by cron-job.org
 @app.route('/set-go-ohio', methods=['GET'])
 def set_go_ohio():
+    logging.info(f'Recieved request to set GO_OHIO date and time')
     set_go_ohio_date_and_time()
     return '', HTTPStatus.NO_CONTENT
     
