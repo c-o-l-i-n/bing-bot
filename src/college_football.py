@@ -70,10 +70,11 @@ def set_go_ohio_date_and_time() -> None:
   next_game = _get_next_game()
   start_datetime = parser.parse(next_game.start_date).astimezone(LOCAL_TZ)
   logging.info(f'The game is on {start_datetime.month}/{start_datetime.date}{"" if next_game.start_time_tbd else f" at {start_datetime.hour}:{start_datetime.minute:02d} {LOCAL_TZ} time"}')
+  game_start_hour = start_datetime.hour
   if next_game.start_time_tbd:
     logging.info('Assuming noon game since time is TBD')
-    start_datetime.hour = 12 # if game time TBD, assume noon game
-  set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, start_datetime.hour - 3, start_datetime.minute)
+    game_start_hour = 12 # if game time TBD, assume noon game
+  set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, game_start_hour - 3, start_datetime.minute)
 
 
 def send_go_ohio() -> None:
