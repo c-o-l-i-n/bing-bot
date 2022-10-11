@@ -13,6 +13,7 @@ from send_message import send_message
 from settings import Command, UnsolicitedMessage, get_settings
 from weather import get_weather, get_temperature
 from image_recognition import identify_image
+from groupme_image_service import upload_image_url
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme
 from custom_message_senders.send_air_piss import send_air_piss
@@ -127,11 +128,22 @@ def receive_message():
             activity = requests.get('https://www.boredapi.com/api/activity').json()['activity'].lower()
             send_message(f'you should {activity}')
 
+        # uses computer vision to identify what's in an image
         if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
             if len(image_attachment_urls) > 0:
                 send_message(identify_image(image_attachment_urls[0]))
             else:
                 send_message('you gotta send me a picture ya dingus')
+
+        # sends a random picture of a dog
+        if settings()[Command.DOG] and (message_contains('dog', message)):
+            cat_image_url = requests.get('https://dog.ceo/api/breeds/image/random').json()['message']
+            send_message('', image_url=upload_image_url(cat_image_url))
+
+        # sends a random picture of a cat
+        if settings()[Command.CAT] and (message_contains('cat', message)):
+            cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
+            send_message('', image_url=upload_image_url(cat_image_url))
 
         # get help links
         if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):

@@ -19,6 +19,8 @@ class Command(Enum):
 	HAOUS = auto()
 	BORED = auto()
 	WHAT_IS_THIS = auto()
+	DOG = auto()
+	CAT = auto()
 
 class UnsolicitedMessage(Enum):
 	H = auto()
