@@ -49,6 +49,7 @@ def get_random_meme_url():
 
     api_url = f'https://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={IMGFLIP_API_KEY}&text0={top_text}&text1={bottom_text}'
 
+    logging.info(f'Getting meme (template ID: {meme_teamplate}) from Imgflip')
     response = requests.post(
         api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
 
@@ -58,6 +59,7 @@ def get_random_meme_url():
 
 
 def deep_fry_image(image_url):
+    logging.info('Deep frying image')
     image = Image.open(requests.get(image_url, stream=True).raw)
     laugh_image = Image.open(Path(__file__).parent / '../../assets/laugh.png', 'r')
 

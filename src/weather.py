@@ -18,28 +18,16 @@ def _get_weather_data():
         response.raise_for_status() 
 
     logging.info(response.text)
-    return response
+    return response.json()
 
 
 def get_weather():
-    try:
-        response = _get_weather_data()
-        return response.json()['weather'][0]['main'].lower()
-    except:
-        return ''
+    return _get_weather_data()['weather'][0]['main'].lower()
 
 
 def get_temperature():
-    try:
-        response = _get_weather_data()
-        return f"{(response.json()['main']['temp'] * (9 / 5) - 459.67):.0f} °F"
-    except:
-        return ''
+    return f"{(_get_weather_data()['main']['temp'] * (9 / 5) - 459.67):.0f} °F"
 
 
 def get_humidity():
-    try:
-        response = _get_weather_data()
-        return response.json()['main']['humidity']
-    except:
-        return ''
+    return _get_weather_data()['main']['humidity']
