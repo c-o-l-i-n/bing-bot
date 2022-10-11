@@ -1,3 +1,4 @@
+import logging
 import requests
 from bs4 import BeautifulSoup as bs
 from send_message import send_message
@@ -5,6 +6,7 @@ from send_message import send_message
 
 def send_elon():
     # scrape web data
+    logging.info('Scraping Elon Musk net worth data from Forbes')
     webpage = requests.get('https://api.allorigins.win/raw?url=https://www.forbes.com/profile/elon-musk/')
     webcontent = webpage.content
     htmlcontent = bs(webcontent, 'html.parser')
