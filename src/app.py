@@ -124,11 +124,6 @@ def receive_message():
         if settings()[Command.THE_CAR_QUOTE] and (message_contains('car', message) and (message_contains('line', message) or message_contains('quote', message))):
             send_the_car_quote(is_quote_of_the_day=False)
 
-        # suggests an activity if you're bored
-        if settings()[Command.BORED] and message_contains('bored', message):
-            activity = requests.get('https://www.boredapi.com/api/activity').json()['activity'].lower()
-            send_message(f'you should {activity}')
-
         # uses computer vision to identify what's in an image
         if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
             if len(image_attachment_urls) > 0:
@@ -182,6 +177,11 @@ def receive_message():
     # says "ohio, you suck" after "h, ass"
     if settings()[Command.HAOUS] and ('h ass' == message[-5:].lower() or 'h, ass' == message[-6:].lower()):
         send_message('ohio, you suck!')
+
+    # suggests an activity if you're bored
+    if settings()[Command.BORED] and message_contains('bored', message):
+        activity = requests.get('https://www.boredapi.com/api/activity').json()['activity'].lower()
+        send_message(f'you should {activity}')
     
     return '', HTTPStatus.NO_CONTENT
 
