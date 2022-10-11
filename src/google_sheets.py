@@ -4,8 +4,10 @@ from operator import itemgetter
 from retry import retry
 from oauth2client.client import GoogleCredentials
 from googleapiclient.discovery import build
+from dotenv import load_dotenv
 
 
+load_dotenv()
 SPREADSHEET_ID = os.environ['SPREADSHEET_ID']
 NUM_RETRIES = 3
 RETRY_DELAY = 2

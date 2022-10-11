@@ -7,8 +7,10 @@ from time import sleep
 from typing import Tuple
 from enum import Enum
 from http import HTTPStatus
+from dotenv import load_dotenv
 
 
+load_dotenv()
 CRON_JOB_ORG_API_KEY = os.environ['CRON_JOB_ORG_API_KEY']
 
 
