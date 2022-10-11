@@ -21,7 +21,7 @@ There are many components/services that connect to create the Bing Bot we know a
 - Google Sheets API for reading from and writing to the spreadsheet
 - OpenWeather API for getting weather data
 - Imgflip API for generating memes
-- Clariai API for computer vision predictions
+- Clarifai API for computer vision predictions
 - Open Emoji API for searching emojis
 - College Football Data API for getting college football data
 - Other non-authenticated APIs for getting jokes, recipes, cat pictures, and more!
