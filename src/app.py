@@ -228,8 +228,8 @@ def randomize():
 
 # sets time to send go ohio to 3 hours before kickoff
 # triggered every Friday morning from August to January by cron-job.org
-@app.route('/set-go-ohio-date-and-time', methods=['HEAD'])
-def randomize():
+@app.route('/set-go-ohio', methods=['HEAD'])
+def set_go_ohio():
     set_go_ohio_date_and_time()
     return '', HTTPStatus.NO_CONTENT
     
