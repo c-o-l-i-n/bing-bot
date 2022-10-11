@@ -60,7 +60,7 @@ def get_random_meme_url():
 
 def deep_fry_image(image_url):
     logging.info('Deep frying image')
-    image = Image.open(requests.get(image_url, stream=True).raw)
+    image = Image.open(requests.get(f'https://api.allorigins.win/raw?url={image_url}', stream=True).raw)
     laugh_image = Image.open(Path(__file__).parent / '../../assets/laugh.png', 'r')
 
     laugh_size = laugh_image.size[0]
