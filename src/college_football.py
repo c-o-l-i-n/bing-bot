@@ -53,6 +53,8 @@ def _get_next_game() -> cfbd.Game:
 def set_go_ohio_date_and_time() -> None:
   next_game = _get_next_game()
   start_datetime = parser.parse(next_game.start_date).astimezone(LOCAL_TZ)
+  if next_game.start_time_tbd:
+    start_datetime.hour = 12 # if game time TBD, assume noon game
   set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, start_datetime.hour - 3, start_datetime.minute)
 
 
