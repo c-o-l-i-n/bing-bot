@@ -6,6 +6,7 @@ from zoneinfo import ZoneInfo
 from datetime import datetime
 from dateutil import parser
 from randomize_unsolicited_message_times import CronJob, set_cron_job_date_and_time
+from send_message import send_message
 
 
 COLLEGE_FOOTBALL_API_KEY = os.environ['COLLEGE_FOOTBALL_API_KEY']
@@ -37,7 +38,7 @@ def _get_conference_abbreviation(conference_name: str) -> str:
 def _get_conference_teams(conference_abbreviation: str) -> list[cfbd.Team]:
   logging.info(f'Getting info for all teams in the {conference_abbreviation} conference')
   conference_teams: list[cfbd.Team] = teams_api.get_teams(conference=conference_abbreviation)
-  logging.info(f'Found info for {len(conference_teams)} teams: {map(lambda t: t.abbreviation, conference_teams)}')
+  logging.info(f'Found info for {len(conference_teams)} teams: {list(map(lambda t: t.abbreviation, conference_teams))}')
   return teams_api.get_teams(conference=conference_abbreviation)
 
 
@@ -86,7 +87,7 @@ def send_go_ohio() -> None:
   opponent_mascot: str = _get_mascot(opponent_name, opponent_conference_name)
   opponent_mascot_shortened: str = opponent_mascot[opponent_mascot.rindex(' ') + 1 :] if ' ' in opponent_mascot else opponent_mascot
 
-  print(f'go ohio, beat the {opponent_mascot_shortened.lower()}!')
+  send_message(f'go ohio, beat the {opponent_mascot_shortened.lower()}!')
 
 
 if __name__ == '__main__':
