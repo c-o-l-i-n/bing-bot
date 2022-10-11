@@ -27,9 +27,9 @@ LOCAL_TZ = ZoneInfo('US/Eastern')
 
 @cache
 def _get_conference_abbreviation(conference_name: str) -> str:
-  logging(f'Getting abbreviation for {conference_name} conference')
+  logging.info(f'Getting abbreviation for {conference_name} conference')
   conference_abbreviation = next(filter(lambda c: c.name == conference_name, conferences_api.get_conferences())).abbreviation
-  logging(f'Abbreviation for {conference_name} is {conference_abbreviation}')
+  logging.info(f'Abbreviation for {conference_name} is {conference_abbreviation}')
   return conference_abbreviation
 
 
@@ -70,7 +70,7 @@ def set_go_ohio_date_and_time() -> None:
   start_datetime = parser.parse(next_game.start_date).astimezone(LOCAL_TZ)
   logging.info(f'The game is on {start_datetime.month}/{start_datetime.date}{"" if next_game.start_time_tbd else f" at {start_datetime.hour}:{start_datetime.minute:02d} {LOCAL_TZ} time"}')
   if next_game.start_time_tbd:
-    logging('Assuming noon game since time is TBD')
+    logging.info('Assuming noon game since time is TBD')
     start_datetime.hour = 12 # if game time TBD, assume noon game
   set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, start_datetime.hour - 3, start_datetime.minute)
 
