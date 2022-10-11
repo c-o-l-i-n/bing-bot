@@ -33,6 +33,7 @@ class UnsolicitedMessage(Enum):
 	WAWA = auto()
 	ROTATE_ALEX = auto()
 	THE_CAR_QUOTE = auto()
+	GO_OHIO = auto()
 
 
 SETTINGS_ROW_OFFSET = 2

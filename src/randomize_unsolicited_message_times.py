@@ -21,6 +21,7 @@ class CronJob(Enum):
   ROTATE_ALEX = 4065141
   THE_CAR_QUOTE = 4065143
   WAWA = 4065140
+  GO_OHIO = 1234567
 
 
 CRON_JOB_TO_TIME_INTERVAL: dict[CronJob, Tuple[int, int]] = {
@@ -37,13 +38,7 @@ CRON_JOB_TO_TIME_INTERVAL: dict[CronJob, Tuple[int, int]] = {
 
 def set_cron_job_time(cron_job: CronJob, hour: int, minute: int) -> None:
   logging.info(f'Setting cron job {cron_job.name} ({cron_job.value}) time to {hour}:{minute:02d}')
-
-  ENDPOINT = f'https://api.cron-job.org/jobs/{cron_job.value}'
-  headers = {
-    'Authorization': f'Bearer {CRON_JOB_ORG_API_KEY}',
-    'Content-Type': 'application/json'
-  }
-  payload = {
+  delta = {
     'job': {
       'schedule': {
         'hours': [hour],
@@ -51,6 +46,31 @@ def set_cron_job_time(cron_job: CronJob, hour: int, minute: int) -> None:
       }
     }
   }
+  _update_cron_job(cron_job, delta)
+
+
+def set_cron_job_date_and_time(cron_job: CronJob, month: int, day: int, hour: int, minute: int) -> None:
+  logging.info(f'Setting cron job {cron_job.name} ({cron_job.value}) date and time to {month}/{day} at {hour}:{minute:02d}')
+  delta = {
+    'job': {
+      'schedule': {
+        'months': [month],
+        'mdays': [day],
+        'hours': [hour],
+        'minutes': [minute]
+      }
+    }
+  }
+  _update_cron_job(cron_job, delta)
+
+
+def _update_cron_job(cron_job: CronJob, delta: dict) -> None:
+  ENDPOINT = f'https://api.cron-job.org/jobs/{cron_job.value}'
+  headers = {
+    'Authorization': f'Bearer {CRON_JOB_ORG_API_KEY}',
+    'Content-Type': 'application/json'
+  }
+  payload = delta
 
   response = requests.patch(ENDPOINT, headers=headers, data=json.dumps(payload))
   

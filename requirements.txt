@@ -4,6 +4,7 @@ APScheduler==3.8.1
 beautifulsoup4==4.9.3
 cachetools==5.2.0
 certifi==2020.6.20
+cfbd==4.4.9
 chardet==3.0.4
 charset-normalizer==2.1.1
 clarifai-grpc==8.8.0

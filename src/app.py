@@ -14,6 +14,8 @@ from settings import Command, UnsolicitedMessage, get_settings
 from weather import get_weather, get_temperature
 from image_recognition import identify_image
 from groupme_image_service import upload_image_url
+from randomize_unsolicited_message_times import randomize_unsolicited_message_times
+from college_football import send_go_ohio, set_go_ohio_date_and_time
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme
 from custom_message_senders.send_air_piss import send_air_piss
@@ -24,7 +26,6 @@ from custom_message_senders.send_elon import send_elon
 from custom_message_senders.send_h import send_h
 from custom_message_senders.send_now_you_see_me import send_now_you_see_me
 from custom_message_senders.send_sky_piss import send_sky_piss
-from randomize_unsolicited_message_times import randomize_unsolicited_message_times
 
 
 # initialize Flask app
@@ -32,7 +33,7 @@ logging.info('Creating Flask app')
 app = Flask(__name__)
 
 
-def message_contains(text, message):
+def message_contains(text: str, message: str) -> bool:
     return text.lower() in message.lower()
 
 
@@ -195,7 +196,8 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.RAIN: send_sky_piss,
     UnsolicitedMessage.ROTATE_ALEX: send_alex,
     UnsolicitedMessage.THE_CAR_QUOTE: send_the_car_quote,
-    UnsolicitedMessage.WAWA: send_call_wawa
+    UnsolicitedMessage.WAWA: send_call_wawa,
+    UnsolicitedMessage.GO_OHIO: send_go_ohio
 }
 
 
@@ -221,6 +223,14 @@ def send_unsolicited_message():
 @app.route('/randomize', methods=['HEAD'])
 def randomize():
     randomize_unsolicited_message_times()
+    return '', HTTPStatus.NO_CONTENT
+    
+
+# sets time to send go ohio to 3 hours before kickoff
+# triggered every Friday morning from August to January by cron-job.org
+@app.route('/set-go-ohio-date-and-time', methods=['HEAD'])
+def randomize():
+    set_go_ohio_date_and_time()
     return '', HTTPStatus.NO_CONTENT
     
 
