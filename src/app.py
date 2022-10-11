@@ -17,7 +17,7 @@ from groupme_image_service import upload_image_url
 from randomize_unsolicited_message_times import randomize_unsolicited_message_times
 from college_football import send_go_ohio, set_go_ohio_date_and_time
 from custom_message_senders.send_the_car_quote import send_the_car_quote
-from custom_message_senders.send_meme import send_meme
+from custom_message_senders.send_meme import send_meme, send_normal_or_deep_fried_meme
 from custom_message_senders.send_air_piss import send_air_piss
 from custom_message_senders.send_alex import send_alex
 from custom_message_senders.send_call_wawa import send_call_wawa
@@ -191,7 +191,7 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.H: send_h,
     UnsolicitedMessage.HANNA_DRINK_WATER: send_drink_water,
     UnsolicitedMessage.HUMIDITY: send_air_piss,
-    UnsolicitedMessage.MEME: send_meme,
+    UnsolicitedMessage.MEME: send_normal_or_deep_fried_meme,
     UnsolicitedMessage.NOW_YOU_SEE_ME: send_now_you_see_me,
     UnsolicitedMessage.RAIN: send_sky_piss,
     UnsolicitedMessage.ROTATE_ALEX: send_alex,
