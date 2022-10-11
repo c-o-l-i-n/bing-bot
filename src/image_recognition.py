@@ -4,8 +4,10 @@ import requests
 from clarifai_grpc.channel.clarifai_channel import ClarifaiChannel
 from clarifai_grpc.grpc.api import resources_pb2, service_pb2, service_pb2_grpc
 from clarifai_grpc.grpc.api.status import status_code_pb2
+from dotenv import load_dotenv
 
 
+load_dotenv()
 CLARIFAI_PERSONAL_ACCESS_TOKEN = os.environ['CLARIFAI_PERSONAL_ACCESS_TOKEN']
 OPEN_EMOJI_API_KEY = os.environ['OPEN_EMOJI_API_KEY']
 

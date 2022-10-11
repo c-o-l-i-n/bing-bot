@@ -7,8 +7,10 @@ from datetime import datetime
 from dateutil import parser
 from randomize_unsolicited_message_times import CronJob, set_cron_job_date_and_time
 from send_message import send_message
+from dotenv import load_dotenv
 
 
+load_dotenv()
 COLLEGE_FOOTBALL_API_KEY = os.environ['COLLEGE_FOOTBALL_API_KEY']
 PROXY_URL = os.environ['PROXY_URL']
 

@@ -2,8 +2,10 @@ from http import HTTPStatus
 import os
 import logging
 import requests
+from dotenv import load_dotenv
 
 
+load_dotenv()
 OPENWEATHER_API_KEY = os.environ['OPENWEATHER_API_KEY']
 
 
