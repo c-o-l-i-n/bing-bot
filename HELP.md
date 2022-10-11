@@ -38,12 +38,13 @@ To move Bing to a new chat, you need register a GroupMe bot for that chat:
 4. Fill in the details:
    - Choose the group this bot will live in: `(Current H-Row Chat)`
    - Name: `Bing`
-   - Callback URL: `https://bingbot.pythonanywhere.com/bing`
-   - Avatar URL: `https://i.groupme.com/422x422.jpeg.a071c9e4553d43559a4dcd3829001a8c`
+   - Callback URL: `https://bingbot.pythonanywhere.com`
+   - Avatar URL: `https://i.imgur.com/Kr6ti95.jpg`
 5. Click "Submit"
 6. Copy the Bot ID, and paste it into the `GroupMe Bot ID` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 7. Click "Access Token" at the top right corner of the screen, copy it, and paste it into the `GroupMe Access Token` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
-8. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#️-code-expiration), so you can prevent that from happening.
+8. Delete the bot from the old chat
+9. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#️-code-expiration), so you can prevent that from happening.
 
 ## 🏃 How to check if Bing is running
 Either send a message in the chat "Bing, are you alive?" and see if she responds, or visit the URL of her server: https://bingbot.pythonanywhere.com/
