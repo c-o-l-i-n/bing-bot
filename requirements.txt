@@ -41,7 +41,7 @@ oauthlib==3.2.1
 pandas==1.4.1
 pdf2image==1.16.0
 Pillow==9.2.0
-protobuf==3.20.0
+protobuf==3.20.2
 psycopg2==2.9.3
 py==1.11.0
 pyasn1==0.4.8
