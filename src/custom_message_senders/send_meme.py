@@ -31,7 +31,7 @@ def get_current_popular_meme_templates():
 
 
 def _get_meme_text():
-    return random.choice(['H', 'H', 'H' 'piss', 'ohio', 'baritone'])
+    return random.choice(['H', 'H', 'H', 'piss', 'ohio', 'baritone'])
 
 
 def get_random_meme_url():
