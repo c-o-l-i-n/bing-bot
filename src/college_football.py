@@ -69,7 +69,7 @@ def _get_next_game() -> cfbd.Game:
 def set_go_ohio_date_and_time() -> None:
   next_game = _get_next_game()
   start_datetime = parser.parse(next_game.start_date).astimezone(LOCAL_TZ)
-  logging.info(f'The game is on {start_datetime.month}/{start_datetime.date}{"" if next_game.start_time_tbd else f" at {start_datetime.hour}:{start_datetime.minute:02d} {LOCAL_TZ} time"}')
+  logging.info(f'The game is on {start_datetime.month}/{start_datetime.day}{"" if next_game.start_time_tbd else f" at {start_datetime.hour}:{start_datetime.minute:02d} {LOCAL_TZ} time"}')
   game_start_hour = start_datetime.hour
   if next_game.start_time_tbd:
     logging.info('Assuming noon game since time is TBD')
