@@ -125,7 +125,7 @@ def receive_message():
             send_the_car_quote(is_quote_of_the_day=False)
 
         # uses computer vision to identify what's in an image
-        if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
+        if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains("what’s this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
             if len(image_attachment_urls) > 0:
                 send_message(identify_image(image_attachment_urls[0]))
             else:
