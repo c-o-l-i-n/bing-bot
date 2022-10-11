@@ -82,6 +82,11 @@ def send_go_ohio() -> None:
 
   opponent_is_away_team: bool = next_game.away_team != 'Ohio State'
   opponent_name: str = next_game.away_team if opponent_is_away_team else next_game.home_team
+
+  if opponent_name == 'Michigan':
+    send_message(f'go ohio, beat m*chigan!')
+    return
+
   opponent_conference_name: str = next_game.away_conference if opponent_is_away_team else next_game.home_conference
   logging.info(f'Opponent is {opponent_name} ({"away" if opponent_is_away_team else "home"} team), {opponent_conference_name} conference')
 
