@@ -202,12 +202,9 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
 
 
 # triggered by cron jobs from cron-job.org
-# I know this isn't the proper semantic use of a HEAD request,
-# but it works nicely here as an alternative to GET,
-# such that typing the URL in a browser won't trigger the endpoint
-@app.route('/', methods=['HEAD'])
+@app.route('/send', methods=['GET'])
 def send_unsolicited_message():
-    unsolicited_message = UnsolicitedMessage(int(request.args.get('type')))
+    unsolicited_message = UnsolicitedMessage(request.args.get('m'))
     logging.info(f'Recieved request to send unsolicited message {unsolicited_message.name}')
     
     if settings()[unsolicited_message]:
@@ -220,7 +217,7 @@ def send_unsolicited_message():
 
 # randomize unsolictied message times
 # triggered every morning by cron-job.org
-@app.route('/randomize', methods=['HEAD'])
+@app.route('/randomize', methods=['GET'])
 def randomize():
     randomize_unsolicited_message_times()
     return '', HTTPStatus.NO_CONTENT

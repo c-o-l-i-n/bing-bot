@@ -23,17 +23,17 @@ class Command(Enum):
 	CAT = auto()
 
 class UnsolicitedMessage(Enum):
-	H = auto()
-	MEME = auto()
-	NOW_YOU_SEE_ME = auto()
-	HANNA_DRINK_WATER = auto()
-	ELON_MUSK = auto()
-	RAIN = auto()
-	HUMIDITY = auto()
-	WAWA = auto()
-	ROTATE_ALEX = auto()
-	THE_CAR_QUOTE = auto()
-	GO_OHIO = auto()
+	H = 'h'
+	MEME = 'meme'
+	NOW_YOU_SEE_ME = 'now-you-see-me'
+	HANNA_DRINK_WATER = 'hanna-drink-water'
+	ELON_MUSK = 'elon-musk'
+	RAIN = 'rain'
+	HUMIDITY = 'humidity'
+	WAWA = 'wawa'
+	ROTATE_ALEX = 'rotate-alex'
+	THE_CAR_QUOTE = 'the-car-quote'
+	GO_OHIO = 'go-ohio'
 
 
 SETTINGS_ROW_OFFSET = 2
