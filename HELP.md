@@ -132,6 +132,7 @@ These environment variables are require in pythonanywhere for Bing to work prope
 
 | Key                              | Value                                                                         | Notes                                    |
 | -------------------------------- | ----------------------------------------------------------------------------- | ---------------------------------------- |
+| `PROXY_URL`                      | `https://proxy.server:3128`                                                   | pythoneverywhere proxy server URL        |
 | `GOOGLE_APPLICATION_CREDENTIALS` | `/home/bingbot/bing-bot/credentials.json`                                     | Path to Google credentials file          |
 | `SPREADSHEET_ID`                 | _([Settings Google Sheet](http://go.osu.edu/bingsettings) ID from URL)_       | docs.google.com/spreadsheets/d/`ID`/edit |
 | `OPENWEATHER_API_KEY`            | _([API key from OpenWeather](https://home.openweathermap.org/api_keys))_      | Weather data API                         |

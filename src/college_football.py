@@ -7,9 +7,14 @@ from dateutil import parser
 from randomize_unsolicited_message_times import CronJob, set_cron_job_date_and_time
 
 
+COLLEGE_FOOTBALL_API_KEY = os.environ['COLLEGE_FOOTBALL_API_KEY']
+PROXY_URL = os.environ['PROXY_URL']
+
+
 # configure apis
 configuration = cfbd.Configuration()
-configuration.api_key['Authorization'] = os.environ['COLLEGE_FOOTBALL_API_KEY']
+configuration.proxy = PROXY_URL if PROXY_URL else None
+configuration.api_key['Authorization'] = COLLEGE_FOOTBALL_API_KEY
 configuration.api_key_prefix['Authorization'] = 'Bearer'
 games_api = cfbd.GamesApi(cfbd.ApiClient(configuration))
 conferences_api = cfbd.ConferencesApi(cfbd.ApiClient(configuration))
