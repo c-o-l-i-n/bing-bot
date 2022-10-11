@@ -103,7 +103,7 @@ def receive_message():
                 f'{temperature}{" (nice)" if "69" in temperature else ""}')
 
         # make a new meme on demand
-        if settings()[Command.MAKE_MEME] and ((message_contains('make', message) or message_contains('send', message)) and message_contains('meme', message)):
+        if settings()[Command.MAKE_MEME] and message_contains('meme', message):
             if sender_id in nicknames():
                 message_text = f'''ok {nicknames()[data["sender_id"]]}, here's a new meme'''
             else:
