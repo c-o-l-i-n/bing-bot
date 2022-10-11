@@ -30,16 +30,22 @@ def get_current_popular_meme_templates():
     return meme_templates
 
 
+def _get_meme_text():
+    return random.choice(['H', 'H', 'H' 'piss', 'ohio', 'baritone'])
+
+
 def get_random_meme_url():
     meme_teamplate = random.choice(get_current_popular_meme_templates())
-    meme_text = 'H'
 
     text_option = random.randrange(3)
-    # 0: only text0 (top text)
-    # 1: only text1 (bottom text)
-    # 2: both text0 and text1
+    # 0: only top text
+    # 1: only bottom text
+    # 2: both top and bottom text
 
-    api_url = f'https://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={IMGFLIP_API_KEY}{f"&text0={meme_text}" if text_option % 2 == 0 else ""}{f"&text1={meme_text}" if text_option > 0 else ""}'
+    top_text = _get_meme_text() if text_option % 2 == 0 else ''
+    bottom_text = _get_meme_text() if text_option > 0 else ''
+
+    api_url = f'https://api.imgflip.com/caption_image?template_id={meme_teamplate}&username=bing_bot&password={IMGFLIP_API_KEY}&text0={top_text}&text1={bottom_text}'
 
     response = requests.post(
         api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
