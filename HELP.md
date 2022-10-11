@@ -101,31 +101,35 @@ You can technically just change the [code files directly on the server](https://
    - `python3 -m venv bing-env`
    - `source bing-env/bin/activate`
    - `pip install -r requirements.txt`
-4. Set up [the environment variables](#-environment-variables) for [your system](https://www.twilio.com/blog/2017/01/how-to-set-environment-variables.html)
+4. `touch credentials.json` to create the Google credientials file, then copy the contents from [the server](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/credentials.json?edit). 
+5. `touch .env` to create the `.env` file, then add all [environment variables](#-environment-variables). Copy the contents from [the server](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit), but these ones need to be different:
+   - `export PROXY_URL=''`
+   - `export GOOGLE_APPLICATION_CREDENTIALS='/path/on/your/computer/to/credentials.json'`
 
 ### Make Code Changes
 
-5. Make code changes
-6. Test the code by running `python src/app.py`
+6. Make code changes
+7. Test the code by running `python src/app.py`
 
 ### Commit Code Changes
 
-7. `git commit` any changes to the `main` branch
-8. `git push` the changes
+8. `git commit` any changes to the `main` branch
+9. `git push` the changes
     - When prompted to log into GitHub, use [Bing's GitHub account](#-what-online-accounts-are-there).
 
 ### Update the code on the server
 
-9.  [Log into pythonanywhere, and open a console.](https://www.pythonanywhere.com/user/bingbot/consoles/)
-10. Run the commands:
-    - `cd bing-bot` (if not already in the bing-bot folder)
+10. [Log into pythonanywhere, and open a console.](https://www.pythonanywhere.com/user/bingbot/consoles/)
+11. Run the commands:
+    - `cd /home/bingbot/bing-bot`
     - `git pull`
-11. Go to the [Web](https://www.pythonanywhere.com/user/bingbot/webapps/#tab_id_bingbot_pythonanywhere_com) page
-12. Click the reload button
+    - If you get a merge error/warning while pulling, run `git reset --hard origin/main` to force pull
+12. Go to the [Web](https://www.pythonanywhere.com/user/bingbot/webapps/#tab_id_bingbot_pythonanywhere_com) page
+13. Click the reload button
 
 ![Reload button](assets/reload.jpg)
 
-If you don't know what any of that means, ask a CSE major to do it.
+If you have no clue what any of that means, ask a CSE major to do it.
 
 ## 🏔 Environment Variables
 
