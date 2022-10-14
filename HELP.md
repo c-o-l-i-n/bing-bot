@@ -44,7 +44,7 @@ To move Bing to a new chat, you need register a GroupMe bot for that chat:
 6. Copy the Bot ID, and paste it into the `GroupMe Bot ID` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 7. Click "Access Token" at the top right corner of the screen, copy it, and paste it into the `GroupMe Access Token` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 8. Delete the bot from the old chat
-9. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#️-code-expiration), so you can prevent that from happening.
+9. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#-every-3-months-bing-needs-rejuvenated), so you can prevent that from happening.
 
 ## 🏃 How to check if Bing is running
 Either send a message in the chat "Bing, are you alive?" and see if she responds, or visit the URL of her server: https://bingbot.pythonanywhere.com/
@@ -52,6 +52,8 @@ Either send a message in the chat "Bing, are you alive?" and see if she responds
 # 💻 Tech Stuff for Nerds
 
 ## 🌐 What online accounts are there?
+
+All accounts and services are free. [Just make sure Bing doesn't die every 3 months](#-every-3-months-bing-needs-rejuvenated).
 
 - [Google Drive / Gmail / Google Cloud Platoform](https://cloud.google.com/)
   - Settings Google Sheet
@@ -71,8 +73,6 @@ Either send a message in the chat "Bing, are you alive?" and see if she responds
 The username/email for all accounts is `hrow.bing.bot@gmail.com`
 
 The password for all accounts is (all lowercase) the nickname of the band, then the serial number on H-Caliber, then an exclamation point.
-
-All accounts and services are free. Just make sure Bing doesn't die every 3 months:
 
 ## 🌅 Every 3 Months, Bing Needs Rejuvenated
 
