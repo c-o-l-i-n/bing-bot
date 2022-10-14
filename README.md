@@ -19,6 +19,7 @@ There are many components/services that connect to create the Bing Bot we know a
 - cron-job.org for triggering unsolicited messages
 - "Bing Settings" Google Sheet where settings and nicknames can be changed
 - Google Sheets API for reading from and writing to the spreadsheet
+- cron-job.org API for changing unsolicited message times
 - OpenWeather API for getting weather data
 - Imgflip API for generating memes
 - Clarifai API for computer vision predictions
