@@ -21,6 +21,7 @@ class Command(Enum):
 	WHAT_IS_THIS = auto()
 	DOG = auto()
 	CAT = auto()
+	COME = auto()
 
 class UnsolicitedMessage(Enum):
 	H = 'h'

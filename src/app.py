@@ -5,6 +5,7 @@ logging.config.fileConfig('logging.conf')
 
 import logging
 import requests
+import re
 from http import HTTPStatus
 from cachetools import cached, TTLCache
 from flask import Flask, request
@@ -34,7 +35,7 @@ app = Flask(__name__)
 
 
 def message_contains(text: str, message: str) -> bool:
-    return text.lower() in message.lower()
+    return text.lower() in message.lower().replace("’", "'")
 
 
 # cache settings, ttl 10 minutes
@@ -49,12 +50,12 @@ def receive_message():
     logging.info(f'Message received')
 
     # get message data
-    data = request.get_json()
-    message = data['text']
-    name = data['name']
-    sender_id = data['sender_id']
-    sender_type = data['sender_type']
-    image_attachment_urls = list(map(lambda i: i['url'], filter(lambda a: a['type'] == 'image', data['attachments'])))
+    data: dict = request.get_json()
+    message: str = data['text']
+    name: str = data['name']
+    sender_id: str = data['sender_id']
+    sender_type: str = data['sender_type']
+    image_attachment_urls: list[str] = list(map(lambda i: i['url'], filter(lambda a: a['type'] == 'image', data['attachments'])))
 
     if sender_type != 'user':
         logging.info(f'From {sender_type}')
@@ -125,7 +126,7 @@ def receive_message():
             send_the_car_quote(is_quote_of_the_day=False)
 
         # uses computer vision to identify what's in an image
-        if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains("what’s this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
+        if settings()[Command.WHAT_IS_THIS] and (message_contains('what is this', message) or message_contains("what's this", message) or message_contains("what's this", message) or message_contains('what this is', message) or message_contains('think this is', message)):
             if len(image_attachment_urls) > 0:
                 send_message(identify_image(image_attachment_urls[0]))
             else:
@@ -182,7 +183,33 @@ def receive_message():
     if settings()[Command.BORED] and message_contains('bored', message):
         activity = requests.get('https://www.boredapi.com/api/activity').json()['activity'].lower()
         send_message(f'you should {activity}')
-    
+
+    if settings()[Command.COME]:
+        # who doesn't love a good regular expression?
+        come_pattern = r'\b(come|comes|coming|came|finish|finishes|finishing|finished)\b'
+        come_result = re.search(come_pattern, message.lower())
+        if come_result:
+            if re.search(fr'\b(i|you|we) {come_pattern}', message.lower()):
+                send_message('you WHAT??')
+            elif re.search(fr'\bshe {come_pattern}', message.lower()):
+                send_message('she WHAT??')
+            elif re.search(fr'\bhe {come_pattern}', message.lower()):
+                send_message('he WHAT??')
+            elif re.search(fr'\bthey {come_pattern}', message.lower()):
+                send_message('they WHAT??')
+            elif re.search(fr'\bit {come_pattern}', message.lower()):
+                send_message('it WHAT??')
+            elif re.search(fr"\b((i(['’]| a)m)|((you|we)('| a)re)) {come_pattern}", message.lower()):
+                send_message("you're WHAT??")
+            elif re.search(fr"\bshe(['’]| i)s {come_pattern}", message.lower()):
+                send_message("she's WHAT??")
+            elif re.search(fr"\bhe(['’]| i)s {come_pattern}", message.lower()):
+                send_message("he's WHAT??")
+            elif re.search(fr"\bit(['’]| i)s {come_pattern}", message.lower()):
+                send_message("it's WHAT??")
+            else:
+                send_message(message[:come_result.start()].lower() + 'WHAT??')
+
     return '', HTTPStatus.NO_CONTENT
 
 
