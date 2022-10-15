@@ -6,7 +6,7 @@ from functools import cache
 from zoneinfo import ZoneInfo
 from datetime import datetime, timedelta
 from dateutil import parser
-from randomize_unsolicited_message_times import CronJob, set_cron_job_date_and_time
+from cron import CronJob, set_cron_job_date_and_time
 from send_message import send_message
 from dotenv import load_dotenv
 
@@ -69,8 +69,11 @@ def _get_next_game() -> cfbd.Game:
   postseason_games: list[cfbd.Game] = games_api.get_games(year=season, team='Ohio State', season_type='postseason')
   games.extend(postseason_games)
   logging.info(f'Found {len(games)} games, including postseason')
-  next_game = next(filter(lambda g: parser.parse(g.start_date).astimezone(LOCAL_TZ) > now, games))
-  logging.info(f'Next game is {next_game.away_team} @ {next_game.home_team} on {next_game.start_date}{", start time TBD" if next_game.start_time_tbd else ""}')
+  next_game = next(filter(lambda g: parser.parse(g.start_date).astimezone(LOCAL_TZ) > now, games), None)
+  if not next_game:
+    logging.info('No more games :(')
+  else:
+    logging.info(f'Next game is {next_game.away_team} @ {next_game.home_team} on {next_game.start_date}{", start time TBD" if next_game.start_time_tbd else ""}')
   return next_game
 
 
@@ -130,8 +133,10 @@ def send_bing_10_picks():
   send_message(message)
 
 
-def set_go_ohio_date_and_time() -> None:
+def set_go_ohio_and_beating_next_date_and_time() -> None:
   next_game = _get_next_game()
+  if not next_game:
+    return
   start_datetime = parser.parse(next_game.start_date).astimezone(LOCAL_TZ)
   logging.info(f'The game is on {start_datetime.month}/{start_datetime.day}{"" if next_game.start_time_tbd else f" at {start_datetime.hour}:{start_datetime.minute:02d} {LOCAL_TZ} time"}')
   game_start_hour = start_datetime.hour
@@ -139,17 +144,20 @@ def set_go_ohio_date_and_time() -> None:
     logging.info('Assuming noon game since time is TBD')
     game_start_hour = 12 # if game time TBD, assume noon game
   set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, game_start_hour - 3, start_datetime.minute)
+  set_cron_job_date_and_time(CronJob.BEATING_NEXT, start_datetime.month, start_datetime.day, game_start_hour + 3, start_datetime.minute)
 
 
-def send_go_ohio() -> None:
+def _get_next_game_opponent_mascot() -> str:
   next_game = _get_next_game()
+
+  if not next_game:
+    return None
 
   opponent_is_away_team: bool = next_game.away_team != 'Ohio State'
   opponent_name: str = next_game.away_team if opponent_is_away_team else next_game.home_team
 
   if opponent_name == 'Michigan':
-    send_message(f'go ohio, beat m*chigan!')
-    return
+    return 'm*chigan'
 
   opponent_conference_name: str = next_game.away_conference if opponent_is_away_team else next_game.home_conference
   logging.info(f'Opponent is {opponent_name} ({"away" if opponent_is_away_team else "home"} team), {opponent_conference_name} conference')
@@ -157,9 +165,24 @@ def send_go_ohio() -> None:
   opponent_mascot: str = _get_mascot(opponent_name, opponent_conference_name)
   opponent_mascot_shortened: str = opponent_mascot[opponent_mascot.rindex(' ') + 1 :] if ' ' in opponent_mascot else opponent_mascot
 
-  send_message(f'go ohio, beat the {opponent_mascot_shortened.lower()}!')
+  return f'the {opponent_mascot_shortened.lower()}'
+
+
+def send_go_ohio() -> None:
+  mascot = _get_next_game_opponent_mascot()
+  if not mascot:
+    return
+  send_message(f'go ohio, beat {mascot}!')
+
+
+def send_beating_next() -> None:
+  mascot = _get_next_game_opponent_mascot()
+  if not mascot:
+    return
+  send_message(f'(beating {mascot} next)')
 
 
 if __name__ == '__main__':
-  # send_go_ohio()
+  send_go_ohio()
   send_bing_10_picks()
+  send_beating_next()
