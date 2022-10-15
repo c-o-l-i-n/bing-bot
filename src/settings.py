@@ -35,6 +35,7 @@ class UnsolicitedMessage(Enum):
 	ROTATE_ALEX = 'rotate-alex'
 	THE_CAR_QUOTE = 'the-car-quote'
 	GO_OHIO = 'go-ohio'
+	BING_10_PICKS = 'bing-10-picks'
 
 
 SETTINGS_ROW_OFFSET = 2

@@ -16,7 +16,7 @@ from weather import get_weather, get_temperature
 from image_recognition import identify_image
 from groupme_image_service import upload_image_url
 from randomize_unsolicited_message_times import randomize_unsolicited_message_times
-from college_football import send_go_ohio, set_go_ohio_date_and_time
+from college_football import send_bing_10_picks, send_go_ohio, set_go_ohio_date_and_time
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme, send_normal_or_deep_fried_meme
 from custom_message_senders.send_air_piss import send_air_piss
@@ -224,7 +224,8 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.ROTATE_ALEX: send_alex,
     UnsolicitedMessage.THE_CAR_QUOTE: send_the_car_quote,
     UnsolicitedMessage.WAWA: send_call_wawa,
-    UnsolicitedMessage.GO_OHIO: send_go_ohio
+    UnsolicitedMessage.GO_OHIO: send_go_ohio,
+    UnsolicitedMessage.BING_10_PICKS: send_bing_10_picks
 }
 
 

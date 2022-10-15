@@ -1,9 +1,10 @@
 import logging
 import os
+import random
 import cfbd
 from functools import cache
 from zoneinfo import ZoneInfo
-from datetime import datetime
+from datetime import datetime, timedelta
 from dateutil import parser
 from randomize_unsolicited_message_times import CronJob, set_cron_job_date_and_time
 from send_message import send_message
@@ -54,10 +55,15 @@ def _get_mascot(team_name: str, conference_name: str) -> str:
   return mascot
 
 
+def _get_current_season() -> int:
+  now = datetime.now(tz=LOCAL_TZ)
+  return now.year if now.month > 1 else now.year - 1 # if January, use previous year as season
+
+
 def _get_next_game() -> cfbd.Game:
   logging.info('Getting next Ohio State game')
   now = datetime.now(tz=LOCAL_TZ)
-  season = now.year if now.month > 1 else now.year - 1 # if January, use previous year as season
+  season = _get_current_season()
   logging.info(f'Getting games for the {season} season')
   games: list[cfbd.Game] = games_api.get_games(year=now.year, team='Ohio State')
   postseason_games: list[cfbd.Game] = games_api.get_games(year=season, team='Ohio State', season_type='postseason')
@@ -66,7 +72,63 @@ def _get_next_game() -> cfbd.Game:
   next_game = next(filter(lambda g: parser.parse(g.start_date).astimezone(LOCAL_TZ) > now, games))
   logging.info(f'Next game is {next_game.away_team} @ {next_game.home_team} on {next_game.start_date}{", start time TBD" if next_game.start_time_tbd else ""}')
   return next_game
+
+
+def send_bing_10_picks():
+  # get all big 10 conference games for the next week
+  season = _get_current_season()
+  now = datetime.now(tz=LOCAL_TZ)
+  a_week_from_now = now + timedelta(days=7)
+  logging.info(f'Getting all games played by B1G teams in the {season} season')
+  this_seasons_big_10_games: list[cfbd.Game] = games_api.get_games(year=season, conference='B1G')
+  logging.info(f'Found {len(this_seasons_big_10_games)} games')
+  logging.info(f'Getting all B1G conference games in the next week (between {now} and {a_week_from_now})')
+  big_10_games_in_the_next_week: list[cfbd.Game] = list(filter(lambda g: parser.parse(g.start_date) > now and parser.parse(g.start_date) < a_week_from_now and g.conference_game, this_seasons_big_10_games))
+  logging.info(f'Found {len(big_10_games_in_the_next_week)} games')
   
+  if len(big_10_games_in_the_next_week) == 0:
+    return
+  
+  #  get the current week number
+  week = big_10_games_in_the_next_week[0].week
+  logging.info(f'According to data from the {big_10_games_in_the_next_week[0].home_team} game, we are in week {week}')
+
+  message = f"🦏🔟 picks for week {week}:\n\n"
+
+  # move the ohio state game to the end of the list
+  ohio_state_game = next(filter(lambda g: g.home_team == 'Ohio State' or g.away_team == 'Ohio State', big_10_games_in_the_next_week), None)
+  if ohio_state_game:
+    big_10_games_in_the_next_week.remove(ohio_state_game)
+    big_10_games_in_the_next_week.append(ohio_state_game)
+
+  # pick winning team for each game
+  for game in big_10_games_in_the_next_week:
+    winning_team, losing_team = (game.home_team, game.away_team) if game.home_pregame_elo > game.away_pregame_elo else (game.away_team, game.home_team)
+    logging.info(f'{winning_team} is favored to beat {losing_team}')
+    if random.random() < 0.2:
+      logging.info(f'By random chance, swapping {losing_team} and {winning_team}')
+      winning_team, losing_team = losing_team, winning_team
+    if winning_team == 'Michigan':
+      logging.info(f'Bing thinks TTUN will always lose because she hates them; swapping {losing_team} and {winning_team}')
+      winning_team = losing_team
+      losing_team = 'TTUN'
+    if losing_team == 'Michigan':
+      losing_team = 'TTUN'
+    if losing_team == 'Ohio State':
+      logging.info(f'Bing thinks Ohio State will always win; swapping {losing_team} and {winning_team}')
+      losing_team = winning_team
+      winning_team = 'Ohio State'
+    
+    emoji = '🏈'
+    if losing_team == 'TTUN':
+      emoji = '👺'
+    elif winning_team == 'Ohio State':
+      emoji = '🏆'
+
+    message += f'{emoji} {winning_team} {"DESTROYS" if winning_team == "Ohio State" else "beats"} {losing_team}\n'
+
+  send_message(message)
+
 
 def set_go_ohio_date_and_time() -> None:
   next_game = _get_next_game()
@@ -99,4 +161,5 @@ def send_go_ohio() -> None:
 
 
 if __name__ == '__main__':
-  send_go_ohio()
+  # send_go_ohio()
+  send_bing_10_picks()
