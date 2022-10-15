@@ -24,7 +24,7 @@ class CronJob(Enum):
   THE_CAR_QUOTE = 4065143
   WAWA = 4065140
   GO_OHIO = 4067515
-  BEATING_NEXT = 1234567
+  BEATING_NEXT = 4070056
 
 
 CRON_JOB_TO_TIME_INTERVAL: dict[CronJob, Tuple[int, int]] = {
