@@ -7,6 +7,7 @@ import logging
 import requests
 import re
 from http import HTTPStatus
+from datetime import datetime
 from cachetools import cached, TTLCache
 from flask import Flask, request
 from nicknames import create_new_nickname, get_nicknames as nicknames
@@ -213,6 +214,11 @@ def receive_message():
     return '', HTTPStatus.NO_CONTENT
 
 
+def send_move_chat_reminder() -> None:
+    current_year = datetime.now().year
+    send_message(f"well friends, tis the dawn of a new era. there's a new h-row on the block. if you haven't already, you might want to move me to the {current_year} h-row chat. check my help guide to see how to do that:\n\ngo.osu.edu/binghelp")
+
+
 UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.ELON_MUSK: send_elon,
     UnsolicitedMessage.H: send_h,
@@ -225,7 +231,8 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.THE_CAR_QUOTE: send_the_car_quote,
     UnsolicitedMessage.WAWA: send_call_wawa,
     UnsolicitedMessage.GO_OHIO: send_go_ohio,
-    UnsolicitedMessage.BING_10_PICKS: send_bing_10_picks
+    UnsolicitedMessage.BING_10_PICKS: send_bing_10_picks,
+    UnsolicitedMessage.MOVE_CHAT_REMINDER: send_move_chat_reminder
 }
 
 
