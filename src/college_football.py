@@ -13,13 +13,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 COLLEGE_FOOTBALL_API_KEY = os.environ['COLLEGE_FOOTBALL_API_KEY']
-PROXY_URL = os.environ['PROXY_URL']
+PROXY_HOST = os.environ['PROXY_HOST']
+PROXY_PORT = os.environ['PROXY_PORT']
 
 
 # configure apis
-logging.info(f'Configuring College Football API with proxy {PROXY_URL}')
+logging.info(f'Configuring College Football API with proxy {PROXY_HOST}:{PROXY_PORT}')
 configuration = cfbd.Configuration()
-configuration.proxy = PROXY_URL if PROXY_URL else None
+configuration.proxy = f'{PROXY_HOST}:{PROXY_PORT}' if PROXY_HOST else None
 configuration.api_key['Authorization'] = COLLEGE_FOOTBALL_API_KEY
 configuration.api_key_prefix['Authorization'] = 'Bearer'
 games_api = cfbd.GamesApi(cfbd.ApiClient(configuration))

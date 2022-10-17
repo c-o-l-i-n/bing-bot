@@ -1,12 +1,17 @@
 import json
 import logging
+import os
 import time
 import websocket
+from dotenv import load_dotenv
 
+load_dotenv()
+COLLEGE_FOOTBALL_API_KEY = os.environ['COLLEGE_FOOTBALL_API_KEY']
+PROXY_HOST = os.environ['PROXY_HOST']
+PROXY_PORT = os.environ['PROXY_PORT']
 
 prompt = ''
 image_data_uri = ''
-
 
 def on_message(ws: websocket.WebSocketApp, message_bytes):
     message = json.loads(message_bytes)
@@ -64,7 +69,10 @@ def draw(ai_prompt: str) -> str:
                                 on_error=on_error,
                                 on_close=on_close)
 
-        ws.run_forever()
+        if PROXY_HOST:
+            ws.run_forever(proxy_type='http', http_proxy_host=PROXY_HOST, http_proxy_port=PROXY_PORT)
+        else:
+            ws.run_forever()
 
         if image_data_uri != '':
             break
