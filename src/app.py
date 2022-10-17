@@ -15,9 +15,10 @@ from send_message import send_message
 from settings import Command, UnsolicitedMessage, get_settings
 from weather import get_weather, get_temperature
 from image_recognition import identify_image
-from groupme_image_service import upload_image_url
+from groupme_image_service import get_groupme_image_url_from_data_uri, get_groupme_image_url_from_url
 from cron import randomize_unsolicited_message_times
 from college_football import send_beating_next, send_bing_10_picks, send_go_ohio, set_go_ohio_and_beating_next_date_and_time
+from draw import draw
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme, send_normal_or_deep_fried_meme
 from custom_message_senders.send_air_piss import send_air_piss
@@ -78,8 +79,7 @@ def receive_message():
         # says 'hi' back to sender, and includes name if they're in H-Row
         if settings()[Command.HI] and (message_contains('hi bing', message) or message_contains('hi, bing', message)):
             new_message = 'hi'
-            if sender_id in nicknames():
-                new_message += f' {nicknames()[sender_id]}'
+            new_message += f' {nicknames()[sender_id]}'
             send_message(new_message)
 
         # says 'i love you' back to sender, and includes name if they're in H-Row
@@ -136,12 +136,34 @@ def receive_message():
         # sends a random picture of a dog
         if settings()[Command.DOG] and (message_contains('dog', message)):
             cat_image_url = requests.get('https://dog.ceo/api/breeds/image/random').json()['message']
-            send_message('', image_url=upload_image_url(cat_image_url))
+            send_message('', image_url=get_groupme_image_url_from_url(cat_image_url))
 
         # sends a random picture of a cat
         if settings()[Command.CAT] and (message_contains('cat', message)):
             cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
-            send_message('', image_url=upload_image_url(cat_image_url))
+            send_message('', image_url=get_groupme_image_url_from_url(cat_image_url))
+
+        # use ai to generate an image based on a text prompt
+        if settings()[Command.DRAW]:
+            word = 'draw'
+            draw_pattern = fr'\b{word}\b'
+            draw_pattern_result = re.search(draw_pattern, message.lower())
+            if draw_pattern_result:
+                prompt = message[draw_pattern_result.start() + len(word) + 1:].strip()
+                if prompt:
+                    send_message(f"ok {nicknames()[sender_id]}, gimme just a sec...")
+                    image_data_uri = draw(prompt)
+                    try:
+                        picture_url = get_groupme_image_url_from_data_uri(image_data_uri)
+                    except:
+                        send_message('sorry, my pencil broke :(')
+                    
+                    if image_data_uri:
+                        send_message(f'here is {prompt.lower()}', picture_url)
+                    else:
+                        send_message('sorry, my pencil broke :(')
+                else:
+                    send_message('tell me what to draw. try something like:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/X8gipGC.jpg'))
 
         # get help links
         if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):

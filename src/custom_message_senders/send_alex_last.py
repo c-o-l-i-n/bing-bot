@@ -20,7 +20,7 @@ def send_alex_last():
         data = output.getvalue()
 
     # run image through GroupMe image service
-    image_url = groupme_image_service.upload_image_data(data)
+    image_url = groupme_image_service.get_groupme_image_url_from_bytes(data)
 
     # send message
     send_message(message_text, image_url)

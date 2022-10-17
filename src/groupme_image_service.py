@@ -1,16 +1,23 @@
-from http import HTTPStatus
 import logging
 import requests
+from http import HTTPStatus
 from io import BytesIO
+from urllib.request import urlopen
+from send_message import send_message
 from tech_config import groupme_access_token
 
 
+def get_groupme_image_url_from_data_uri(image_data_uri: str) -> str:
+    with urlopen(image_data_uri) as response:
+        image_bytes = response.read()
+    return get_groupme_image_url_from_bytes(image_bytes)
 
-def upload_image_data(image_data):
+
+def get_groupme_image_url_from_bytes(image_bytes: bytes) -> str:
     logging.info('Uploading image data to GroupMe image service')
 
     response = requests.post(url='https://image.groupme.com/pictures',
-                        data=image_data,
+                        data=image_bytes,
                         headers={'Content-Type': 'image/jpeg',
                                 'X-Access-Token': groupme_access_token()})
 
@@ -24,7 +31,7 @@ def upload_image_data(image_data):
     return groupme_image_url
 
 
-def upload_image_url(url):
-    logging.info(f'Uploading image URL to GroupMe image service: {url}')
-    image_data = BytesIO(requests.get(f'https://api.allorigins.win/raw?url={url}').content)
-    return upload_image_data(image_data)
+def get_groupme_image_url_from_url(image_url: str) -> str:
+    logging.info(f'Uploading image URL to GroupMe image service: {image_url}')
+    image_data = BytesIO(requests.get(f'https://api.allorigins.win/raw?url={image_url}').content)
+    return get_groupme_image_url_from_bytes(image_data)

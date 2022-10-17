@@ -88,14 +88,12 @@ def deep_fry_image(image_url):
 def send_meme(message_text=None, is_deep_fried=False):
     api_image_url = get_random_meme_url()
     if is_deep_fried:
-        image_byte_array = BytesIO()
-        deep_fry_image(api_image_url).save(image_byte_array, format='png')
-        image_byte_array = image_byte_array.getvalue()
-        groupme_image_url = groupme_image_service.upload_image_data(
-            image_byte_array)
+        image_bytes_buffer = BytesIO()
+        deep_fry_image(api_image_url).save(image_bytes_buffer, format='jpeg')
+        image_bytes = image_bytes_buffer.getvalue()
+        groupme_image_url = groupme_image_service.get_groupme_image_url_from_bytes(image_bytes)
     else:
-        groupme_image_url = groupme_image_service.upload_image_url(
-            api_image_url)
+        groupme_image_url = groupme_image_service.get_groupme_image_url_from_url(api_image_url)
     send_message(message_text, groupme_image_url)
 
 

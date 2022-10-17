@@ -22,6 +22,7 @@ class Command(Enum):
 	DOG = auto()
 	CAT = auto()
 	COME = auto()
+	DRAW = auto()
 
 class UnsolicitedMessage(Enum):
 	H = 'h'

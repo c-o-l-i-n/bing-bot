@@ -40,7 +40,7 @@ def send_daily_schedule():
   image_byte_array = image_byte_array.getvalue()
 
   # upload image to GroupMe image service
-  groupme_image_url = groupme_image_service.upload_image_data(image_byte_array)
+  groupme_image_url = groupme_image_service.get_groupme_image_url_from_bytes(image_byte_array)
 
   # send daily schedule
   send_message("here is today's rehearsal schedule!", groupme_image_url)
