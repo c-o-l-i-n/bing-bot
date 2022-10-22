@@ -84,10 +84,7 @@ def receive_message():
 
         # says 'i love you' back to sender, and includes name if they're in H-Row
         if settings()[Command.I_LOVE_YOU] and message_contains('i love you', message):
-            new_message = 'i love you too'
-            if sender_id in nicknames():
-                new_message += f' {nicknames()[sender_id]}'
-            send_message(new_message)
+            send_message(f'i love you too {nicknames()[sender_id]}')
 
         # tells a joke on demand
         if settings()[Command.JOKE] and message_contains('joke', message):
@@ -106,14 +103,14 @@ def receive_message():
 
         # make a new meme on demand
         if settings()[Command.MAKE_MEME] and message_contains('meme', message):
-            if sender_id in nicknames():
-                message_text = f'''ok {nicknames()[data["sender_id"]]}, here's a new meme'''
-            else:
-                message_text = f'''ok, here's a new meme'''
-            if message_contains('deep fried', message):
-                send_meme(message_text=message_text, is_deep_fried=True)
-            else:
-                send_meme(message_text=message_text)
+            message_text = f'''ok {nicknames()[data["sender_id"]]}, here's a new meme'''
+            try:
+                if message_contains('deep fried', message):
+                    send_meme(message_text=message_text, is_deep_fried=True)
+                else:
+                    send_meme(message_text=message_text)
+            except:
+                send_message('no')
 
         # gives a random recipe
         if settings()[Command.COOK_MEAL] and (message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message)):

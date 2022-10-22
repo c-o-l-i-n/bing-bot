@@ -54,8 +54,12 @@ def get_random_meme_url():
         api_url, headers={'User-Agent': 'Mozilla/5.0'}).json()
 
     if response['success']:
-        api_image_url = response['data']['url']
-        return api_image_url
+        meme_image_url = response['data']['url']
+        logging.info(f'Meme image URL: {meme_image_url}')
+        return meme_image_url
+    else:
+        logging.error(response)
+        raise Exception('Error getting meme image')
 
 
 def deep_fry_image(image_url):
