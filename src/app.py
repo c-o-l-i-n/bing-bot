@@ -17,8 +17,9 @@ from weather import get_weather, get_temperature
 from image_recognition import identify_image
 from groupme_image_service import get_groupme_image_url_from_data_uri, get_groupme_image_url_from_url
 from cron import randomize_unsolicited_message_times
-from college_football import send_beating_next, send_bing_10_picks, send_go_ohio, set_go_ohio_and_beating_next_date_and_time
+from college_football import send_beating_next, send_bing_10_picks, send_go_ohio, set_game_day_messages_date_and_time
 from draw import draw
+from custom_message_senders.send_hello import send_hello
 from custom_message_senders.send_the_car_quote import send_the_car_quote
 from custom_message_senders.send_meme import send_meme, send_normal_or_deep_fried_meme
 from custom_message_senders.send_air_piss import send_air_piss
@@ -251,6 +252,7 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.WAWA: send_call_wawa,
     UnsolicitedMessage.GO_OHIO: send_go_ohio,
     UnsolicitedMessage.BEATING_NEXT: send_beating_next,
+    UnsolicitedMessage.HELLO: send_hello,
     UnsolicitedMessage.BING_10_PICKS: send_bing_10_picks,
     UnsolicitedMessage.MOVE_CHAT_REMINDER: send_move_chat_reminder
 }
@@ -281,10 +283,10 @@ def randomize():
 
 # sets time to send go ohio to 3 hours before kickoff and beat next 3 hours after kickoff
 # triggered every Friday morning from August to January by cron-job.org
-@app.route('/set-go-ohio', methods=['GET'])
+@app.route('/set-game-day-message-times', methods=['GET'])
 def set_go_ohio():
-    logging.info(f'Recieved request to set GO_OHIO and BEATING_NEXT date and time')
-    set_go_ohio_and_beating_next_date_and_time()
+    logging.info(f'Recieved request to set GO_OHIO, HELLO, and BEATING_NEXT date and time')
+    set_game_day_messages_date_and_time()
     return '', HTTPStatus.NO_CONTENT
     
 

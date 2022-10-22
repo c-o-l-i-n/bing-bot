@@ -15,27 +15,29 @@ CRON_JOB_ORG_API_KEY = os.environ['CRON_JOB_ORG_API_KEY']
 
 
 class CronJob(Enum):
-  ELON_MUSK = 4065111
-  H = 4065114
+  # name              cron-job.org ID
+  ELON_MUSK         = 4065111
+  H                 = 4065114
   HANNA_DRINK_WATER = 4065135
-  MEME = 4065131
-  NOW_YOU_SEE_ME = 4065133
-  ROTATE_ALEX = 4065141
-  THE_CAR_QUOTE = 4065143
-  WAWA = 4065140
-  GO_OHIO = 4067515
-  BEATING_NEXT = 4070056
+  MEME              = 4065131
+  NOW_YOU_SEE_ME    = 4065133
+  ROTATE_ALEX       = 4065141
+  THE_CAR_QUOTE     = 4065143
+  WAWA              = 4065140
+  GO_OHIO           = 4067515
+  BEATING_NEXT      = 4070056
+  HELLO             = 4074984
 
 
 CRON_JOB_TO_TIME_INTERVAL: dict[CronJob, Tuple[int, int]] = {
-  CronJob.ELON_MUSK: (17, 20),
-  CronJob.H: (9, 22),
+  CronJob.ELON_MUSK:         (17, 20),
+  CronJob.H:                 (9, 22),
   CronJob.HANNA_DRINK_WATER: (9, 22),
-  CronJob.MEME: (9, 22),
-  CronJob.NOW_YOU_SEE_ME: (9, 22),
-  CronJob.ROTATE_ALEX: (9, 22),
-  CronJob.THE_CAR_QUOTE: (9, 22),
-  CronJob.WAWA: (3, 6),
+  CronJob.MEME:              (9, 22),
+  CronJob.NOW_YOU_SEE_ME:    (9, 22),
+  CronJob.ROTATE_ALEX:       (9, 22),
+  CronJob.THE_CAR_QUOTE:     (9, 22),
+  CronJob.WAWA:              (3, 6),
 }
 
 
