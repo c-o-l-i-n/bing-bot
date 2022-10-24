@@ -104,7 +104,7 @@ def receive_message():
 
         # make a new meme on demand
         if settings()[Command.MAKE_MEME] and message_contains('meme', message):
-            message_text = f'''ok {nicknames()[data["sender_id"]]}, here's a new meme'''
+            message_text = f'''ok {nicknames()[sender_id]}, here's a new meme'''
             try:
                 if message_contains('deep fried', message):
                     send_meme(message_text=message_text, is_deep_fried=True)
