@@ -7,7 +7,7 @@ SHEET_NAME = 'Nicknames'
 ID_COLUMN = 'A'
 NICKNAME_COLUMN = 'B'
 NICKNAMES_GOOGLE_SHEET_RANGE = f'{SHEET_NAME}!{ID_COLUMN}2:{NICKNAME_COLUMN}1000'
-
+NO_NAME = 'weirdo with no name'
 
 # cache nicknames, ttl 10 minutes
 @cached(TTLCache(maxsize=128, ttl=10 * 60))
@@ -17,7 +17,13 @@ def get_nicknames():
 
 	nicknames = {}
 	for row in sheet_values:
-		nicknames[row[0]] = row[1]
+		id = row[0]
+		try:
+			name = row[1]
+		except:
+			name = NO_NAME
+
+		nicknames[id] = name
 	
 	logging.info(nicknames)
 	return nicknames

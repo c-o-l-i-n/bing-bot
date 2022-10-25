@@ -10,7 +10,7 @@ from http import HTTPStatus
 from datetime import datetime
 from cachetools import cached, TTLCache
 from flask import Flask, request
-from nicknames import create_new_nickname, get_nicknames as nicknames
+from nicknames import NO_NAME, create_new_nickname, get_nicknames as nicknames
 from send_message import send_message
 from settings import Command, UnsolicitedMessage, get_settings
 from weather import get_weather, get_temperature
@@ -227,6 +227,10 @@ def receive_message():
     if settings()[Command.CAT] and (message_contains('cat', message)):
         cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
         send_message('cat', image_url=get_groupme_image_url_from_url(cat_image_url))
+
+    if nicknames()[sender_id] == NO_NAME:
+        send_message(f"tell me your name in the nicknames tab. your id {sender_id} is blank \ngo.osu.edu/bingsettings")
+        nicknames.cache_clear()
 
     return '', HTTPStatus.NO_CONTENT
 
