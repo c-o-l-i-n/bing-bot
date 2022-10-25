@@ -11,7 +11,7 @@ def draw(prompt: str) -> None:
         "params": {
             "sampler_name": "k_lms",
             "toggles": [1, 4],
-            "cfg_scale": 10,
+            "cfg_scale": 7.5,
             "denoising_strength": 0.75,
             "height": 512,
             "width": 512,
