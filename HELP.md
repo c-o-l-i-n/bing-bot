@@ -171,6 +171,12 @@ You can technically just change the [code files directly on the server](https://
 
 ![Reload button](assets/reload.jpg)
 
+If you see this message at the bottom of the [server log](https://www.pythonanywhere.com/user/bingbot/files/var/log/bingbot.pythonanywhere.com.server.log), that means Bing was started successfully.
+
+```
+spawned 2 offload threads for uWSGI worker 1
+```
+
 If you have no clue what any of that means, ask a CSE major to do it.
 
 ## 🏔 Environment Variables
