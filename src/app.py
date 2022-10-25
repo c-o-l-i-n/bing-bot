@@ -150,16 +150,6 @@ def receive_message():
             else:
                 send_message('you gotta send me a picture ya dingus')
 
-        # sends a random picture of a dog
-        if settings()[Command.DOG] and (message_contains('dog', message)):
-            cat_image_url = requests.get('https://dog.ceo/api/breeds/image/random').json()['message']
-            send_message('', image_url=get_groupme_image_url_from_url(cat_image_url))
-
-        # sends a random picture of a cat
-        if settings()[Command.CAT] and (message_contains('cat', message)):
-            cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
-            send_message('', image_url=get_groupme_image_url_from_url(cat_image_url))
-
         # get help links
         if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):
             send_message('change settings and nicknames here:\ngo.osu.edu/bingsettings\n\nread more here:\ngo.osu.edu/binghelp')
@@ -227,6 +217,16 @@ def receive_message():
                 send_message("it's WHAT??")
             else:
                 send_message(message[:come_result.start()].lower() + 'WHAT??')
+
+    # sends a random picture of a dog
+    if settings()[Command.DOG] and (message_contains('dog', message)):
+        cat_image_url = requests.get('https://dog.ceo/api/breeds/image/random').json()['message']
+        send_message('dog', image_url=get_groupme_image_url_from_url(cat_image_url))
+
+    # sends a random picture of a cat
+    if settings()[Command.CAT] and (message_contains('cat', message)):
+        cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
+        send_message('cat', image_url=get_groupme_image_url_from_url(cat_image_url))
 
     return '', HTTPStatus.NO_CONTENT
 
