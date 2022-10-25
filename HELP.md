@@ -3,8 +3,8 @@
 - [🦏 Bing Bot Help](#-bing-bot-help)
   - [⚙️ How to turn a command or unsolicited message on or off](#️-how-to-turn-a-command-or-unsolicited-message-on-or-off)
   - [🙋 How to change the name Bing calls someone](#-how-to-change-the-name-bing-calls-someone)
+  - [😨 Bing's not working! What do I do??](#-bings-not-working-what-do-i-do)
   - [📲 How to move Bing to a new chat](#-how-to-move-bing-to-a-new-chat)
-  - [🏃 How to check if Bing is running](#-how-to-check-if-bing-is-running)
 - [💻 Tech Stuff for Nerds](#-tech-stuff-for-nerds)
   - [🌐 What online accounts are there?](#-what-online-accounts-are-there)
   - [🌅 Every 3 Months, Bing Needs Rejuvenated](#-every-3-months-bing-needs-rejuvenated)
@@ -28,6 +28,18 @@
 2. Go to the "Nicknames" tab
 3. Edit the text in the "Nickname" column
 
+## 😨 Bing's not working! What do I do??
+
+1. Check if Bing is running by asking "Bing, are you alive?" or by visiting [this link](https://go.osu.edu/bingsettings)
+    - If Bing is not running, [log in](#-what-online-accounts-are-there) to pythonanywhere.com, and [extend Bing's life for 3 more months](#-every-3-months-bing-needs-rejuvenated)
+    - If that doesn't help, try [reloading the web app](#update-the-code-on-the-server)
+2. Make sure the specific feature is turned on [in the settings Google Sheet](https://go.osu.edu/bingsettings)
+3. [Make sure Bing is in the right GroupMe chat](#-how-to-move-bing-to-a-new-chat)
+4. [Check for errors in pythonanywhere](#-how-to-check-for-errors)
+    - If there is a bug in the code, consider asking a CSE friend to help [update the code](#-how-to-update-bings-code)
+5. This one feature (or multiple features) never works anymore. What gives?
+    - Bing relies upon many external services and APIs that are not under our control (especially pythonanywhere.com, the Google Sheets API, cron-job.org, and GroupMe). Any of these companies could choose to stop running their services at any time, and that part of Bing just wouldn't work anymore. [It's an unfortune consequence of the free and open web.](https://youtu.be/BxV14h0kFs0) All things must come to an end eventually :( It was fun while it lasted.
+
 ## 📲 How to move Bing to a new chat
 
 To move Bing to a new chat, you need register a GroupMe bot for that chat:
@@ -45,9 +57,6 @@ To move Bing to a new chat, you need register a GroupMe bot for that chat:
 7. Click "Access Token" at the top right corner of the screen, copy it, and paste it into the `GroupMe Access Token` field in the `Tech Config` tab of the [Settings Google Sheet](https://go.osu.edu/bingsettings)
 8. Delete the bot from the old chat
 9. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#-every-3-months-bing-needs-rejuvenated), so you can prevent that from happening.
-
-## 🏃 How to check if Bing is running
-Either send a message in the chat "Bing, are you alive?" and see if she responds, or visit the URL of her server: https://bingbot.pythonanywhere.com/
 
 # 💻 Tech Stuff for Nerds
 
@@ -69,6 +78,8 @@ All accounts and services are free. [Just make sure Bing doesn't die every 3 mon
   - Meme generator API
 - [cron-job.org](https://cron-job.org)
   - Triggers unsolicited messages throughout the day
+- [Stable Horde](https://stablehorde.net/register)
+  - AI image generation API (display name: bing bot)
 
 The username/email for all accounts is `hrow.bing.bot@gmail.com`
 
@@ -103,8 +114,8 @@ You can technically just change the [code files directly on the server](https://
    - `pip install -r requirements.txt`
 4. `touch credentials.json` to create the Google credientials file, then copy the contents from [the server](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/credentials.json?edit). 
 5. `touch .env` to create the `.env` file, then add all [environment variables](#-environment-variables). Copy the contents from [the server](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit), but these ones need to be different:
-   - `export PROXY_URL=''`
-   - `export GOOGLE_APPLICATION_CREDENTIALS='/path/on/your/computer/to/credentials.json'`
+   - `PROXY_URL=''`
+   - `GOOGLE_APPLICATION_CREDENTIALS='/path/on/your/computer/to/credentials.json'`
 
 ### Make Code Changes
 
@@ -146,6 +157,7 @@ These environment variables are require in pythonanywhere for Bing to work prope
 | `CLARIFAI_PERSONAL_ACCESS_TOKEN` | _([PAT from Clarifai](https://portal.clarifai.com/settings/authentication))_  | Computer vision API                      |
 | `OPEN_EMOJI_API_KEY`             | _([API key from Open Emoji](https://emoji-api.com/))_                         | Emoji search API                         |
 | `COLLEGE_FOOTBALL_API_KEY`       | _([API key from College Football Data](https://collegefootballdata.com/key))_ | College football data                    |
+| `STABLE_HORDE_API_KEY`           | _([API key from Stable Horde](https://stablehorde.net/register))_             | AI image generation API                  |
 
 ## 🐍 WSGI Configuration
 
