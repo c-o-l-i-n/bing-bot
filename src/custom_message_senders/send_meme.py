@@ -102,7 +102,7 @@ def send_meme(message_text=None, is_deep_fried=False):
 
 
 def send_normal_or_deep_fried_meme():
-    is_deep_fried = random.random() < 0.5
+    is_deep_fried = random.random() < 0.3
     send_meme(is_deep_fried=is_deep_fried)
 
 
