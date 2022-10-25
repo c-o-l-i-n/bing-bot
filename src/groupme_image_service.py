@@ -2,18 +2,26 @@ import logging
 import requests
 from http import HTTPStatus
 from io import BytesIO
+from PIL import Image
 from urllib.request import urlopen
-from send_message import send_message
 from tech_config import groupme_access_token
 
 
 def get_groupme_image_url_from_data_uri(image_data_uri: str) -> str:
+    logging.info('Converting image data URI to bytes')
     with urlopen(image_data_uri) as response:
         image_bytes = response.read()
-    return get_groupme_image_url_from_bytes(image_bytes)
+    return get_groupme_image_url_from_bytes(image_bytes, is_jpeg=False)
 
 
-def get_groupme_image_url_from_bytes(image_bytes: bytes) -> str:
+def get_groupme_image_url_from_bytes(image_bytes: bytes, is_jpeg=True) -> str:
+    if not is_jpeg:
+        logging.info('Converting image to JPEG')
+        image: Image = Image.open(BytesIO(image_bytes)).convert('RGB')
+        image_byte_buffer = BytesIO()
+        image.save(image_byte_buffer, format='JPEG')
+        image_bytes = image_byte_buffer.getvalue()
+
     logging.info('Uploading image data to GroupMe image service')
 
     response = requests.post(url='https://image.groupme.com/pictures',

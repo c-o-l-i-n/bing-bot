@@ -73,6 +73,24 @@ def receive_message():
         send_message(f'nice to meet you, {sender_first_name}!')
 
     if message_contains('bing', message):
+        # use ai to generate an image based on a text prompt
+        if settings()[Command.DRAW]:
+            word = 'draw'
+            draw_pattern = fr'\b{word}\b'
+            draw_pattern_result = re.search(draw_pattern, message.lower())
+            if draw_pattern_result:
+                prompt = message[draw_pattern_result.start() + len(word) + 1:].strip()
+                if prompt:
+                    send_message(f'ok {nicknames()[sender_id]}, gimme just a sec...')
+                    try:
+                        draw(prompt)
+                    except Exception as e:
+                        logging.exception(e)
+                        send_message('my crayon broke :(')
+                else:
+                    send_message('tell me what to draw. try something like:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/X8gipGC.jpg'))
+                return '', HTTPStatus.NO_CONTENT
+
         # a message to confirm that bing is up and running
         if settings()[Command.ARE_YOU_ALIVE] and message_contains('are you alive', message):
             send_message('yeah')
@@ -140,28 +158,6 @@ def receive_message():
         if settings()[Command.CAT] and (message_contains('cat', message)):
             cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
             send_message('', image_url=get_groupme_image_url_from_url(cat_image_url))
-
-        # use ai to generate an image based on a text prompt
-        if settings()[Command.DRAW]:
-            word = 'draw'
-            draw_pattern = fr'\b{word}\b'
-            draw_pattern_result = re.search(draw_pattern, message.lower())
-            if draw_pattern_result:
-                prompt = message[draw_pattern_result.start() + len(word) + 1:].strip()
-                if prompt:
-                    send_message(f"ok {nicknames()[sender_id]}, gimme just a sec...")
-                    image_data_uri = draw(prompt)
-                    try:
-                        picture_url = get_groupme_image_url_from_data_uri(image_data_uri)
-                    except:
-                        send_message('sorry, my pencil broke :(')
-                    
-                    if image_data_uri:
-                        send_message(f'here is {prompt.lower()}', picture_url)
-                    else:
-                        send_message('sorry, my pencil broke :(')
-                else:
-                    send_message('tell me what to draw. try something like:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/X8gipGC.jpg'))
 
         # get help links
         if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):
