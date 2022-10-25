@@ -1,14 +1,7 @@
-import json
 import requests
 import logging
-import os
-from dotenv import load_dotenv
 from groupme_image_service import get_groupme_image_url_from_data_uri
 from send_message import send_message
-
-
-load_dotenv()
-STABILITY_API_KEYS: list[str] = json.loads(os.environ['STABILITY_API_KEYS'])
 
 
 def draw(prompt: str) -> None:
