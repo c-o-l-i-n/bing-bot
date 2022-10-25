@@ -259,7 +259,7 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
 @app.route('/send', methods=['GET'])
 def send_unsolicited_message():
     unsolicited_message = UnsolicitedMessage(request.args.get('m'))
-    logging.info(f'Recieved request to send unsolicited message {unsolicited_message.name}')
+    logging.info(f'Received request to send unsolicited message {unsolicited_message.name}')
     
     if settings()[unsolicited_message]:
         UNSOLICITED_MESSAGE_FUNCTIONS[unsolicited_message]()
@@ -282,7 +282,7 @@ def randomize():
 # triggered every Friday morning from August to January by cron-job.org
 @app.route('/set-game-day-message-times', methods=['GET'])
 def set_go_ohio():
-    logging.info(f'Recieved request to set GO_OHIO, HELLO, and BEATING_NEXT date and time')
+    logging.info(f'Received request to set GO_OHIO, HELLO, and BEATING_NEXT date and time')
     set_game_day_messages_date_and_time()
     return '', HTTPStatus.NO_CONTENT
     
