@@ -1,9 +1,10 @@
-# 🦏 Bing Bot Help
+# 🦏 Bing Bot Help Guide
 
-- [🦏 Bing Bot Help](#-bing-bot-help)
+- [🦏 Bing Bot Help Guide](#-bing-bot-help-guide)
   - [⚙️ How to turn a command or unsolicited message on or off](#️-how-to-turn-a-command-or-unsolicited-message-on-or-off)
   - [🙋 How to change the name Bing calls someone](#-how-to-change-the-name-bing-calls-someone)
   - [😨 Bing's not working! What do I do??](#-bings-not-working-what-do-i-do)
+  - [😳 I got a "Cronjob failed" email. What should I do?](#-i-got-a-cronjob-failed-email-what-should-i-do)
   - [📲 How to move Bing to a new chat](#-how-to-move-bing-to-a-new-chat)
 - [💻 Tech Stuff for Nerds](#-tech-stuff-for-nerds)
   - [🌐 What online accounts are there?](#-what-online-accounts-are-there)
@@ -31,14 +32,44 @@
 ## 😨 Bing's not working! What do I do??
 
 1. Check if Bing is running by asking "Bing, are you alive?" or by visiting [this link](https://go.osu.edu/bingsettings)
-    - If Bing is not running, [log in](#-what-online-accounts-are-there) to pythonanywhere.com, and [extend Bing's life for 3 more months](#-every-3-months-bing-needs-rejuvenated)
-    - If that doesn't help, try [reloading the web app](#update-the-code-on-the-server)
+    - If Bing is not running, [log in](#-what-online-accounts-are-there) to pythonanywhere.com, and [extend Bing's life for 3 more months](#-every-3-months-bing-needs-rejuvenated), [reload the web app](#update-the-code-on-the-server), and try again.
 2. Make sure the specific feature is turned on [in the settings Google Sheet](https://go.osu.edu/bingsettings)
-3. [Make sure Bing is in the right GroupMe chat](#-how-to-move-bing-to-a-new-chat)
+3. [Make sure Bing is in the right GroupMe chat and has the correct GroupMe Bot ID and Access Token](#-how-to-move-bing-to-a-new-chat)
 4. [Check for errors in pythonanywhere](#-how-to-check-for-errors)
+    - If you are getting an error like this, that means an [environment variable](#-environment-variables) is missing. Add it to [the `.env` file](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/.env?edit), then [reload the web app](#update-the-code-on-the-server)
+      ```
+        File "/usr/local/lib/python3.9/os.py", line 679, in __getitem__
+          raise KeyError(key) from None
+      ***************************************************
+      If you're seeing an import error and don't know why,
+      we have a dedicated help page to help you debug: 
+      https://help.pythonanywhere.com/pages/DebuggingImportError/
+      ***************************************************
+      ```
     - If there is a bug in the code, consider asking a CSE friend to help [update the code](#-how-to-update-bings-code)
-5. This one feature (or multiple features) never works anymore. What gives?
-    - Bing relies upon many external services and APIs that are not under our control (especially pythonanywhere.com, the Google Sheets API, cron-job.org, and GroupMe). Any of these companies could choose to stop running their services at any time, and that part of Bing just wouldn't work anymore. [It's an unfortune consequence of the free and open web.](https://youtu.be/BxV14h0kFs0) All things must come to an end eventually :( It was fun while it lasted.
+5. If Bing said "my crayon broke :(" when trying to draw something:
+    - Try again. Try again in a day or 2. If it still doesn't work, it likely means the API we use to generate images is no longer running, and we are out of luck :(
+6. If Bing said "i'm not feeling inspired right now. maybe later" when trying to make a meme:
+    - Try again. Try again in a day or 2. If it still doesn't work, it likely means an API or service we use to generate memes is no longer running, and we are out of luck :(
+7. This one feature (or multiple features) never works anymore. What gives?
+    - Bing relies upon many external services and APIs that are not under our control (especially pythonanywhere.com, the Google Sheets API, cron-job.org, and GroupMe). Any of these companies could choose to stop running their services at any time, and that part of Bing just wouldn't work anymore. All things must come to an end eventually :( It was fun while it lasted.
+    - [Relevant Tom Scott video](https://youtu.be/BxV14h0kFs0)
+
+## 😳 I got a "Cronjob failed" email. What should I do?
+
+We use `cron-job.org` to run code at a scheduled time, like Bing's unsolicited messages. If you get one of these emails, **you don't have to do anything**. It's just letting you know that the code failed to run.
+
+If you want to investigate why it failed and try to fix it, [check the error logs](#-how-to-check-for-errors).
+
+If there is an error like this when running the cron job `MEME`, just wait a day or 2. it likely means the site `api.allorigins.win` is down.
+```
+PIL.UnidentifiedImageError: cannot identify image file <_io.BytesIO object at 0x7fbd97939d10>
+```
+
+If there is an error like this when running the cron job `ELON`, same thing, just wait a day or 2. If it still doesn't work after a few days, it likely means Forbes changed the format of their website, and this message will no longer work going forward :(
+```
+AttributeError: 'NoneType' object has no attribute 'text'
+```
 
 ## 📲 How to move Bing to a new chat
 
