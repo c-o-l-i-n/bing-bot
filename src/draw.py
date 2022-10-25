@@ -1,12 +1,18 @@
+import os
 import requests
 import logging
 from groupme_image_service import get_groupme_image_url_from_data_uri
 from send_message import send_message
+from dotenv import load_dotenv
+
+
+load_dotenv()
+STABLE_HORDE_API_KEY = os.environ['STABLE_HORDE_API_KEY']
 
 
 def draw(prompt: str) -> None:
     logging.info(f'Sending request to Stable Diffusion API (stablehorde.net) with prompt "{prompt}"')
-    response = requests.post('https://stablehorde.net/api/v2/generate/sync', headers={'apikey': 'iBzj06xHcYtUPlK_TzyXnA'}, json={
+    response = requests.post('https://stablehorde.net/api/v2/generate/sync', headers={'apikey': STABLE_HORDE_API_KEY}, json={
         "prompt": prompt,
         "params": {
             "sampler_name": "k_lms",
