@@ -128,8 +128,9 @@ def receive_message():
                     send_meme(message_text=message_text, is_deep_fried=True)
                 else:
                     send_meme(message_text=message_text)
-            except:
-                send_message('no')
+            except Exception as e:
+                logging.error(e)
+                send_message("i'm not feeling inspired right now. maybe later")
 
         # gives a random recipe
         if settings()[Command.COOK_MEAL] and (message_contains('cook', message) or message_contains('meal', message) or message_contains('dinner', message) or message_contains('lunch', message)):
