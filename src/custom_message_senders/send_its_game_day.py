@@ -4,37 +4,40 @@ from groupme_image_service import get_groupme_image_url_from_url
 from send_message import send_message
 
 
-PICTURES = [
-  'https://i.imgur.com/mnvuXAw.jpg',
-  'https://i.imgur.com/XhlkV5A.jpg',
-  'https://i.imgur.com/xRDfG0L.jpg',
+GIFS = [
   'https://i.imgur.com/7IPkQZI.gif',
-  'https://i.imgur.com/XWx9bYa.jpg',
-  'https://i.imgur.com/GNZTYAP.jpg',
-  'https://i.imgur.com/kRPkiJr.jpg',
-  'https://i.imgur.com/3VawzwL.png',
-  'https://i.imgur.com/HLHuo9I.jpg',
-  'https://i.imgur.com/KxkXgHO.jpg',
-  'https://i.imgur.com/z9xCDFE.jpg',
-  'https://i.imgur.com/RVcCrgY.png',
-  'https://i.imgur.com/WVx3wMm.jpg',
-  'https://i.imgur.com/oSw8Sns.jpg',
-  'https://i.imgur.com/nlU2Tvo.jpg',
-  'https://i.imgur.com/FKGTggz.jpg'
+  'https://i.imgur.com/TogtoDx.gif',
+  'https://i.imgur.com/X6PFVAl.gif',
+  'https://i.imgur.com/MHX1Oej.gif',
+  'https://i.imgur.com/5l6rAIL.gif',
+  'https://i.imgur.com/2tj31JG.gif',
+  'https://i.imgur.com/Kz59t3x.gif',
+  'https://i.imgur.com/kEgg5eW.gif',
+  'https://i.imgur.com/PCOovow.gif',
+  'https://i.imgur.com/7wXCtwh.gif',
+  'https://i.imgur.com/0ChkbHF.gif',
+  'https://i.imgur.com/Z4UHd3e.gif',
+  'https://i.imgur.com/U0aBJ4q.gif',
+  'https://i.imgur.com/K49nmR5.gif',
+  'https://i.imgur.com/ChBCfDt.gif',
+  'https://i.imgur.com/UVXPVnb.gif',
+  'https://i.imgur.com/lr0ioP7.gif',
+  'https://i.imgur.com/HPCMqYV.gif',
+  'https://i.imgur.com/zQ1yq58.gif',
+  'https://i.imgur.com/il9Lw22.gif',
+  'https://i.imgur.com/t3eoIHV.gif',
+  'https://i.imgur.com/PKepqcf.gif'
 ]
 
-BRUTUS_BEATING_WOLVERINE = 'https://i.imgur.com/6Z3UxyI.jpg'
+TBDBITL_THROWING_M_IN_TRASH = 'https://i.imgur.com/uK6I9HB.gif'
 
-BRUTUS_BEHIND_SPARTY = 'https://i.imgur.com/0wkQM3p.jpg'
 
 def send_its_game_day():
-  picture = random.choice(PICTURES)
+  picture = random.choice(GIFS)
   
   opponent = get_next_game_opponent()
   if opponent == 'Michigan':
-    picture = BRUTUS_BEATING_WOLVERINE
-  elif opponent == 'Michigan State':
-    picture = BRUTUS_BEHIND_SPARTY
+    picture = TBDBITL_THROWING_M_IN_TRASH
 
   send_message("it's game day", get_groupme_image_url_from_url(picture))
 
