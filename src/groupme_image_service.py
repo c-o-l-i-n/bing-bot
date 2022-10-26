@@ -31,7 +31,7 @@ def get_groupme_image_url_from_bytes(image_bytes: bytes, is_jpeg=True) -> str:
 
     if response.status_code != HTTPStatus.OK:
         logging.error(response.text)
-        return '' 
+        raise Exception('Error uploading image to GroupMe Image Service. Either something is wrong with this particular image, or an external service (Imgflip, AllOrigins, GroupMe Image Service, etc) is not working.')
 
     groupme_image_url = response.json()['payload']['picture_url']
     logging.info(f'Image uploaded to {groupme_image_url}')
