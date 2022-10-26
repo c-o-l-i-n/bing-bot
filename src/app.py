@@ -15,7 +15,7 @@ from send_message import send_message
 from settings import Command, UnsolicitedMessage, get_settings
 from weather import get_weather, get_temperature
 from image_recognition import identify_image
-from groupme_image_service import get_groupme_image_url_from_data_uri, get_groupme_image_url_from_url
+from groupme_image_service import get_groupme_image_url_from_url
 from cron import randomize_unsolicited_message_times
 from college_football import send_beating_next, send_bing_10_picks, send_go_ohio, set_game_day_messages_date_and_time
 from draw import draw
@@ -89,7 +89,7 @@ def receive_message():
                         logging.exception(e)
                         send_message('my crayon broke :(')
                 else:
-                    send_message('tell me what to draw. try something like:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/poWZcCS.jpg'))
+                    send_message('tell me what to draw. for example:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/poWZcCS.jpg'))
                 return '', HTTPStatus.NO_CONTENT
 
         # a message to confirm that bing is up and running
@@ -221,13 +221,13 @@ def receive_message():
 
     # sends a random picture of a dog
     if settings()[Command.DOG] and (message_contains('dog', message)):
-        cat_image_url = requests.get('https://dog.ceo/api/breeds/image/random').json()['message']
-        send_message('dog', image_url=get_groupme_image_url_from_url(cat_image_url))
+        dog_image_url = requests.get('https://dog.ceo/api/breeds/image/random').json()['message']
+        send_message('dog', get_groupme_image_url_from_url(dog_image_url))
 
     # sends a random picture of a cat
     if settings()[Command.CAT] and (message_contains('cat', message)):
         cat_image_url = requests.get('https://api.thecatapi.com/v1/images/search').json()[0]['url']
-        send_message('cat', image_url=get_groupme_image_url_from_url(cat_image_url))
+        send_message('cat', get_groupme_image_url_from_url(cat_image_url))
 
     if nicknames()[sender_id] == NO_NAME:
         send_message(f"tell me your name in the nicknames tab. your id {sender_id} is blank \ngo.osu.edu/bingsettings")
