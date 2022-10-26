@@ -88,7 +88,7 @@ To move Bing to a new chat, you need register a GroupMe bot for that chat:
 6. Copy the **Bot ID**, and paste it into the **GroupMe Bot ID** field in the **Tech Config** tab of the [settings Google Sheet](https://go.osu.edu/bingsettings)
 7. Click **Access Token** at the top right corner of the screen of [**dev.groupme.com**](https://dev.groupme.com), copy it, and paste it into the **GroupMe Access Token** field in the **Tech Config** tab of the [settings Google Sheet](https://go.osu.edu/bingsettings)
 8. Have the previous "owner" of Bing log into [**dev.groupme.com**](https://dev.groupme.com) with their GroupMe account and delete the bot from the old chat
-9. __Important:__ Log into [Bing's Gmail account](#-what-online-accounts-are-there) and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#-every-3-months-bing-needs-rejuvenated), so you can prevent that from happening.
+9. __Important:__ [Log into](#-what-online-accounts-are-there) Bing's Gmail account and [change the forwarding address](https://support.google.com/mail/answer/10957?hl=en) to your email so you will get alerts once every 3 months [when Bing's code is about to expire](#-every-3-months-bing-needs-rejuvenated), so you can prevent that from happening.
 
 # 💻 Tech Stuff for Nerds
 
@@ -143,9 +143,9 @@ pythonanywhere will email hrow.bing.bot@gmail.com the link to keep things runnin
 You can technically just change the [code files directly on the server](https://www.pythonanywhere.com/user/bingbot/files/home/bingbot/bing-bot/src), but the "right way" is making the changes in git:
 
 ### Set up your development environment
-1. `git clone https://github.com/c-o-l-i-n/bing-bot.git`
+1. (In a terminal on your compter) `git clone https://github.com/c-o-l-i-n/bing-bot.git`
 2. `cd bing-bot`
-3. [Create the Python virtual environment and install dependencies](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments)
+3. [Create a Python virtual environment and install dependencies](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments)
    - `python3 -m venv bing-env`
    - `source bing-env/bin/activate`
    - `pip install -r requirements.txt`
@@ -158,6 +158,7 @@ You can technically just change the [code files directly on the server](https://
 
 6. Make code changes
 7. Test the code by running `python src/app.py`
+8. If you `pip install` any additional packages, make sure to `pip freeze > requirements.txt` to save them
 
 ### Commit Code Changes
 
@@ -171,9 +172,12 @@ You can technically just change the [code files directly on the server](https://
 11. Run the commands:
     - `cd /home/bingbot/bing-bot`
     - `git pull`
-    - If you get a merge error/warning while pulling, run `git reset --hard origin/main` to force pull
+    - If you get a an error while pulling, run `git reset --hard origin/main` to force pull
+    - If you had to `pip install` additional packages in your changes, run:
+      - `workon bing-env`
+      - `pip install -r requirements.txt`
 12. Go to the [Web](https://www.pythonanywhere.com/user/bingbot/webapps/#tab_id_bingbot_pythonanywhere_com) page
-13. Click the reload button
+13. Click **Reload bingbot.pythonanywhere.com**
 
 ![Reload button](assets/reload.jpg)
 
