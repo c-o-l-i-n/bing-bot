@@ -27,6 +27,7 @@ class CronJob(Enum):
   GO_OHIO           = 4067515
   BEATING_NEXT      = 4070056
   HELLO             = 4074984
+  ITS_GAME_DAY      = 4077396
 
 
 CRON_JOB_TO_TIME_INTERVAL: dict[CronJob, Tuple[int, int]] = {

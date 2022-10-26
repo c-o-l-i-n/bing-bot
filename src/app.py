@@ -30,6 +30,7 @@ from custom_message_senders.send_elon import send_elon
 from custom_message_senders.send_h import send_h
 from custom_message_senders.send_now_you_see_me import send_now_you_see_me
 from custom_message_senders.send_sky_piss import send_sky_piss
+from custom_message_senders.send_its_game_day import send_its_game_day
 
 
 # initialize Flask app
@@ -254,6 +255,7 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
     UnsolicitedMessage.GO_OHIO: send_go_ohio,
     UnsolicitedMessage.BEATING_NEXT: send_beating_next,
     UnsolicitedMessage.HELLO: send_hello,
+    UnsolicitedMessage.ITS_GAME_DAY: send_its_game_day,
     UnsolicitedMessage.BING_10_PICKS: send_bing_10_picks,
     UnsolicitedMessage.MOVE_CHAT_REMINDER: send_move_chat_reminder
 }

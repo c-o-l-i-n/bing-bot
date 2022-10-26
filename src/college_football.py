@@ -150,13 +150,18 @@ def set_game_day_messages_date_and_time() -> None:
   set_cron_job_date_and_time(CronJob.WAWA, start_datetime.month, start_datetime.day, wawa_hour, wawa_minute)
   sleep(0.5) # avoid API usage limit
 
+  # ITS_GAME_DAY
+  its_game_day_time = start_datetime - timedelta(hours=6, minutes=30)
+  set_cron_job_date_and_time(CronJob.ITS_GAME_DAY, start_datetime.month, start_datetime.day, its_game_day_time.hour, its_game_day_time.minute)
+  sleep(0.5) # avoid API usage limit
+
   # GO_OHIO
   set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, start_datetime.hour - 3, start_datetime.minute)
   sleep(0.5) # avoid API usage limit
   
   # HELLO
-  hello_time = start_datetime + timedelta(minutes=-30)
-  set_cron_job_date_and_time(CronJob.HELLO, start_datetime.month, start_datetime.day, hello_time.hour, hello_time.minute)
+  its_game_day_time = start_datetime - timedelta(minutes=30)
+  set_cron_job_date_and_time(CronJob.HELLO, start_datetime.month, start_datetime.day, its_game_day_time.hour, its_game_day_time.minute)
   sleep(0.5) # avoid API usage limit
   
   # BEATING_NEXT
@@ -201,6 +206,11 @@ def send_beating_next() -> None:
 def next_game_is_home_game() -> bool:
   next_game = _get_next_game()
   return next_game.home_team == 'Ohio State'
+
+
+def get_next_game_opponent() -> str:
+  next_game = _get_next_game()
+  return next_game.home_team if next_game.away_team == 'Ohio State' else next_game.away_team
 
 
 if __name__ == '__main__':

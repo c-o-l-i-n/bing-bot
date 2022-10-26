@@ -38,6 +38,7 @@ class UnsolicitedMessage(Enum):
 	GO_OHIO = 'go-ohio'
 	BEATING_NEXT = 'beating-next'
 	HELLO = 'hello'
+	ITS_GAME_DAY = 'its-game-day'
 	BING_10_PICKS = 'bing-10-picks'
 	MOVE_CHAT_REMINDER = 'move-chat-reminder'
 
