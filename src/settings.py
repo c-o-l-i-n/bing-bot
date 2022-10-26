@@ -5,6 +5,7 @@ from google_sheets import get_ranges
 
 class Command(Enum):
 	ARE_YOU_ALIVE = auto()
+	HELP = auto()
 	HI = auto()
 	I_LOVE_YOU = auto()
 	JOKE = auto()

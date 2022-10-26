@@ -96,6 +96,10 @@ def receive_message():
         if settings()[Command.ARE_YOU_ALIVE] and message_contains('are you alive', message):
             send_message('yeah')
 
+        # get help links
+        if settings()[Command.HELP] and message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):
+            send_message('change settings and nicknames here:\ngo.osu.edu/bingsettings\n\nread more here:\ngo.osu.edu/binghelp')
+
         # says 'hi' back to sender, and includes name if they're in H-Row
         if settings()[Command.HI] and (message_contains('hi bing', message) or message_contains('hi, bing', message)):
             new_message = 'hi'
@@ -150,10 +154,6 @@ def receive_message():
                 send_message(identify_image(image_attachment_urls[0]))
             else:
                 send_message('you gotta send me a picture ya dingus')
-
-        # get help links
-        if message_contains('help', message) or message_contains('settings', message) or (message_contains('change', message) and message_contains('name', message)) or message_contains('nickname', message):
-            send_message('change settings and nicknames here:\ngo.osu.edu/bingsettings\n\nread more here:\ngo.osu.edu/binghelp')
         
 
     # has something for the good of the order
