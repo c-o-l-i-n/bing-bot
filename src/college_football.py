@@ -6,8 +6,9 @@ from functools import cache
 from zoneinfo import ZoneInfo
 from datetime import datetime, timedelta
 from dateutil import parser
-from cron import CronJob, set_cron_job_date_and_time
+from cron import CRON_JOB_TO_TIME_INTERVAL, CronJob, get_random_time_between, set_cron_job_date_and_time
 from send_message import send_message
+from time import sleep
 from dotenv import load_dotenv
 
 
@@ -142,10 +143,24 @@ def set_game_day_messages_date_and_time() -> None:
   if next_game.start_time_tbd:
     logging.info('Assuming noon game since time is TBD')
     start_datetime.hour = 12
+  
+  # WAWA
+  wawa_min_hour, wawa_max_hour = CRON_JOB_TO_TIME_INTERVAL[CronJob.WAWA]
+  wawa_hour, wawa_minute = get_random_time_between(wawa_min_hour, wawa_max_hour)
+  set_cron_job_date_and_time(CronJob.WAWA, start_datetime.month, start_datetime.day, wawa_hour, wawa_minute)
+  sleep(0.5) # avoid API usage limit
+
+  # GO_OHIO
   set_cron_job_date_and_time(CronJob.GO_OHIO, start_datetime.month, start_datetime.day, start_datetime.hour - 3, start_datetime.minute)
-  set_cron_job_date_and_time(CronJob.BEATING_NEXT, start_datetime.month, start_datetime.day, start_datetime.hour + 3, start_datetime.minute)
+  sleep(0.5) # avoid API usage limit
+  
+  # HELLO
   hello_time = start_datetime + timedelta(minutes=-30)
   set_cron_job_date_and_time(CronJob.HELLO, start_datetime.month, start_datetime.day, hello_time.hour, hello_time.minute)
+  sleep(0.5) # avoid API usage limit
+  
+  # BEATING_NEXT
+  set_cron_job_date_and_time(CronJob.BEATING_NEXT, start_datetime.month, start_datetime.day, start_datetime.hour + 3, start_datetime.minute)
 
 
 def _get_next_game_opponent_mascot() -> str:
@@ -181,6 +196,11 @@ def send_beating_next() -> None:
   if not mascot:
     return
   send_message(f'(beating {mascot} next)')
+
+
+def next_game_is_home_game() -> bool:
+  next_game = _get_next_game()
+  return next_game.home_team == 'Ohio State'
 
 
 if __name__ == '__main__':

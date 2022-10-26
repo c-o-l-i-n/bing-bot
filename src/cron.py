@@ -85,7 +85,7 @@ def _update_cron_job(cron_job: CronJob, delta: dict) -> None:
     logging.info(f'Failed :( {response.status_code} {response.text}')
 
 
-def _get_random_time_between(start_hour: int, end_hour: int) -> Tuple[int, int]:
+def get_random_time_between(start_hour: int, end_hour: int) -> Tuple[int, int]:
   hour = random.randrange(start_hour, end_hour)
   minute = random.randrange(60)
   return (hour, minute)
@@ -94,7 +94,7 @@ def _get_random_time_between(start_hour: int, end_hour: int) -> Tuple[int, int]:
 def randomize_unsolicited_message_times() -> None:
   for cron_job in CRON_JOB_TO_TIME_INTERVAL:
     start_hour, end_hour = CRON_JOB_TO_TIME_INTERVAL[cron_job]
-    hour, minute = _get_random_time_between(start_hour, end_hour)
+    hour, minute = get_random_time_between(start_hour, end_hour)
     set_cron_job_time(cron_job, hour, minute)
     sleep(0.5) # avoid API usage limit
 
