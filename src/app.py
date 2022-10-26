@@ -89,7 +89,7 @@ def receive_message():
                         logging.exception(e)
                         send_message('my crayon broke :(')
                 else:
-                    send_message('tell me what to draw. try something like:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/X8gipGC.jpg'))
+                    send_message('tell me what to draw. try something like:\n"bing draw a platypus eating sushi in ohio stadium"\n"bing draw shrek playing a saxophone at the disco"\n"bing draw a giant lasagna in the middle of new york city"\n"bing draw princess elsa and spider-man leading an army of angry flaming skeleton soldiers from hell hyperrealistic"', get_groupme_image_url_from_url('https://i.imgur.com/poWZcCS.jpg'))
                 return '', HTTPStatus.NO_CONTENT
 
         # a message to confirm that bing is up and running
