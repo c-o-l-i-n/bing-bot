@@ -260,13 +260,20 @@ UNSOLICITED_MESSAGE_FUNCTIONS = {
 # triggered by cron jobs from cron-job.org
 @app.route('/send', methods=['GET'])
 def send_unsolicited_message() -> tuple[str, HTTPStatus]:
-    unsolicited_message = UnsolicitedMessage(request.args.get('m'))
+    try:
+        unsolicited_message = UnsolicitedMessage(request.args.get('m'))
+    except ValueError as e:
+        logging.error('Bad Request')
+        logging.exception(e)
+        return '', HTTPStatus.BAD_REQUEST
+    
     logging.info(f'Received request to send unsolicited message {unsolicited_message.name}')
     
     if setting(unsolicited_message):
         UNSOLICITED_MESSAGE_FUNCTIONS[unsolicited_message]()
     else:
         logging.info('Setting turned off. No message sent.')
+    
 
     return '', HTTPStatus.NO_CONTENT
     
