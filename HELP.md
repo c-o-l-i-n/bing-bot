@@ -4,6 +4,7 @@
   - [⚙️ How to turn a command or unsolicited message on or off](#️-how-to-turn-a-command-or-unsolicited-message-on-or-off)
   - [🙋 How to change the name Bing calls someone](#-how-to-change-the-name-bing-calls-someone)
   - [😨 Bing's not working! What do I do??](#-bings-not-working-what-do-i-do)
+  - [📸 How to restore Bing's profile picture if it disappears](#-how-to-restore-bings-profile-picture-if-it-disappears)
   - [😳 I got a "Cronjob failed" email. What should I do?](#-i-got-a-cronjob-failed-email-what-should-i-do)
   - [📲 How to move Bing to a new chat](#-how-to-move-bing-to-a-new-chat)
 - [💻 Tech Stuff for Nerds](#-tech-stuff-for-nerds)
@@ -55,6 +56,10 @@
 7. This one feature (or multiple features) never works anymore. What gives?
     - Bing relies upon many external services and APIs that are not under our control (especially pythonanywhere.com, the Google Sheets API, cron-job.org, and GroupMe). Any of these companies could choose to stop running their services at any time, and that part of Bing just wouldn't work anymore. All things must come to an end eventually :( It was fun while it lasted.
     - [Relevant Tom Scott video](https://youtu.be/BxV14h0kFs0)
+
+## 📸 How to restore Bing's profile picture if it disappears
+
+For some reason, if you go to the **Edit** page of a GroupMe bot without changing the **Avatar URL**, the profile picture will stop working. To fix it, go back to the **Edit** page for Bing in [dev.groupme.com](https://dev.groupme.com/bots), and set the profile picture URL to `https://i.imgur.com/Kr6ti95.jpg`
 
 ## 😳 I got a "Cronjob failed" email. What should I do?
 
