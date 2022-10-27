@@ -6,7 +6,7 @@ from datetime import date
 import groupme_image_service
 
 
-def send_alex_last():
+def send_alex_last() -> None:
 
     # get days since this joke started
     days_since_start = (date.today() - date(2020, 12, 4)).days

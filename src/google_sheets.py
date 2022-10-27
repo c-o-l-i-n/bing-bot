@@ -18,7 +18,7 @@ _sheets_service = build('sheets', 'v4', credentials=_creds)
 
 
 @retry(tries=NUM_RETRIES, delay=RETRY_DELAY)
-def get_range(range):
+def get_range(range) -> list[str]:
   logging.info(f'Getting Google Sheet range {range}')
   result = _sheets_service.spreadsheets().values().get(spreadsheetId=SPREADSHEET_ID, range=range).execute()['values']
   if len(result[0]) == 1:
@@ -27,14 +27,14 @@ def get_range(range):
 
 
 @retry(tries=NUM_RETRIES, delay=RETRY_DELAY)
-def get_ranges(ranges):
+def get_ranges(ranges) -> list[list[list[str]]]:
   logging.info(f'Getting Google Sheet ranges {ranges}')
   asdf = _sheets_service.spreadsheets().values().batchGet(spreadsheetId=SPREADSHEET_ID, ranges=ranges).execute()['valueRanges']
   return list(map(itemgetter('values'), asdf))
 
 
 @retry(tries=NUM_RETRIES, delay=RETRY_DELAY)
-def set_range(range, values):
+def set_range(range, values) -> None:
   logging.info(f'Setting Google Sheet range {range} to {values}')
   body = {
     'range': range,

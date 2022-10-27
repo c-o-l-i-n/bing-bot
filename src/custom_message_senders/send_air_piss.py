@@ -2,7 +2,7 @@ import logging
 from send_message import send_message
 from weather import get_humidity
 
-def send_air_piss():
+def send_air_piss() -> None:
     humidity = get_humidity()
     threshold = 99
 

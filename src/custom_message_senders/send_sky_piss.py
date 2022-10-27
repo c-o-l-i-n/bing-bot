@@ -3,7 +3,7 @@ from send_message import send_message
 from weather import get_weather
 
 
-def send_sky_piss():
+def send_sky_piss() -> None:
     weather = get_weather()
 
     if 'rain' in weather or 'storm' in weather:

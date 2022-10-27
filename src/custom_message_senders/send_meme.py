@@ -6,6 +6,7 @@ import requests
 from pathlib import Path
 from io import BytesIO
 from PIL import Image, ImageFilter, ImageEnhance
+from PIL.Image import Image as ImageType
 import groupme_image_service
 import random
 from cachetools import cached, TTLCache
@@ -19,7 +20,7 @@ BACKUP_MEME_TEMPLATES = ['181913649', '87743020', '112126428', '131087935', '129
 
 # cache current popular meme templates, ttl 1 day
 @cached(TTLCache(maxsize=1, ttl=60 * 60 * 24))
-def get_current_popular_meme_templates():
+def _get_current_popular_meme_templates() -> list[str]:
     logging.info('Getting current top 100 meme templates')
     meme_templates = []
     try:
@@ -32,12 +33,12 @@ def get_current_popular_meme_templates():
     return meme_templates
 
 
-def _get_meme_text():
+def _get_meme_text() -> str:
     return random.choice(['H', 'H', 'H', 'piss', 'ohio', 'baritone'])
 
 
-def get_random_meme_url():
-    meme_teamplate = random.choice(get_current_popular_meme_templates())
+def _get_random_meme_url() -> str:
+    meme_teamplate = random.choice(_get_current_popular_meme_templates())
 
     text_option = random.randrange(3)
     # 0: only top text
@@ -62,7 +63,7 @@ def get_random_meme_url():
         raise Exception('Error getting meme image')
 
 
-def deep_fry_image(image_url):
+def _deep_fry_image(image_url) -> ImageType:
     logging.info('Deep frying image')
     image = Image.open(requests.get(f'https://api.allorigins.win/raw?url={image_url}', stream=True).raw)
     laugh_image = Image.open(Path(__file__).parent / '../../assets/laugh.png', 'r')
@@ -89,11 +90,11 @@ def deep_fry_image(image_url):
     return image
 
 
-def send_meme(message_text=None, is_deep_fried=False):
-    api_image_url = get_random_meme_url()
+def send_meme(message_text=None, is_deep_fried=False) -> None:
+    api_image_url = _get_random_meme_url()
     if is_deep_fried:
         image_bytes_buffer = BytesIO()
-        deep_fry_image(api_image_url).save(image_bytes_buffer, format='jpeg')
+        _deep_fry_image(api_image_url).save(image_bytes_buffer, format='jpeg')
         image_bytes = image_bytes_buffer.getvalue()
         groupme_image_url = groupme_image_service.get_groupme_image_url_from_bytes(image_bytes)
     else:
@@ -101,7 +102,7 @@ def send_meme(message_text=None, is_deep_fried=False):
     send_message(message_text, groupme_image_url)
 
 
-def send_normal_or_deep_fried_meme():
+def send_normal_or_deep_fried_meme() -> None:
     is_deep_fried = random.random() < 0.3
     send_meme(is_deep_fried=is_deep_fried)
 

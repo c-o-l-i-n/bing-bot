@@ -78,7 +78,7 @@ def _get_next_game() -> cfbd.Game:
   return next_game
 
 
-def send_bing_10_picks():
+def send_bing_10_picks() -> None:
   # get all big 10 conference games for the next week
   season = _get_current_season()
   now = datetime.now(tz=LOCAL_TZ)

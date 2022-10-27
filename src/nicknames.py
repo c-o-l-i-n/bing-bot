@@ -11,7 +11,7 @@ NO_NAME = 'weirdo with no name'
 
 # cache nicknames, ttl 10 minutes
 @cached(TTLCache(maxsize=128, ttl=10 * 60))
-def get_nicknames():
+def get_nicknames() -> dict[str, str]:
 	logging.info(f'Getting nicknames from Google Sheet')
 	sheet_values = get_range(NICKNAMES_GOOGLE_SHEET_RANGE)
 
@@ -29,7 +29,7 @@ def get_nicknames():
 	return nicknames
 
 
-def create_new_nickname(id, nickname):
+def create_new_nickname(id, nickname) -> None:
 	nicknames = get_nicknames()
 	row = len(nicknames) + 2
 	range = f'{SHEET_NAME}!{ID_COLUMN}{row}:{NICKNAME_COLUMN}{row}'

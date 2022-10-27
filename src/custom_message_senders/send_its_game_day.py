@@ -32,7 +32,7 @@ GIFS = [
 TBDBITL_THROWING_M_IN_TRASH = 'https://i.imgur.com/uK6I9HB.gif'
 
 
-def send_its_game_day():
+def send_its_game_day() -> None:
   picture = random.choice(GIFS)
   
   opponent = get_next_game_opponent()

@@ -1,9 +1,11 @@
+# NO LONGER USED
+
 import yfinance as yf
 import math
 from send_message import send_message
 
 
-def millify(n):
+def millify(n) -> str:
     millnames = ['', ' thousand', ' million', ' billion', ' trillion']
 
     n = float(n)
@@ -13,7 +15,7 @@ def millify(n):
     return '{:.0f}{}'.format(n / 10**(3 * millidx), millnames[millidx])
 
 
-def send_bezos():
+def send_bezos() -> None:
     amazon = yf.Ticker('AMZN')
     last_2_days_prices = tuple(
         dict(amazon.history(period="2d")['Close']).values())

@@ -1,7 +1,7 @@
 from send_message import send_message
 
 
-def send_h():
+def send_h() -> None:
     send_message('H')
 
 

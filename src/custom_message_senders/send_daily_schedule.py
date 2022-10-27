@@ -1,3 +1,5 @@
+# NO LONGER USED
+
 import requests
 import pdf2image
 from datetime import datetime
@@ -6,7 +8,7 @@ import groupme_image_service
 from send_message import send_message
 
 
-def send_daily_schedule():
+def send_daily_schedule() -> None:
   season_start_date = (8, 22)
   season_end_date = (12, 5)
   todays_date = (datetime.today().month, datetime.today().day)

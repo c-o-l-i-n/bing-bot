@@ -1,5 +1,6 @@
 from enum import Enum, auto
 import logging
+from typing import Union
 from google_sheets import get_ranges
 
 
@@ -51,20 +52,20 @@ SETTINGS_GOOGLE_SHEET_RANGES = [
 ]
 
 
-def _convert_ranges_to_booleans(value_ranges):
-	rt = []
+def _convert_ranges_to_booleans(value_ranges: list[list[list[str]]]) -> list[list[bool]]:
+	rt: list[list[bool]] = []
 
 	for i, category in enumerate(value_ranges):
 		rt.append([])
 		for setting in category:
-			rt[i].append(True if setting == ['TRUE'] else False)
+			rt[i].append(setting == ['TRUE'])
 
 	return rt
 
 
-def get_settings():
+def get_settings() -> dict[Union[Command, UnsolicitedMessage], bool]:
 	logging.info('Getting settings from Google Sheet')
-	settings = {}
+	settings: dict[Union[Command, UnsolicitedMessage], bool] = {}
 	command_settings_values, unsolicited_message_settings_values = _convert_ranges_to_booleans(get_ranges(SETTINGS_GOOGLE_SHEET_RANGES))
 	
 	for i, command_setting in enumerate(Command):
