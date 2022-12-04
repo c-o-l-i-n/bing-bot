@@ -33,7 +33,7 @@
 
 ## 😨 Bing's not working! What do I do??
 
-1. Check if Bing is running by asking "**Bing, are you alive?**" or by visiting [this link](https://go.osu.edu/bingsettings)
+1. Check if Bing is running by asking "**Bing, are you alive?**" or by visiting [this link](https://bingbot.pythonanywhere.com)
     - If Bing is not running, [log into](#-what-online-accounts-are-there) **pythonanywhere.com**, and [extend Bing's life for 3 more months](#-every-3-months-bing-needs-rejuvenated), [reload the web app](#update-the-code-on-the-server), and try again.
 2. Make sure the specific feature is turned on [in the settings Google Sheet](https://go.osu.edu/bingsettings)
 3. [Make sure Bing is in the right GroupMe chat and has the correct GroupMe Bot ID and Access Token](#-how-to-move-bing-to-a-new-chat)
