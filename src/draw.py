@@ -54,7 +54,7 @@ def draw(prompt: str) -> None:
     while not is_done and done_checks < MAX_DONE_CHECKS:
         try:
             done_checks += 1
-            logging.info(f'Checking if done {done_checks}')
+            logging.info(f'Checking if done {done_checks}/{MAX_DONE_CHECKS}')
             check_response = requests.get(f'https://stablehorde.net/api/v2/generate/check/{image_request_id}')
 
             if not check_response.ok:
