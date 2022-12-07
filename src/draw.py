@@ -12,7 +12,7 @@ load_dotenv()
 STABLE_HORDE_API_KEY = os.environ['STABLE_HORDE_API_KEY']
 
 MAX_CONNECTION_RETRIES = 10
-MAX_DONE_CHECKS = 30
+MAX_DONE_CHECKS = 40
 SECONDS_BETWEEN_DONE_CHECKS = 2
 
 
@@ -75,7 +75,8 @@ def draw(prompt: str) -> None:
             raise e
 
     if not is_done:
-        raise Exception("The image wasn't done generating after {MAX_DONE_CHECKS} checks every {SECONDS_BETWEEN_DONE_CHECKS} seconds")
+        logging.info(f'Last response: {check_response}')
+        raise Exception(f"The image wasn't done generating after {MAX_DONE_CHECKS} checks every {SECONDS_BETWEEN_DONE_CHECKS} seconds")
     
     result_response = requests.get(f'https://stablehorde.net/api/v2/generate/status/{image_request_id}')
 
