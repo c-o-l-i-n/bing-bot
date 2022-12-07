@@ -75,7 +75,7 @@ def draw(prompt: str) -> None:
             raise e
 
     if not is_done:
-        logging.info(f'Last response: {check_response}')
+        logging.info(f'Last response: {check_response.text}')
         raise Exception(f"The image wasn't done generating after {MAX_DONE_CHECKS} checks every {SECONDS_BETWEEN_DONE_CHECKS} seconds")
     
     result_response = requests.get(f'https://stablehorde.net/api/v2/generate/status/{image_request_id}')
