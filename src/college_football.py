@@ -66,13 +66,13 @@ def _get_next_game() -> cfbd.Game:
   now = datetime.now(tz=LOCAL_TZ)
   season = _get_current_season()
   logging.info(f'Getting games for the {season} season')
-  games: list[cfbd.Game] = games_api.get_games(year=now.year, team='Ohio State')
+  games: list[cfbd.Game] = games_api.get_games(year=season, team='Ohio State')
   postseason_games: list[cfbd.Game] = games_api.get_games(year=season, team='Ohio State', season_type='postseason')
   games.extend(postseason_games)
   logging.info(f'Found {len(games)} games, including postseason')
   next_game = next(filter(lambda g: parser.parse(g.start_date).astimezone(LOCAL_TZ) > now, games), None)
   if not next_game:
-    logging.info('No more games :(')
+    raise Exception('No more games :(')
   else:
     logging.info(f'Next game is {next_game.away_team} @ {next_game.home_team} on {next_game.start_date}{", start time TBD" if next_game.start_time_tbd else ""}')
   return next_game
