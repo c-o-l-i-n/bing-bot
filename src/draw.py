@@ -2,8 +2,6 @@ import os
 import requests
 import logging
 import time
-from http import HTTPStatus
-from requests.exceptions import ConnectionError
 from groupme_image_service import get_groupme_image_url_from_url
 from send_message import send_message
 from dotenv import load_dotenv
@@ -40,13 +38,13 @@ def draw(prompt: str) -> None:
         'trusted_workers': False
     }
 
-    print(f'Sending request to Stable Diffusion API (stablehorde.net) with prompt "{prompt}"')
+    logging.info(f'Sending request to Stable Diffusion API (stablehorde.net) with prompt "{prompt}"')
     image_request_id = _keep_trying_request('https://stablehorde.net/api/v2/generate/async', requests.post, {'apikey': STABLE_HORDE_API_KEY}, request_body)['id']
 
-    print('Pinging status until done')
+    logging.info('Pinging status until done')
     _keep_trying_request(f'https://stablehorde.net/api/v2/generate/check/{image_request_id}', checking_if_done=True)
 
-    print('Done! Getting results')
+    logging.info('Done! Getting results')
     results = _keep_trying_request(f'https://stablehorde.net/api/v2/generate/status/{image_request_id}')
     
     if results['faulted']:
@@ -70,16 +68,16 @@ def _keep_trying_request(url: str, method: Callable = requests.get, headers: dic
     while request_try == 0 or ((request_errored_out or not response.ok or (checking_if_done and not is_done)) and request_try < MAX_TRIES):
         if request_try > 0:
             time.sleep(SECONDS_BETWEEN_REQUESTS)
-        print(f'Request try {request_try + 1} of {MAX_TRIES}')
+        logging.info(f'Request try {request_try + 1} of {MAX_TRIES}')
         try:
             response: requests.Response = method(url, headers=headers, json=request_body, timeout=REQUEST_TIMEOUT_SECONDS)
             result = response.json()
-            print(result)
+            logging.info(result)
             if checking_if_done:
                 is_done = result['done']
         except Exception as e:
             request_errored_out = True
-            print(f'Request errored-out: {e}')
+            logging.info(f'Request errored-out: {e}')
         request_try += 1
 
     if not response.ok or (checking_if_done and not is_done):
