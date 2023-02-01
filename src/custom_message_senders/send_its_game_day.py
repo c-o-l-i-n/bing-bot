@@ -39,7 +39,7 @@ def send_its_game_day() -> None:
   if opponent == 'Michigan':
     picture = TBDBITL_THROWING_M_IN_TRASH
 
-  send_message("it's game day", get_groupme_image_url_from_url(picture))
+  send_message("it's game day", get_groupme_image_url_from_url(picture, is_gif=True))
 
 
 if __name__ == '__main__':
